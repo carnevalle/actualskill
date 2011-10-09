@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * ActualSkill\SiteBundle\Entity\User
  * 
  * @ORM\Entity
- * @ORM\Table(name="as_user")
+ * @ORM\Table(name="ActualSkillUser")
  */
 class User extends BaseUser
 {

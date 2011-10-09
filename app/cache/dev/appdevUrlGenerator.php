@@ -13,16 +13,8 @@ use Symfony\Component\Routing\Exception\RouteNotFoundException;
 class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerator
 {
     static private $declaredRouteNames = array(
-       '_welcome' => true,
-       '_demo_login' => true,
-       '_security_check' => true,
-       '_demo_logout' => true,
-       'acme_demo_secured_hello' => true,
-       '_demo_secured_hello' => true,
-       '_demo_secured_hello_admin' => true,
-       '_demo' => true,
-       '_demo_hello' => true,
-       '_demo_contact' => true,
+       '_assetic_b0ca872' => true,
+       '_assetic_b0ca872_0' => true,
        '_wdt' => true,
        '_profiler_search' => true,
        '_profiler_purge' => true,
@@ -56,14 +48,15 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
        'club_delete' => true,
        'country' => true,
        'country_show' => true,
-       'actualskill_site_default_index' => true,
-       'player' => true,
+       'admin_player' => true,
+       'site_players' => true,
+       'admin_player_show' => true,
        'player_show' => true,
-       'player_new' => true,
-       'player_create' => true,
-       'player_edit' => true,
-       'player_update' => true,
-       'player_delete' => true,
+       'admin_player_new' => true,
+       'admin_player_create' => true,
+       'admin_player_edit' => true,
+       'admin_player_update' => true,
+       'admin_player_delete' => true,
        'stadium' => true,
        'stadium_show' => true,
        'stadium_new' => true,
@@ -71,6 +64,8 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
        'stadium_edit' => true,
        'stadium_update' => true,
        'stadium_delete' => true,
+       '_welcome' => true,
+       '_admin' => true,
        'fos_user_security_login' => true,
        'fos_user_security_check' => true,
        'fos_user_security_logout' => true,
@@ -108,54 +103,14 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
         return $this->doGenerate($variables, $defaults, $requirements, $tokens, $parameters, $name, $absolute);
     }
 
-    private function get_welcomeRouteInfo()
+    private function get_assetic_b0ca872RouteInfo()
     {
-        return array(array (), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\WelcomeController::indexAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/',  ),));
+        return array(array (), array (  '_controller' => 'assetic.controller:render',  'name' => 'b0ca872',  'pos' => NULL,  '_format' => 'css',), array (), array (  0 =>   array (    0 => 'text',    1 => '/css/styles.css',  ),));
     }
 
-    private function get_demo_loginRouteInfo()
+    private function get_assetic_b0ca872_0RouteInfo()
     {
-        return array(array (), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\SecuredController::loginAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/demo/secured/login',  ),));
-    }
-
-    private function get_security_checkRouteInfo()
-    {
-        return array(array (), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\SecuredController::securityCheckAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/demo/secured/login_check',  ),));
-    }
-
-    private function get_demo_logoutRouteInfo()
-    {
-        return array(array (), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\SecuredController::logoutAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/demo/secured/logout',  ),));
-    }
-
-    private function getacme_demo_secured_helloRouteInfo()
-    {
-        return array(array (), array (  'name' => 'World',  '_controller' => 'Acme\\DemoBundle\\Controller\\SecuredController::helloAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/demo/secured/hello',  ),));
-    }
-
-    private function get_demo_secured_helloRouteInfo()
-    {
-        return array(array (  0 => 'name',), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\SecuredController::helloAction',), array (), array (  0 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'name',  ),  1 =>   array (    0 => 'text',    1 => '/demo/secured/hello',  ),));
-    }
-
-    private function get_demo_secured_hello_adminRouteInfo()
-    {
-        return array(array (  0 => 'name',), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\SecuredController::helloadminAction',), array (), array (  0 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'name',  ),  1 =>   array (    0 => 'text',    1 => '/demo/secured/hello/admin',  ),));
-    }
-
-    private function get_demoRouteInfo()
-    {
-        return array(array (), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\DemoController::indexAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/demo/',  ),));
-    }
-
-    private function get_demo_helloRouteInfo()
-    {
-        return array(array (  0 => 'name',), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\DemoController::helloAction',), array (), array (  0 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'name',  ),  1 =>   array (    0 => 'text',    1 => '/demo/hello',  ),));
-    }
-
-    private function get_demo_contactRouteInfo()
-    {
-        return array(array (), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\DemoController::contactAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/demo/contact',  ),));
+        return array(array (), array (  '_controller' => 'assetic.controller:render',  'name' => 'b0ca872',  'pos' => 0,  '_format' => 'css',), array (), array (  0 =>   array (    0 => 'text',    1 => '/css/styles_part_1_site_1.css',  ),));
     }
 
     private function get_wdtRouteInfo()
@@ -323,44 +278,49 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
         return array(array (  0 => 'id',), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\CountryController::showAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/show',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'id',  ),  2 =>   array (    0 => 'text',    1 => '/country',  ),));
     }
 
-    private function getactualskill_site_default_indexRouteInfo()
+    private function getadmin_playerRouteInfo()
     {
-        return array(array (  0 => 'name',), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\DefaultController::indexAction',), array (), array (  0 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'name',  ),  1 =>   array (    0 => 'text',    1 => '/hello',  ),));
+        return array(array (), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::indexAdminAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/admin/players/',  ),));
     }
 
-    private function getplayerRouteInfo()
+    private function getsite_playersRouteInfo()
     {
-        return array(array (), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::indexAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/player/',  ),));
+        return array(array (), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::indexSiteAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/players/',  ),));
+    }
+
+    private function getadmin_player_showRouteInfo()
+    {
+        return array(array (  0 => 'id',), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::showAdminAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/show',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'id',  ),  2 =>   array (    0 => 'text',    1 => '/admin/player',  ),));
     }
 
     private function getplayer_showRouteInfo()
     {
-        return array(array (  0 => 'id',), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::showAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/show',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'id',  ),  2 =>   array (    0 => 'text',    1 => '/player',  ),));
+        return array(array (  0 => 'id',), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::showSiteAction',), array (), array (  0 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'id',  ),  1 =>   array (    0 => 'text',    1 => '/player',  ),));
     }
 
-    private function getplayer_newRouteInfo()
+    private function getadmin_player_newRouteInfo()
     {
-        return array(array (), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::newAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/player/new',  ),));
+        return array(array (), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::newAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/admin/player/new',  ),));
     }
 
-    private function getplayer_createRouteInfo()
+    private function getadmin_player_createRouteInfo()
     {
-        return array(array (), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::createAction',), array (  '_method' => 'post',), array (  0 =>   array (    0 => 'text',    1 => '/player/create',  ),));
+        return array(array (), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::createAction',), array (  '_method' => 'post',), array (  0 =>   array (    0 => 'text',    1 => '/admin/player/create',  ),));
     }
 
-    private function getplayer_editRouteInfo()
+    private function getadmin_player_editRouteInfo()
     {
-        return array(array (  0 => 'id',), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::editAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/edit',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'id',  ),  2 =>   array (    0 => 'text',    1 => '/player',  ),));
+        return array(array (  0 => 'id',), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::editAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/edit',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'id',  ),  2 =>   array (    0 => 'text',    1 => '/admin/player',  ),));
     }
 
-    private function getplayer_updateRouteInfo()
+    private function getadmin_player_updateRouteInfo()
     {
-        return array(array (  0 => 'id',), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::updateAction',), array (  '_method' => 'post',), array (  0 =>   array (    0 => 'text',    1 => '/update',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'id',  ),  2 =>   array (    0 => 'text',    1 => '/player',  ),));
+        return array(array (  0 => 'id',), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::updateAction',), array (  '_method' => 'post',), array (  0 =>   array (    0 => 'text',    1 => '/update',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'id',  ),  2 =>   array (    0 => 'text',    1 => '/admin/player',  ),));
     }
 
-    private function getplayer_deleteRouteInfo()
+    private function getadmin_player_deleteRouteInfo()
     {
-        return array(array (  0 => 'id',), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::deleteAction',), array (  '_method' => 'post',), array (  0 =>   array (    0 => 'text',    1 => '/delete',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'id',  ),  2 =>   array (    0 => 'text',    1 => '/player',  ),));
+        return array(array (  0 => 'id',), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::deleteAction',), array (  '_method' => 'post',), array (  0 =>   array (    0 => 'text',    1 => '/delete',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'id',  ),  2 =>   array (    0 => 'text',    1 => '/admin/player',  ),));
     }
 
     private function getstadiumRouteInfo()
@@ -396,6 +356,16 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
     private function getstadium_deleteRouteInfo()
     {
         return array(array (  0 => 'id',), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\StadiumController::deleteAction',), array (  '_method' => 'post',), array (  0 =>   array (    0 => 'text',    1 => '/delete',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'id',  ),  2 =>   array (    0 => 'text',    1 => '/stadium',  ),));
+    }
+
+    private function get_welcomeRouteInfo()
+    {
+        return array(array (), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\DefaultController::indexAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/',  ),));
+    }
+
+    private function get_adminRouteInfo()
+    {
+        return array(array (), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\AdminController::indexAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/admin/',  ),));
     }
 
     private function getfos_user_security_loginRouteInfo()

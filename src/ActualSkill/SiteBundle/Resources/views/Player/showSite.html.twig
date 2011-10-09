@@ -1,0 +1,76 @@
+{% extends 'ActualSkillSiteBundle::base.html.twig' %}
+
+{% block body %}
+<h1>Player</h1>
+
+<table>
+    <tbody>
+        <tr>
+            <th>Type</th>                
+            <td>{{ player.type }}</td>        
+        </tr>
+        <tr>
+            <th>Firstname</th>                
+            <td>{{ player.firstname }}</td>        
+        </tr>
+        <tr>
+            <th>Lastname</th>                
+            <td>{{ player.lastname }}</td>        
+        </tr>
+        <tr>
+            <th>Nickname</th>                
+            <td>{{ player.nickname }}</td>        
+        </tr>
+        <tr>
+            <th>Birthday</th>                
+            <td>{{ player.birthday|date('Y-m-d') }}</td>        
+        </tr>
+        <tr>
+            <th>Age</th>                
+            <td>{{ player.age }}</td>        
+        </tr>        
+        <tr>
+            <th>Height</th>                
+            <td>{{ player.height }}</td>        
+        </tr>
+        <tr>
+            <th>Weight</th>                
+            <td>{{ player.weight }}</td>        
+        </tr>
+    </tbody>
+</table>
+
+<br/><br/>
+
+{% for comment in player.comments %}
+    ceomment
+{% endfor %}
+
+    
+	<script>
+	$(function() {
+		$( "#tabs" ).tabs();
+	});
+	</script>
+
+
+
+<div id="tabs">
+
+<ul>
+{% for category in categories %}
+    <li><a href="#tabs-{{ category.id }}">{{ category.name }}</a></li>
+{% endfor %}        
+</ul>
+    
+    
+{% for category in categories %}
+    
+    <div id="tabs-{{ category.id }}">
+    {% for attribute in category.attributes %}    
+            <div>{{ attribute.name }}</div>
+    {% endfor %}
+    </div>
+{% endfor %}            
+    
+{% endblock %}

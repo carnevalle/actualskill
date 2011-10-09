@@ -1,0 +1,10 @@
+{% extends 'ActualSkillSiteBundle::base.html.twig' %}
+
+{% block body %}
+
+
+{% for player in players %}
+    <a href="{{ path('player_show', { 'id': player.id }) }}">{{ player.fullname }}</a>
+{% endfor %}
+
+{% endblock %}

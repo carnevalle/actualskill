@@ -16,13 +16,6 @@ class Stadium extends BaseEntity
 {
      
     /**
-     * @var string $name
-     *
-     * @ORM\Column(name="name", type="string", length=255)
-     */
-    private $name;
-
-    /**
      * @var integer $capacity
      *
      * @ORM\Column(name="capacity", type="integer")
@@ -37,26 +30,6 @@ class Stadium extends BaseEntity
     
     public function __construct() {
         $this->clubs = new ArrayCollection();
-    }
-    
-    /**
-     * Set name
-     *
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 
     /**

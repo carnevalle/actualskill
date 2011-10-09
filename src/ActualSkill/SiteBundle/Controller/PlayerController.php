@@ -11,36 +11,49 @@ use ActualSkill\SiteBundle\Form\PlayerType;
 
 /**
  * Player controller.
- *
- * @Route("/player")
  */
 class PlayerController extends Controller
 {
     /**
      * Lists all Player entities.
      *
-     * @Route("/", name="player")
+     * @Route("/admin/players/", name="admin_player")
      * @Template()
      */
-    public function indexAction()
+    public function indexAdminAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
 
         $entities = $em->getRepository('ActualSkillSiteBundle:Player')->findAll();
 
-        return array('entities' => $entities);
+        return array('entities' => $entities);        
     }
 
     /**
-     * Finds and displays a Player entity.
+     * Lists all Player entities.
      *
-     * @Route("/{id}/show", name="player_show")
+     * @Route("/players/", name="site_players")
      * @Template()
-     */
-    public function showAction($id)
-    {
+     */    
+    public function indexSiteAction(){
         $em = $this->getDoctrine()->getEntityManager();
 
+        $players = $em->getRepository('ActualSkillSiteBundle:Player')->findAll();
+        $clubs = $em->getRepository('ActualSkillSiteBundle:Club')->findAll();
+        
+        return array('players' => $players, 'clubs' => $clubs);
+    }
+    
+    /**
+     * Finds and displays a Player entity.
+     *
+     * @Route("/admin/player/{id}/show", name="admin_player_show")
+     * @Template()
+     */
+    public function showAdminAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        
         $entity = $em->getRepository('ActualSkillSiteBundle:Player')->find($id);
 
         if (!$entity) {
@@ -55,16 +68,41 @@ class PlayerController extends Controller
     }
 
     /**
+     * Finds and displays a Player entity.
+     *
+     * @Route("/player/{id}", name="player_show")
+     * @Template()
+     */
+    public function showSiteAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $player = $em->getRepository('ActualSkillSiteBundle:Player')->find($id);
+
+        if (!$player) {
+            throw $this->createNotFoundException('Unable to find Player entity.');
+        }
+        
+        $repository = $this->getDoctrine()->getRepository('ActualSkillSiteBundle:Category');
+        $categories = $repository->findBy(array('type' => 'player'));
+        
+        return array(
+            'player'      => $player,
+            'categories'      => $categories,
+        );
+    }
+    
+    /**
      * Displays a form to create a new Player entity.
      *
-     * @Route("/new", name="player_new")
+     * @Route("/admin/player/new", name="admin_player_new")
      * @Template()
      */
     public function newAction()
     {
         $entity = new Player();
         $form   = $this->createForm(new PlayerType(), $entity);
-
+        
         return array(
             'entity' => $entity,
             'form'   => $form->createView()
@@ -74,7 +112,7 @@ class PlayerController extends Controller
     /**
      * Creates a new Player entity.
      *
-     * @Route("/create", name="player_create")
+     * @Route("/admin/player/create", name="admin_player_create")
      * @Method("post")
      * @Template("ActualSkillSiteBundle:Player:new.html.twig")
      */
@@ -90,7 +128,7 @@ class PlayerController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('player_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('admin_player_show', array('id' => $entity->getId())));
             
         }
 
@@ -103,7 +141,7 @@ class PlayerController extends Controller
     /**
      * Displays a form to edit an existing Player entity.
      *
-     * @Route("/{id}/edit", name="player_edit")
+     * @Route("/admin/player/{id}/edit", name="admin_player_edit")
      * @Template()
      */
     public function editAction($id)
@@ -129,7 +167,7 @@ class PlayerController extends Controller
     /**
      * Edits an existing Player entity.
      *
-     * @Route("/{id}/update", name="player_update")
+     * @Route("/admin/player/{id}/update", name="admin_player_update")
      * @Method("post")
      * @Template("ActualSkillSiteBundle:Player:edit.html.twig")
      */
@@ -154,7 +192,7 @@ class PlayerController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('player_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('admin_player_edit', array('id' => $id)));
         }
 
         return array(
@@ -167,7 +205,7 @@ class PlayerController extends Controller
     /**
      * Deletes a Player entity.
      *
-     * @Route("/{id}/delete", name="player_delete")
+     * @Route("/admin/player/{id}/delete", name="admin_player_delete")
      * @Method("post")
      */
     public function deleteAction($id)
@@ -189,7 +227,7 @@ class PlayerController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('player'));
+        return $this->redirect($this->generateUrl('admin_player'));
     }
 
     private function createDeleteForm($id)

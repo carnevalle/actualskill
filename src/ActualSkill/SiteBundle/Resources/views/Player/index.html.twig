@@ -4,12 +4,11 @@
     <thead>
         <tr>
             <th>Id</th>
+            <th>Slug</th>
             <th>Firstname</th>
             <th>Lastname</th>
             <th>Nickname</th>
             <th>Birthday</th>
-            <th>Height</th>
-            <th>Weight</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -17,12 +16,11 @@
     {% for entity in entities %}
         <tr>
             <td><a href="{{ path('player_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.slug }}</td>
             <td>{{ entity.firstname }}</td>
             <td>{{ entity.lastname }}</td>
             <td>{{ entity.nickname }}</td>
-            <td>{% if entity.birthday %}{{ entity.birthday|date('Y-m-d H:i:s') }}{% endif%}</td>
-            <td>{{ entity.height }}</td>
-            <td>{{ entity.weight }}</td>
+            <td>{{ entity.birthday|date('Y-m-d H:i:s') }}</td>
             <td>
                 <ul>
                     <li>

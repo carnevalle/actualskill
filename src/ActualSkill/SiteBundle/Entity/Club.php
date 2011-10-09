@@ -15,13 +15,6 @@ class Club extends BaseEntity
 {
     
     /**
-     * @var string $name
-     *
-     * @ORM\Column(name="name", type="string", length=255)
-     */
-    private $name;
-
-    /**
      * @var string $shortname
      *
      * @ORM\Column(name="shortname", type="string", length=3)
@@ -46,26 +39,6 @@ class Club extends BaseEntity
     
     public function __construct() {
         parent::__construct();
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 
     /**

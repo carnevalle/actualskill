@@ -46,6 +46,8 @@ doctrine:
     orm:
         auto_generate_proxy_classes: %kernel.debug%
         auto_mapping: true
+        mappings:
+            StofDoctrineExtensionsBundle: false           
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -67,3 +69,8 @@ fos_user:
     from_email:
         address: troelsjohnsen@gmail.com
         sender_name: ActualSkill.com
+        
+stof_doctrine_extensions: 
+    orm: 
+        default: 
+            sluggable: true        

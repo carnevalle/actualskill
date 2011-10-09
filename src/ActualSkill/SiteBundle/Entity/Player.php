@@ -10,10 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\HasLifecycleCallbacks()
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\Table(name="Player")
  */
 class Player extends BaseEntity
-{
-     
+{   
+    
     /**
      * @var string $firstname
      *
@@ -27,7 +28,6 @@ class Player extends BaseEntity
      * @ORM\Column(name="lastname", type="string", length=255)
      */
     private $lastname;
-
     
     /**
      * @var string $nickmane
@@ -95,18 +95,18 @@ class Player extends BaseEntity
     public function getFirstname()
     {
         return $this->firstname;
-    }
+    }  
 
     /**
-     * Get name
+     * Get nameReversed
      *
      * @return string 
      */
-    public function getName()
+    public function getFullname()
     {
         return $this->firstname." ".$this->lastname;
-    }    
-
+    }     
+    
     /**
      * Get nameReversed
      *

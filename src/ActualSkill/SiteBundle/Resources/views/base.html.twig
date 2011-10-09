@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{% block title %}ActualSkill{% endblock %}</title>
+        
+         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/jquery-ui.min.js"></script>
+         
+
+        {% stylesheets '@ActualSkillSiteBundle/Resources/public/css/*' output='css/styles.css'%}
+            <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+        {% endstylesheets %}
+    
+    </head>
+    <body>
+        <div id="topbar">
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                {{ 'layout.logged_in_as'}} {{app.user.username}}
+                <a href="{{ path('fos_user_security_logout') }}">
+                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                </a>
+            {% else %}
+                <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+            {% endif %}
+        </div>
+
+        <div id="header">
+            {% block header %}
+            <ul style="list-style-type: none;">
+                <li style="display: inline;"><a href="{{ path('_welcome') }}">Home</a></li>
+                <li style="display: inline;"><a href="{{ path('club') }}">Clubs</a></li>
+                <li style="display: inline;"><a href="{{ path('site_players') }}">Players</a></li>
+                <li style="display: inline;"><a href="{{ path('_admin') }}">Admin</a></li>
+            </ul>
+            {% endblock %}
+        </div>
+
+        <div id="navigation">
+            {% block navigation %}
+            {% endblock %}
+        </div>
+
+        <div id="content">
+            {% block body %}{% endblock %}
+        </div>
+
+        <div id="footer">
+            {% block footer %}{% endblock %}
+        </div>
+    </body>
+</html>
