@@ -1,0 +1,70 @@
+<h1>Country</h1>
+
+<table class="record_properties">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Iso2</th>
+            <td>{{ entity.iso2 }}</td>
+        </tr>
+        <tr>
+            <th>Iso3</th>
+            <td>{{ entity.iso3 }}</td>
+        </tr>
+        <tr>
+            <th>Iso_numeric</th>
+            <td>{{ entity.isonumeric }}</td>
+        </tr>
+        <tr>
+            <th>Fips</th>
+            <td>{{ entity.fips }}</td>
+        </tr>
+        <tr>
+            <th>Country</th>
+            <td>{{ entity.country }}</td>
+        </tr>
+        <tr>
+            <th>Capital</th>
+            <td>{{ entity.capital }}</td>
+        </tr>
+        <tr>
+            <th>Area</th>
+            <td>{{ entity.area }}</td>
+        </tr>
+        <tr>
+            <th>Population</th>
+            <td>{{ entity.population }}</td>
+        </tr>
+        <tr>
+            <th>Continent</th>
+            <td>{{ entity.continent }}</td>
+        </tr>
+        <tr>
+            <th>Currency_code</th>
+            <td>{{ entity.currencycode }}</td>
+        </tr>
+        <tr>
+            <th>Currency_name</th>
+            <td>{{ entity.currencyname }}</td>
+        </tr>
+        <tr>
+            <th>Languages</th>
+            <td>{{ entity.languages }}</td>
+        </tr>
+        <tr>
+            <th>Geonameid</th>
+            <td>{{ entity.geonameid }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('country') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>

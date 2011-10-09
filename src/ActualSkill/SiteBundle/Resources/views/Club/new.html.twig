@@ -1,0 +1,16 @@
+<h1>Club creation</h1>
+
+<form action="{{ path('club_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <p>
+        <button type="submit">Create</button>
+    </p>
+</form>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('club') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
