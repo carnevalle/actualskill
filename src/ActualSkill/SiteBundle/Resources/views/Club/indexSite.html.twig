@@ -1,0 +1,10 @@
+{% extends 'ActualSkillSiteBundle::base.html.twig' %}
+
+{% block body %}
+
+
+{% for club in clubs %}
+    <a href="{{ path('club_show', { 'id': club.slug }) }}">{{ club.name }}</a>
+{% endfor %}
+
+{% endblock %}

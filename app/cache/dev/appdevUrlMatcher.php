@@ -200,26 +200,37 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
         }
         not_category_delete:
 
-        // club
-        if (rtrim($pathinfo, '/') === '/club') {
+        // admin_clubs
+        if (rtrim($pathinfo, '/') === '/admin/clubs') {
             if (substr($pathinfo, -1) !== '/') {
-                return $this->redirect($pathinfo.'/', 'club');
+                return $this->redirect($pathinfo.'/', 'admin_clubs');
             }
-            return array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\ClubController::indexAction',  '_route' => 'club',);
+            return array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\ClubController::indexAdminAction',  '_route' => 'admin_clubs',);
+        }
+
+        // site_clubs
+        if (rtrim($pathinfo, '/') === '/clubs') {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($pathinfo.'/', 'site_clubs');
+            }
+            return array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\ClubController::indexSiteAction',  '_route' => 'site_clubs',);
         }
 
         // club_show
-        if (0 === strpos($pathinfo, '/club') && preg_match('#^/club/(?P<id>[^/]+?)/show$#xs', $pathinfo, $matches)) {
+        if (0 === strpos($pathinfo, '/club') && preg_match('#^/club/(?P<id>[^/]+?)/?$#xs', $pathinfo, $matches)) {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($pathinfo.'/', 'club_show');
+            }
             return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\ClubController::showAction',)), array('_route' => 'club_show'));
         }
 
         // club_new
-        if ($pathinfo === '/club/new') {
+        if ($pathinfo === '/new') {
             return array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\ClubController::newAction',  '_route' => 'club_new',);
         }
 
         // club_create
-        if ($pathinfo === '/club/create') {
+        if ($pathinfo === '/create') {
             if ($this->context->getMethod() != 'POST') {
                 $allow[] = 'POST';
                 goto not_club_create;
@@ -229,12 +240,12 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
         not_club_create:
 
         // club_edit
-        if (0 === strpos($pathinfo, '/club') && preg_match('#^/club/(?P<id>[^/]+?)/edit$#xs', $pathinfo, $matches)) {
+        if (preg_match('#^/(?P<id>[^/]+?)/edit$#xs', $pathinfo, $matches)) {
             return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\ClubController::editAction',)), array('_route' => 'club_edit'));
         }
 
         // club_update
-        if (0 === strpos($pathinfo, '/club') && preg_match('#^/club/(?P<id>[^/]+?)/update$#xs', $pathinfo, $matches)) {
+        if (preg_match('#^/(?P<id>[^/]+?)/update$#xs', $pathinfo, $matches)) {
             if ($this->context->getMethod() != 'POST') {
                 $allow[] = 'POST';
                 goto not_club_update;
@@ -244,7 +255,7 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
         not_club_update:
 
         // club_delete
-        if (0 === strpos($pathinfo, '/club') && preg_match('#^/club/(?P<id>[^/]+?)/delete$#xs', $pathinfo, $matches)) {
+        if (preg_match('#^/(?P<id>[^/]+?)/delete$#xs', $pathinfo, $matches)) {
             if ($this->context->getMethod() != 'POST') {
                 $allow[] = 'POST';
                 goto not_club_delete;

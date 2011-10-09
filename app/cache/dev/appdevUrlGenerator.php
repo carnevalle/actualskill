@@ -39,7 +39,8 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
        'category_edit' => true,
        'category_update' => true,
        'category_delete' => true,
-       'club' => true,
+       'admin_clubs' => true,
+       'site_clubs' => true,
        'club_show' => true,
        'club_new' => true,
        'club_create' => true,
@@ -233,39 +234,44 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
         return array(array (  0 => 'id',), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\CategoryController::deleteAction',), array (  '_method' => 'post',), array (  0 =>   array (    0 => 'text',    1 => '/delete',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'id',  ),  2 =>   array (    0 => 'text',    1 => '/category',  ),));
     }
 
-    private function getclubRouteInfo()
+    private function getadmin_clubsRouteInfo()
     {
-        return array(array (), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\ClubController::indexAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/club/',  ),));
+        return array(array (), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\ClubController::indexAdminAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/admin/clubs/',  ),));
+    }
+
+    private function getsite_clubsRouteInfo()
+    {
+        return array(array (), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\ClubController::indexSiteAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/clubs/',  ),));
     }
 
     private function getclub_showRouteInfo()
     {
-        return array(array (  0 => 'id',), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\ClubController::showAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/show',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'id',  ),  2 =>   array (    0 => 'text',    1 => '/club',  ),));
+        return array(array (  0 => 'id',), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\ClubController::showAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'id',  ),  2 =>   array (    0 => 'text',    1 => '/club',  ),));
     }
 
     private function getclub_newRouteInfo()
     {
-        return array(array (), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\ClubController::newAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/club/new',  ),));
+        return array(array (), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\ClubController::newAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/new',  ),));
     }
 
     private function getclub_createRouteInfo()
     {
-        return array(array (), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\ClubController::createAction',), array (  '_method' => 'post',), array (  0 =>   array (    0 => 'text',    1 => '/club/create',  ),));
+        return array(array (), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\ClubController::createAction',), array (  '_method' => 'post',), array (  0 =>   array (    0 => 'text',    1 => '/create',  ),));
     }
 
     private function getclub_editRouteInfo()
     {
-        return array(array (  0 => 'id',), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\ClubController::editAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/edit',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'id',  ),  2 =>   array (    0 => 'text',    1 => '/club',  ),));
+        return array(array (  0 => 'id',), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\ClubController::editAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/edit',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'id',  ),));
     }
 
     private function getclub_updateRouteInfo()
     {
-        return array(array (  0 => 'id',), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\ClubController::updateAction',), array (  '_method' => 'post',), array (  0 =>   array (    0 => 'text',    1 => '/update',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'id',  ),  2 =>   array (    0 => 'text',    1 => '/club',  ),));
+        return array(array (  0 => 'id',), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\ClubController::updateAction',), array (  '_method' => 'post',), array (  0 =>   array (    0 => 'text',    1 => '/update',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'id',  ),));
     }
 
     private function getclub_deleteRouteInfo()
     {
-        return array(array (  0 => 'id',), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\ClubController::deleteAction',), array (  '_method' => 'post',), array (  0 =>   array (    0 => 'text',    1 => '/delete',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'id',  ),  2 =>   array (    0 => 'text',    1 => '/club',  ),));
+        return array(array (  0 => 'id',), array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\ClubController::deleteAction',), array (  '_method' => 'post',), array (  0 =>   array (    0 => 'text',    1 => '/delete',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '[^/]+?',    3 => 'id',  ),));
     }
 
     private function getcountryRouteInfo()

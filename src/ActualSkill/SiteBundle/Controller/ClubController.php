@@ -11,46 +11,59 @@ use ActualSkill\SiteBundle\Form\ClubType;
 
 /**
  * Club controller.
- *
- * @Route("/club")
  */
 class ClubController extends Controller
 {
     /**
      * Lists all Club entities.
      *
-     * @Route("/", name="club")
+     * @Route("/admin/clubs/", name="admin_clubs")
      * @Template()
      */
-    public function indexAction()
+    public function indexAdminAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entities = $em->getRepository('ActualSkillSiteBundle:Club')->findAll();
+        $clubs = $em->getRepository('ActualSkillSiteBundle:Club')->findAll();
 
-        return array('entities' => $entities);
+        return array('clubs' => $clubs);
     }
 
     /**
+     * Lists all Club entities.
+     *
+     * @Route("/clubs/", name="site_clubs")
+     * @Template()
+     */
+    public function indexSiteAction()
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $clubs = $em->getRepository('ActualSkillSiteBundle:Club')->findAll();
+
+        return array('clubs' => $clubs);
+    }    
+    
+    /**
      * Finds and displays a Club entity.
      *
-     * @Route("/{id}/show", name="club_show")
+     * @Route("/club/{id}/", name="club_show")
      * @Template()
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('ActualSkillSiteBundle:Club')->find($id);
+        $club = $em->getRepository('ActualSkillSiteBundle:Club')->findOneBySlug($id);
 
-        if (!$entity) {
+        if (!$club) {
             throw $this->createNotFoundException('Unable to find Club entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'club'      => $club,
             'delete_form' => $deleteForm->createView(),        );
     }
 

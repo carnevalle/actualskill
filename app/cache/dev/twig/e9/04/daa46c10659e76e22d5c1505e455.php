@@ -138,7 +138,7 @@ class __TwigTemplate_e904daa46c10659e76e22d5c1505e455 extends Twig_Template
         echo "\">Home</a></li>
                 <li style=\"display: inline;\"><a href=\"";
         // line 32
-        echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("club"), "html");
+        echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("site_clubs"), "html");
         echo "\">Clubs</a></li>
                 <li style=\"display: inline;\"><a href=\"";
         // line 33

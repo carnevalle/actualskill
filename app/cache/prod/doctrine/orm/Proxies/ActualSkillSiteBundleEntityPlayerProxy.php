@@ -54,6 +54,12 @@ class ActualSkillSiteBundleEntityPlayerProxy extends \ActualSkill\SiteBundle\Ent
         return parent::getFirstname();
     }
 
+    public function getFullname()
+    {
+        $this->__load();
+        return parent::getFullname();
+    }
+
     public function getNameReversed()
     {
         $this->__load();

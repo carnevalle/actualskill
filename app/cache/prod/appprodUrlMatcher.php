@@ -131,26 +131,37 @@ class appprodUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
         }
         not_category_delete:
 
-        // club
-        if (rtrim($pathinfo, '/') === '/club') {
+        // admin_clubs
+        if (rtrim($pathinfo, '/') === '/admin/clubs') {
             if (substr($pathinfo, -1) !== '/') {
-                return $this->redirect($pathinfo.'/', 'club');
+                return $this->redirect($pathinfo.'/', 'admin_clubs');
             }
-            return array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\ClubController::indexAction',  '_route' => 'club',);
+            return array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\ClubController::indexAdminAction',  '_route' => 'admin_clubs',);
+        }
+
+        // site_clubs
+        if (rtrim($pathinfo, '/') === '/clubs') {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($pathinfo.'/', 'site_clubs');
+            }
+            return array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\ClubController::indexSiteAction',  '_route' => 'site_clubs',);
         }
 
         // club_show
-        if (0 === strpos($pathinfo, '/club') && preg_match('#^/club/(?P<id>[^/]+?)/show$#xs', $pathinfo, $matches)) {
+        if (0 === strpos($pathinfo, '/club') && preg_match('#^/club/(?P<id>[^/]+?)/?$#xs', $pathinfo, $matches)) {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($pathinfo.'/', 'club_show');
+            }
             return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\ClubController::showAction',)), array('_route' => 'club_show'));
         }
 
         // club_new
-        if ($pathinfo === '/club/new') {
+        if ($pathinfo === '/new') {
             return array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\ClubController::newAction',  '_route' => 'club_new',);
         }
 
         // club_create
-        if ($pathinfo === '/club/create') {
+        if ($pathinfo === '/create') {
             if ($this->context->getMethod() != 'POST') {
                 $allow[] = 'POST';
                 goto not_club_create;
@@ -160,12 +171,12 @@ class appprodUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
         not_club_create:
 
         // club_edit
-        if (0 === strpos($pathinfo, '/club') && preg_match('#^/club/(?P<id>[^/]+?)/edit$#xs', $pathinfo, $matches)) {
+        if (preg_match('#^/(?P<id>[^/]+?)/edit$#xs', $pathinfo, $matches)) {
             return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\ClubController::editAction',)), array('_route' => 'club_edit'));
         }
 
         // club_update
-        if (0 === strpos($pathinfo, '/club') && preg_match('#^/club/(?P<id>[^/]+?)/update$#xs', $pathinfo, $matches)) {
+        if (preg_match('#^/(?P<id>[^/]+?)/update$#xs', $pathinfo, $matches)) {
             if ($this->context->getMethod() != 'POST') {
                 $allow[] = 'POST';
                 goto not_club_update;
@@ -175,7 +186,7 @@ class appprodUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
         not_club_update:
 
         // club_delete
-        if (0 === strpos($pathinfo, '/club') && preg_match('#^/club/(?P<id>[^/]+?)/delete$#xs', $pathinfo, $matches)) {
+        if (preg_match('#^/(?P<id>[^/]+?)/delete$#xs', $pathinfo, $matches)) {
             if ($this->context->getMethod() != 'POST') {
                 $allow[] = 'POST';
                 goto not_club_delete;
@@ -197,58 +208,71 @@ class appprodUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
             return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\CountryController::showAction',)), array('_route' => 'country_show'));
         }
 
-        // player
-        if (rtrim($pathinfo, '/') === '/player') {
+        // admin_player
+        if (rtrim($pathinfo, '/') === '/admin/players') {
             if (substr($pathinfo, -1) !== '/') {
-                return $this->redirect($pathinfo.'/', 'player');
+                return $this->redirect($pathinfo.'/', 'admin_player');
             }
-            return array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::indexAction',  '_route' => 'player',);
+            return array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::indexAdminAction',  '_route' => 'admin_player',);
+        }
+
+        // site_players
+        if (rtrim($pathinfo, '/') === '/players') {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($pathinfo.'/', 'site_players');
+            }
+            return array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::indexSiteAction',  '_route' => 'site_players',);
+        }
+
+        // admin_player_show
+        if (0 === strpos($pathinfo, '/admin/player') && preg_match('#^/admin/player/(?P<id>[^/]+?)/show$#xs', $pathinfo, $matches)) {
+            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::showAdminAction',)), array('_route' => 'admin_player_show'));
         }
 
         // player_show
-        if (0 === strpos($pathinfo, '/player') && preg_match('#^/player/(?P<id>[^/]+?)/show$#xs', $pathinfo, $matches)) {
-            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::showAction',)), array('_route' => 'player_show'));
+        if (0 === strpos($pathinfo, '/player') && preg_match('#^/player/(?P<id>[^/]+?)$#xs', $pathinfo, $matches)) {
+            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::showSiteAction',)), array('_route' => 'player_show'));
         }
 
-        // player_new
-        if ($pathinfo === '/player/new') {
-            return array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::newAction',  '_route' => 'player_new',);
+        // admin_player_new
+        if ($pathinfo === '/admin/player/new') {
+            return array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::newAction',  '_route' => 'admin_player_new',);
         }
 
-        // player_create
-        if ($pathinfo === '/player/create') {
+        // admin_player_create
+        if ($pathinfo === '/admin/player/create') {
             if ($this->context->getMethod() != 'POST') {
                 $allow[] = 'POST';
-                goto not_player_create;
+                goto not_admin_player_create;
             }
-            return array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::createAction',  '_route' => 'player_create',);
+            return array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::createAction',  '_route' => 'admin_player_create',);
         }
-        not_player_create:
+        not_admin_player_create:
 
-        // player_edit
-        if (0 === strpos($pathinfo, '/player') && preg_match('#^/player/(?P<id>[^/]+?)/edit$#xs', $pathinfo, $matches)) {
-            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::editAction',)), array('_route' => 'player_edit'));
+        // admin_player_edit
+        if (0 === strpos($pathinfo, '/admin/player') && preg_match('#^/admin/player/(?P<id>[^/]+?)/edit$#xs', $pathinfo, $matches)) {
+            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::editAction',)), array('_route' => 'admin_player_edit'));
         }
 
-        // player_update
-        if (0 === strpos($pathinfo, '/player') && preg_match('#^/player/(?P<id>[^/]+?)/update$#xs', $pathinfo, $matches)) {
+        // admin_player_update
+        if (0 === strpos($pathinfo, '/admin/player') && preg_match('#^/admin/player/(?P<id>[^/]+?)/update$#xs', $pathinfo, $matches)) {
             if ($this->context->getMethod() != 'POST') {
                 $allow[] = 'POST';
-                goto not_player_update;
+                goto not_admin_player_update;
             }
-            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::updateAction',)), array('_route' => 'player_update'));
+            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::updateAction',)), array('_route' => 'admin_player_update'));
         }
-        not_player_update:
+        not_admin_player_update:
 
-        // player_delete
-        if (0 === strpos($pathinfo, '/player') && preg_match('#^/player/(?P<id>[^/]+?)/delete$#xs', $pathinfo, $matches)) {
+        // admin_player_delete
+        if (0 === strpos($pathinfo, '/admin/player') && preg_match('#^/admin/player/(?P<id>[^/]+?)/delete$#xs', $pathinfo, $matches)) {
             if ($this->context->getMethod() != 'POST') {
                 $allow[] = 'POST';
-                goto not_player_delete;
+                goto not_admin_player_delete;
             }
-            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::deleteAction',)), array('_route' => 'player_delete'));
+            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\PlayerController::deleteAction',)), array('_route' => 'admin_player_delete'));
         }
-        not_player_delete:
+        not_admin_player_delete:
 
         // stadium
         if (rtrim($pathinfo, '/') === '/stadium') {
@@ -309,6 +333,14 @@ class appprodUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
                 return $this->redirect($pathinfo.'/', '_welcome');
             }
             return array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\DefaultController::indexAction',  '_route' => '_welcome',);
+        }
+
+        // _admin
+        if (rtrim($pathinfo, '/') === '/admin') {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($pathinfo.'/', '_admin');
+            }
+            return array (  '_controller' => 'ActualSkill\\SiteBundle\\Controller\\AdminController::indexAction',  '_route' => '_admin',);
         }
 
         // fos_user_security_login
