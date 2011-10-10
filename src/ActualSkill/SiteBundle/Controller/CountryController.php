@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use ActualSkill\SiteBundle\Entity\Country;
+use ActualSkill\SharedEntityBundle\Entity\Country;
 
 /**
  * Country controller.
@@ -25,7 +25,7 @@ class CountryController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entities = $em->getRepository('ActualSkillSiteBundle:Country')->findAll();
+        $entities = $em->getRepository('ActualSkillSharedEntityBundle:Country')->findAll();
 
         return array('entities' => $entities);
     }
@@ -40,7 +40,7 @@ class CountryController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('ActualSkillSiteBundle:Country')->find($id);
+        $entity = $em->getRepository('ActualSkillSharedEntityBundle:Country')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Country entity.');

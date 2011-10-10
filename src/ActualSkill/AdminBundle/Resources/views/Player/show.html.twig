@@ -1,0 +1,41 @@
+<h1>Player</h1>
+
+<table class="record_properties">
+    <tbody>
+        <tr>
+            <th>Id</th>                <td>{{ player.id }}</td>        </tr>
+        <tr>
+            <th>Slug</th>                <td>{{ player.slug }}</td>        </tr>
+        <tr>
+            <th>Firstname</th>                <td>{{ player.firstname }}</td>        </tr>
+        <tr>
+            <th>Lastname</th>                <td>{{ player.lastname }}</td>        </tr>
+        <tr>
+            <th>Nickname</th>                <td>{{ player.nickname }}</td>        </tr>
+        <tr>
+            <th>Birthday</th>                <td>{{ player.birthday|date('Y-m-d H:i:s') }}</td>        </tr>
+        <tr>
+            <th>Height</th>                <td>{{ player.height }}</td>        </tr>
+        <tr>
+            <th>Weight</th>                <td>{{ player.weight }}</td>        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('admin_players') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('admin_player_edit', { 'id': player.slug }) }}">
+            Edit
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('admin_player_delete', { 'id': player.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>

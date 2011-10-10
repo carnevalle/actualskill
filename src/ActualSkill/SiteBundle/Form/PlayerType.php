@@ -12,8 +12,9 @@ class PlayerType extends AbstractType
         $builder
             ->add('firstname')
             ->add('lastname')
+            ->add('name')
             ->add('nickname')
-            ->add('birthday')
+            ->add('birthday', 'birthday', array('widget' => 'choice', 'years' => range(date('Y')-100,date('Y'))))
             ->add('height')
             ->add('weight')
             ->add('country')

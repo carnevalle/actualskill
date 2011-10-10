@@ -1,83 +1,64 @@
 <?php
 
-namespace ActualSkill\SiteBundle\Controller;
+namespace ActualSkill\AdminBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use ActualSkill\SharedEntityBundle\Entity\Club;
-use ActualSkill\SiteBundle\Form\ClubType;
+use ActualSkill\SharedEntityBundle\Entity\Player;
+use ActualSkill\SiteBundle\Form\PlayerType;
 
-/**
- * Club controller.
- */
-class ClubController extends Controller
+class PlayerController extends Controller
 {
     /**
-     * Lists all Club entities.
-     *
-     * @Route("/admin/clubs/", name="admin_clubs")
+     * @Route("/admin/players", name="admin_players")
      * @Template()
      */
-    public function indexAdminAction()
+    public function indexAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $clubs = $em->getRepository('ActualSkillSharedEntityBundle:Club')->findAll();
+        $players = $em->getRepository('ActualSkillSharedEntityBundle:Player')->findAll();
 
-        return array('clubs' => $clubs);
+        return array('players' => $players); 
     }
-
-    /**
-     * Lists all Club entities.
-     *
-     * @Route("/clubs/", name="site_clubs")
-     * @Template()
-     */
-    public function indexSiteAction()
-    {
-        $em = $this->getDoctrine()->getEntityManager();
-
-        $clubs = $em->getRepository('ActualSkillSharedEntityBundle:Club')->findAll();
-
-        return array('clubs' => $clubs);
-    }    
     
     /**
-     * Finds and displays a Club entity.
+     * Finds and displays a Player entity.
      *
-     * @Route("/club/{id}/", name="club_show")
+     * @Route("/admin/player/{id}/show", name="admin_player_show")
      * @Template()
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
+        
+        $player = $em->getRepository('ActualSkillSharedEntityBundle:Player')->findOneBySlug($id);
 
-        $club = $em->getRepository('ActualSkillSharedEntityBundle:Club')->findOneBySlug($id);
-
-        if (!$club) {
-            throw $this->createNotFoundException('Unable to find Club entity.');
+        if (!$player) {
+            throw $this->createNotFoundException('Unable to find Player entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'club'      => $club,
-            'delete_form' => $deleteForm->createView(),        );
+            'player'      => $player,
+            'delete_form' => $deleteForm->createView(),        
+        );
     }
-
+    
     /**
-     * Displays a form to create a new Club entity.
+     * Displays a form to create a new Player entity.
      *
-     * @Route("/new", name="club_new")
+     * @Route("/admin/player/new", name="admin_player_new")
      * @Template()
      */
     public function newAction()
     {
-        $entity = new Club();
-        $form   = $this->createForm(new ClubType(), $entity);
-
+        $entity = new Player();
+        $form   = $this->createForm(new PlayerType(), $entity);
+        
         return array(
             'entity' => $entity,
             'form'   => $form->createView()
@@ -85,17 +66,17 @@ class ClubController extends Controller
     }
 
     /**
-     * Creates a new Club entity.
+     * Creates a new Player entity.
      *
-     * @Route("/create", name="club_create")
+     * @Route("/admin/player/create", name="admin_player_create")
      * @Method("post")
-     * @Template("ActualSkillSharedEntityBundle:Club:new.html.twig")
+     * @Template("ActualSkillSharedEntityBundle:Player:new.html.twig")
      */
     public function createAction()
     {
-        $entity  = new Club();
+        $entity  = new Player();
         $request = $this->getRequest();
-        $form    = $this->createForm(new ClubType(), $entity);
+        $form    = $this->createForm(new PlayerType(), $entity);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
@@ -103,7 +84,7 @@ class ClubController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('club_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('admin_player_show', array('id' => $entity->getId())));
             
         }
 
@@ -114,22 +95,22 @@ class ClubController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing Club entity.
+     * Displays a form to edit an existing Player entity.
      *
-     * @Route("/{id}/edit", name="club_edit")
+     * @Route("/admin/player/{id}/edit", name="admin_player_edit")
      * @Template()
      */
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('ActualSkillSharedEntityBundle:Club')->find($id);
+        $entity = $em->getRepository('ActualSkillSharedEntityBundle:Player')->findOneBySlug($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Club entity.');
+            throw $this->createNotFoundException('Unable to find Player entity.');
         }
 
-        $editForm = $this->createForm(new ClubType(), $entity);
+        $editForm = $this->createForm(new PlayerType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -140,23 +121,23 @@ class ClubController extends Controller
     }
 
     /**
-     * Edits an existing Club entity.
+     * Edits an existing Player entity.
      *
-     * @Route("/{id}/update", name="club_update")
+     * @Route("/admin/player/{id}/update", name="admin_player_update")
      * @Method("post")
-     * @Template("ActualSkillSharedEntityBundle:Club:edit.html.twig")
+     * @Template("ActualSkillSharedEntityBundle:Player:edit.html.twig")
      */
     public function updateAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('ActualSkillSharedEntityBundle:Club')->find($id);
+        $entity = $em->getRepository('ActualSkillSharedEntityBundle:Player')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Club entity.');
+            throw $this->createNotFoundException('Unable to find Player entity.');
         }
 
-        $editForm   = $this->createForm(new ClubType(), $entity);
+        $editForm   = $this->createForm(new PlayerType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -167,7 +148,7 @@ class ClubController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('club_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('admin_player_edit', array('id' => $id)));
         }
 
         return array(
@@ -178,9 +159,9 @@ class ClubController extends Controller
     }
 
     /**
-     * Deletes a Club entity.
+     * Deletes a Player entity.
      *
-     * @Route("/{id}/delete", name="club_delete")
+     * @Route("/admin/player/{id}/delete", name="admin_player_delete")
      * @Method("post")
      */
     public function deleteAction($id)
@@ -192,17 +173,17 @@ class ClubController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
-            $entity = $em->getRepository('ActualSkillSharedEntityBundle:Club')->find($id);
+            $entity = $em->getRepository('ActualSkillSharedEntityBundle:Player')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Club entity.');
+                throw $this->createNotFoundException('Unable to find Player entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('club'));
+        return $this->redirect($this->generateUrl('admin_player'));
     }
 
     private function createDeleteForm($id)
@@ -211,5 +192,5 @@ class ClubController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
-    }
+    }    
 }

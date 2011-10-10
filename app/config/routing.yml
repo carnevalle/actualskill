@@ -1,3 +1,13 @@
+ActualSkillAdminBundle:
+    resource: "@ActualSkillAdminBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+ActualSkillSharedEntityBundle:
+    resource: "@ActualSkillSharedEntityBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 ActualSkillSiteBundle:
     resource: "@ActualSkillSiteBundle/Controller/"
     type:     annotation
@@ -14,7 +24,7 @@ _welcome:
 
 _admin:
     pattern:  /admin/
-    defaults: { _controller: ActualSkillSiteBundle:Admin:index }
+    defaults: { _controller: ActualSkillAdminBundle:Default:index }
 
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"

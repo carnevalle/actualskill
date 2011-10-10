@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use ActualSkill\SiteBundle\Entity\Attribute;
+use ActualSkill\SharedEntityBundle\Entity\Attribute;
 use ActualSkill\SiteBundle\Form\AttributeType;
 
 /**
@@ -26,7 +26,7 @@ class AttributeController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entities = $em->getRepository('ActualSkillSiteBundle:Attribute')->findAll();
+        $entities = $em->getRepository('ActualSkillSharedEntityBundle:Attribute')->findAll();
 
         return array('entities' => $entities);
     }
@@ -41,7 +41,7 @@ class AttributeController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('ActualSkillSiteBundle:Attribute')->find($id);
+        $entity = $em->getRepository('ActualSkillSharedEntityBundle:Attribute')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Attribute entity.');
@@ -76,7 +76,7 @@ class AttributeController extends Controller
      *
      * @Route("/create", name="attribute_create")
      * @Method("post")
-     * @Template("ActualSkillSiteBundle:Attribute:new.html.twig")
+     * @Template("ActualSkillSharedEntityBundle:Attribute:new.html.twig")
      */
     public function createAction()
     {
@@ -110,7 +110,7 @@ class AttributeController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('ActualSkillSiteBundle:Attribute')->find($id);
+        $entity = $em->getRepository('ActualSkillSharedEntityBundle:Attribute')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Attribute entity.');
@@ -131,13 +131,13 @@ class AttributeController extends Controller
      *
      * @Route("/{id}/update", name="attribute_update")
      * @Method("post")
-     * @Template("ActualSkillSiteBundle:Attribute:edit.html.twig")
+     * @Template("ActualSkillSharedEntityBundle:Attribute:edit.html.twig")
      */
     public function updateAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('ActualSkillSiteBundle:Attribute')->find($id);
+        $entity = $em->getRepository('ActualSkillSharedEntityBundle:Attribute')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Attribute entity.');
@@ -179,7 +179,7 @@ class AttributeController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
-            $entity = $em->getRepository('ActualSkillSiteBundle:Attribute')->find($id);
+            $entity = $em->getRepository('ActualSkillSharedEntityBundle:Attribute')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Attribute entity.');
