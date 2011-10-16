@@ -2,41 +2,133 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>{% block title %}Test Application{% endblock %}</title>
+        <title>{% block title %}ActualSkill{% endblock %}</title>
+        
+        <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+        <!--[if lt IE 9]>
+          <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/jquery-ui.min.js"></script>
+         
+        {% javascripts
+            '@ActualSkillSiteBundle/Resources/public/bootstrap/js/*'
+        %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+        <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.3.0/bootstrap.min.css">
+
+        {% stylesheets 
+            '@ActualSkillSiteBundle/Resources/public/css/*'
+            output='css/styles.css'%}
+
+            <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+
+        {% endstylesheets %}
+        <style type="text/css">
+          body {
+            padding-top: 60px;
+          }
+        </style>
+    
     </head>
     <body>
-        <div id="topbar">
-            {{ app.user.username}}
-            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
-                <a href="{{ path('fos_user_security_logout') }}">
-                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-                </a>
-            {% else %}
-                <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
-            {% endif %}
 
+        <!-- Topbar
+            ================================================== -->
+        <div class="topbar">
+          <div class="fill">
+            <div class="container">
+              <a class="brand" href="{{ path('_admin') }}"><span style="color: red">Admin </span>ActualSkill</a>
+              <ul class="nav">
+                {% block navigation %}
+                    <li><a href="{{ path('admin_clubs') }}">Clubs</a></li>
+                    <li><a href="{{ path('admin_players') }}">Players</a></li>
+                    <li><a href="{{ path('admin_attributes') }}">Attributes</a></li>
+                {% endblock %}
+              </ul>
+
+
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <ul class="nav secondary-nav">
+                        <li class="dropdown" data-dropdown="dropdown">
+                        <a class="dropdown-toggle" href="#">{{app.user.username}}</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Secondary link</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                {% else %}
+                    <ul class="nav secondary-nav">
+                        <li>
+                            <a href="{{ path('fos_user_security_login') }}">Login</a>
+                        </li>
+                    </ul>
+                {% endif %}
+
+            </div>
+          </div>
         </div>
 
-        <div id="header">
-            {% block header %}{% endblock %}
-        </div>
+        <div class="container">
 
-        <div id="navigation">
-            {% block navigation %}
-            <ul style="list-style-type: none;">
-                <li style="display: inline;"><a href="{{ path('_admin') }}">Home</a></li>
-                <li style="display: inline;"><a href="{{ path('admin_players') }}">Players</a></li>
-            </ul>
-            {% endblock %}
-        </div>
+            <div class="row">
+                <div class="span-16">
+                    <ul class="breadcrumb">
+                      <li><a class="active" href="#">Home</a> <span class="divider">/</span></li>
+                    </ul>                    
+                </div>
+            </div>
 
-        <div id="content">
-            {% block body %}{% endblock %}
-        </div>
+            <div class="row">
+                <div class="span-16">
+                   {% block header %}
+                    
+                    {% endblock %}
+                </div>
+            </div>
 
-        <div id="footer">
-            {% block footer %}{% endblock %}
-        </div>
+            <div class="row">
+                <div class="span-16">
+                  {% block body %}{% endblock %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="span-16">
+                  {% block footer %}{% endblock %}
+                </div>
+            </div>
+
+        </div>  <!-- /container -->
+
+        <footer class="footer">
+          <div class="container">
+            <p class="pull-right"><a href="#">Back to top</a></p>
+            <p>
+                &copy; 2011 actualskill.com | Follow us on <a href="http://twitter.com/actualskill" target="_blank">Twitter</a> and <a href="http://facebook.com/actualskill" target="_blank">Facebook</a>.<br />
+            </p>
+          </div>
+        </footer>
+
+        <script type="text/javascript">
+
+            $(document).ready(function() {
+              $('#topbar').dropdown();
+            });
+
+            var uvOptions = {};
+            (function() {
+                var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
+                uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/Ayf6t2K4fCVNy2RVhySTA.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
+            })();
+        </script>
+
     </body>
 </html>
