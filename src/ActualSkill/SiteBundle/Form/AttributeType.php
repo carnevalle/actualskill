@@ -11,6 +11,7 @@ class AttributeType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('description')
         ;
     }
 

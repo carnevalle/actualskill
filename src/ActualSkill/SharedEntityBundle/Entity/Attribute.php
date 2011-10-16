@@ -28,6 +28,13 @@ class Attribute
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
+    
+    /**
+     * @var string $name
+     *
+     * @ORM\Column(name="description", type="string", length=255)
+     */
+    private $description;    
 
     /**
      *
@@ -69,6 +76,26 @@ class Attribute
         return $this->name;
     }
 
+    /**
+     * Set name
+     *
+     * @param string $name
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }    
+    
     /**
      * Set sort_order
      *

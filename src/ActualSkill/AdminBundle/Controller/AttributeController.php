@@ -74,7 +74,7 @@ class AttributeController extends Controller
      *
      * @Route("/admin/attribute/create", name="admin_attribute_create")
      * @Method("post")
-     * @Template("ActualSkillSharedEntityBundle:Attribute:new.html.twig")
+     * @Template("ActualSkillAdminBundle:Attribute:new.html.twig")
      */
     public function createAction()
     {
@@ -88,7 +88,7 @@ class AttributeController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('attribute_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('admin_attribute_show', array('id' => $entity->getId())));
             
         }
 
@@ -129,7 +129,7 @@ class AttributeController extends Controller
      *
      * @Route("/admin/attribute/{id}/update", name="admin_attribute_update")
      * @Method("post")
-     * @Template("ActualSkillSharedEntityBundle:Attribute:edit.html.twig")
+     * @Template("ActualSkillAdminBundle:Attribute:edit.html.twig")
      */
     public function updateAction($id)
     {
@@ -152,7 +152,7 @@ class AttributeController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('attribute_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('admin_attribute_edit', array('id' => $id)));
         }
 
         return array(
