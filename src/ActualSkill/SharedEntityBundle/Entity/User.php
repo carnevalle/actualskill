@@ -36,13 +36,13 @@ class User extends BaseUser
     
     /**
      *
-     * @ORM\OneToMany(targetEntity="Rating", mappedBy="object_id")
+     * @ORM\OneToMany(targetEntity="Rating", mappedBy="user")
      */    
     protected $ratings;
     
     /**
      *
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="object_id")
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="user")
      */        
     protected $comments;    
     

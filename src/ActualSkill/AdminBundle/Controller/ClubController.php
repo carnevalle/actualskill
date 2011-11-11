@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use ActualSkill\SharedEntityBundle\Entity\Club;
-use ActualSkill\SiteBundle\Form\ClubType;
+use ActualSkill\SharedEntityBundle\Form\ClubType;
 
 /**
  * Club controller.

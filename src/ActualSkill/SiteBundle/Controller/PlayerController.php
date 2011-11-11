@@ -46,15 +46,18 @@ class PlayerController extends Controller
             throw $this->createNotFoundException('Unable to find Player entity.');
         }
         
-        //$repository = $this->getDoctrine()->getRepository('ActualSkillSharedEntityBundle:Category');
-        //$categories = $repository->findBy(array('type' => 'player'));
+        $repository = $this->getDoctrine()->getRepository('ActualSkillSharedEntityBundle:Category');
+        $categories[] = $repository->findOneBySlug("technical");
+        $categories[] = $repository->findOneBySlug("physical");
         
-        $repository = $this->getDoctrine()->getRepository('ActualSkillSharedEntityBundle:Attribute');
-        $attributes = $repository->findAll();
+        //= $repository->findBy(array('type' => 'player'));
+        
+        //$repository = $this->getDoctrine()->getRepository('ActualSkillSharedEntityBundle:Attribute');
+        //$attributes = $repository->findAll();
         
         return array(
             'player'      => $player,
-            'attributes'  => $attributes,
+            'categories'  => $categories,
         );
     }
 }

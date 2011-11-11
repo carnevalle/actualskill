@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use ActualSkill\SharedEntityBundle\Entity\Attribute;
-use ActualSkill\SiteBundle\Form\AttributeType;
+use ActualSkill\SharedEntityBundle\Form\AttributeType;
 
 /**
  * Attribute controller.

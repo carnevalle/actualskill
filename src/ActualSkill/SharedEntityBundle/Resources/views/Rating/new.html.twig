@@ -1,6 +1,6 @@
-<h1>Club creation</h1>
+<h1>Rating creation</h1>
 
-<form action="{{ path('club_create') }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('rating_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <p>
         <button type="submit">Create</button>
@@ -9,7 +9,7 @@
 
 <ul class="record_actions">
     <li>
-        <a href="{{ path('admin_clubs') }}">
+        <a href="{{ path('rating') }}">
             Back to the list
         </a>
     </li>

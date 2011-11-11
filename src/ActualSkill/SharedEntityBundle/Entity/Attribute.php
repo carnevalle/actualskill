@@ -2,6 +2,7 @@
 
 namespace ActualSkill\SharedEntityBundle\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -23,6 +24,12 @@ class Attribute
     private $id;
 
     /**
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(length=128, unique=true)
+     */
+    protected $slug;    
+    
+    /**
      * @var string $name
      *
      * @ORM\Column(name="name", type="string", length=255)
@@ -38,7 +45,7 @@ class Attribute
 
     /**
      *
-     * @ORM\OneToMany(targetEntity="Rating", mappedBy="object_id")
+     * @ORM\OneToMany(targetEntity="Rating", mappedBy="attribute")
      */    
     protected $ratings;
     

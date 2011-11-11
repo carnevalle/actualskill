@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use ActualSkill\SharedEntityBundle\Entity\Stadium;
-use ActualSkill\SiteBundle\Form\StadiumType;
+use ActualSkill\SharedEntityBundle\Form\StadiumType;
 
 /**
  * Stadium controller.

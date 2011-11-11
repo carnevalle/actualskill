@@ -29,13 +29,6 @@ class Rating
     private $rating;
 
     /**
-     * @var datetime $modified_at
-     *
-     * @ORM\Column(name="modified_at", type="datetime")
-     */
-    private $modified_at;
-
-    /**
      *
      * @ORM\ManyToOne(targetEntity="Attribute", inversedBy="ratings")
      * @ORM\JoinColumn(name="attribute_id", referencedColumnName="id")
@@ -44,7 +37,7 @@ class Rating
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="BaseEntity", inversedBy="ratings")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="ratings")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
@@ -55,6 +48,7 @@ class Rating
      * @ORM\JoinColumn(name="object_id", referencedColumnName="id")
      */
     private $object;
+
 
 
     /**
@@ -74,6 +68,12 @@ class Rating
      */
     public function setRating($rating)
     {
+        if($rating > 10){
+            $rating = 10;
+        }else if($rating < 0){
+            $rating = 0;
+        }
+        
         $this->rating = $rating;
     }
 
@@ -88,82 +88,62 @@ class Rating
     }
 
     /**
-     * Set modified_at
+     * Set attribute
      *
-     * @param datetime $modifiedAt
+     * @param ActualSkill\SharedEntityBundle\Entity\Attribute $attribute
      */
-    public function setModifiedAt($modifiedAt)
+    public function setAttribute(\ActualSkill\SharedEntityBundle\Entity\Attribute $attribute)
     {
-        $this->modified_at = $modifiedAt;
+        $this->attribute = $attribute;
     }
 
     /**
-     * Get modified_at
+     * Get attribute
      *
-     * @return datetime 
+     * @return ActualSkill\SharedEntityBundle\Entity\Attribute 
      */
-    public function getModifiedAt()
+    public function getAttribute()
     {
-        return $this->modified_at;
+        return $this->attribute;
     }
 
     /**
-     * Set attribute_id
+     * Set user
      *
-     * @param integer $attributeId
+     * @param ActualSkill\SharedEntityBundle\Entity\User $user
      */
-    public function setAttributeId($attributeId)
+    public function setUser(\ActualSkill\SharedEntityBundle\Entity\User $user)
     {
-        $this->attribute_id = $attributeId;
+        $this->user = $user;
     }
 
     /**
-     * Get attribute_id
+     * Get user
      *
-     * @return integer 
+     * @return ActualSkill\SharedEntityBundle\Entity\User 
      */
-    public function getAttributeId()
+    public function getUser()
     {
-        return $this->attribute_id;
+        return $this->user;
     }
 
     /**
-     * Set user_id
+     * Set object
      *
-     * @param integer $userId
+     * @param ActualSkill\SharedEntityBundle\Entity\BaseEntity $object
      */
-    public function setUserId($userId)
+    public function setObject(\ActualSkill\SharedEntityBundle\Entity\BaseEntity $object)
     {
-        $this->user_id = $userId;
+        $this->object = $object;
     }
 
     /**
-     * Get user_id
+     * Get object
      *
-     * @return integer 
+     * @return ActualSkill\SharedEntityBundle\Entity\BaseEntity 
      */
-    public function getUserId()
+    public function getObject()
     {
-        return $this->user_id;
-    }
-
-    /**
-     * Set object_id
-     *
-     * @param integer $objectId
-     */
-    public function setObjectId($objectId)
-    {
-        $this->object_id = $objectId;
-    }
-
-    /**
-     * Get object_id
-     *
-     * @return integer 
-     */
-    public function getObjectId()
-    {
-        return $this->object_id;
+        return $this->object;
     }
 }

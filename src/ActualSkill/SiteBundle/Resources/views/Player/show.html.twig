@@ -19,36 +19,44 @@
 <div class="row">
     <div class="span-16">
         <ul class="tabs">
-            <li class="active"><a href="#physical">Physical</a></li>
-            <li><a href="#technical">Technical</a></li>
-            <li><a href="#tactical">Tactical</a></li>
-            <li><a href="#mentality">Mentality</a></li>
+            {% for category in categories %}
+                {% if category.slug == "technical" %}
+                    <li class="active"><a href="#{{category.slug}}">{{category.name}}</a></li>
+                {% else %}
+                    <li><a href="#{{category.slug}}">{{category.name}}</a></li>
+                {% endif %}
+            {% endfor %}
         </ul>
 
         <div class="tab-content">
-            <div id="physical" class="active">
-                {% for attribute in attributes %}
-                    <div class="rating">
-                      <ul>
-                        <li class="attribute"><span title="{{ attribute.description }}">{{ attribute.name }}</span></li>
-                        <li class="active"><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#">6</a></li>
-                        <li><a href="#">7</a></li>
-                        <li><a href="#">8</a></li>
-                        <li><a href="#">9</a></li>
-                        <li><a href="#">10</a></li>
-                        <li class="totalrating"><span>10.00</span></li>
-                      </ul>
-                    </div>
-                {% endfor %} 
-            </div>
-            <div id="technical">...</div>
-            <div id="tactical">...</div>
-            <div id="mentality">...</div>
+            {% for category in categories %}
+
+                {% if category.slug == "technical" %}
+                    <div id="{{category.slug}}" class="active">
+                {% else %}
+                    <div id="{{category.slug}}">
+                {% endif %}
+
+                    {% for attribute in category.attributes %}
+                        <div class="rating">
+                          <ul>
+                            <li class="attribute"><span title="{{ attribute.description }}">{{ attribute.name }}</span></li>
+                            <li class="active"><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li><a href="#">6</a></li>
+                            <li><a href="#">7</a></li>
+                            <li><a href="#">8</a></li>
+                            <li><a href="#">9</a></li>
+                            <li><a href="#">10</a></li>
+                            <li class="totalrating"><span class="tooltip" title="You need to rate before you can see the average">?</span></li>
+                          </ul>
+                        </div>
+                    {% endfor %} 
+                </div>
+            {% endfor %}
         </div>           
     </div>
 </div>
@@ -57,6 +65,10 @@
     $(function () {
       $(".attribute span").twipsy({
         live: true
+      })
+      $(".tooltip").twipsy({
+        live: true,
+        placement: "right"
       })
     })
   </script>

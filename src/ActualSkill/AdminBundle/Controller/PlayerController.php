@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use ActualSkill\SharedEntityBundle\Entity\Player;
-use ActualSkill\SiteBundle\Form\PlayerType;
+use ActualSkill\SharedEntityBundle\Form\PlayerType;
 
 class PlayerController extends Controller
 {
@@ -92,6 +92,24 @@ class PlayerController extends Controller
             'entity' => $entity,
             'form'   => $form->createView()
         );
+    }
+    
+    /**
+     * Imports players from a CSV list
+     * 
+     * @Route("/admin/player/import", name="admin_player_import")
+     * @Template()
+     */
+    public function importAction(){
+        
+        $form   = $this->createFormBuilder()
+                ->add("data", "textarea")
+                ->getForm();
+        
+        return array(
+            'form'   => $form->createView()
+        );
+        
     }
 
     /**

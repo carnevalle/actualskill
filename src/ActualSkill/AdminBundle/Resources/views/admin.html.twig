@@ -46,6 +46,7 @@
                 {% block navigation %}
                     <li><a href="{{ path('admin_clubs') }}">Clubs</a></li>
                     <li><a href="{{ path('admin_players') }}">Players</a></li>
+                    <li><a href="{{ path('admin_categories') }}">Categories</a></li>
                     <li><a href="{{ path('admin_attributes') }}">Attributes</a></li>
                     <li><a href="{{ path('_welcome') }}">Site</a></li>
                 {% endblock %}
@@ -123,12 +124,12 @@
               $('#topbar').dropdown();
             });
 
-            var uvOptions = {};
-            (function() {
+              var uvOptions = {};
+              (function() {
                 var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
                 uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/Ayf6t2K4fCVNy2RVhySTA.js';
                 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
-            })();
+              })();
         </script>
 
     </body>

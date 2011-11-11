@@ -55,7 +55,14 @@ class Player extends BaseEntity
      *
      * @ORM\Column(name="weight", type="integer")
      */
-    private $weight;    
+    private $weight;
+    
+    /**
+     * @var integer $isGoalkeeper
+     *
+     * @ORM\Column(name="isGoalkeeper", type="boolean")
+     */
+    private $isGoalkeeper;    
     
     /**
      *
@@ -66,7 +73,6 @@ class Player extends BaseEntity
     
     public function __construct() {
         parent::__construct();
-        $this->type = "player";
     }
     
     /**
@@ -246,5 +252,13 @@ class Player extends BaseEntity
     public function getBirthday()
     {
         return $this->birthday;
+    }
+    
+    public function setIsGoalkeeper($isGoalkeeper){
+        $this->isGoalkeeper = $isGoalkeeper;
+    }
+    
+    public function getIsGoalkeeper(){
+        return $this->isGoalkeeper;
     }
 }

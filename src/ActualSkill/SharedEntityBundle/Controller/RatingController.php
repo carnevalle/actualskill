@@ -1,48 +1,50 @@
 <?php
 
-namespace ActualSkill\AdminBundle\Controller;
+namespace ActualSkill\SharedEntityBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use ActualSkill\SharedEntityBundle\Entity\Category;
-use ActualSkill\SharedEntityBundle\Form\CategoryType;
+use ActualSkill\SharedEntityBundle\Entity\Rating;
+use ActualSkill\SharedEntityBundle\Form\RatingType;
 
 /**
- * Category controller.
+ * Rating controller.
+ *
+ * @Route("/rating")
  */
-class CategoryController extends Controller
+class RatingController extends Controller
 {
     /**
-     * Lists all Category entities.
+     * Lists all Rating entities.
      *
-     * @Route("/admin/categories/", name="admin_categories")
+     * @Route("/", name="rating")
      * @Template()
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entities = $em->getRepository('ActualSkillSharedEntityBundle:Category')->findAll();
+        $entities = $em->getRepository('ActualSkillSharedEntityBundle:Rating')->findAll();
 
         return array('entities' => $entities);
     }
 
     /**
-     * Finds and displays a Category entity.
+     * Finds and displays a Rating entity.
      *
-     * @Route("/admin/category/{id}/show", name="admin_category_show")
+     * @Route("/{id}/show", name="rating_show")
      * @Template()
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('ActualSkillSharedEntityBundle:Category')->find($id);
+        $entity = $em->getRepository('ActualSkillSharedEntityBundle:Rating')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Category entity.');
+            throw $this->createNotFoundException('Unable to find Rating entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -53,15 +55,15 @@ class CategoryController extends Controller
     }
 
     /**
-     * Displays a form to create a new Category entity.
+     * Displays a form to create a new Rating entity.
      *
-     * @Route("/admin/category/new", name="admin_category_new")
+     * @Route("/new", name="rating_new")
      * @Template()
      */
     public function newAction()
     {
-        $entity = new Category();
-        $form   = $this->createForm(new CategoryType(), $entity);
+        $entity = new Rating();
+        $form   = $this->createForm(new RatingType(), $entity);
 
         return array(
             'entity' => $entity,
@@ -70,17 +72,17 @@ class CategoryController extends Controller
     }
 
     /**
-     * Creates a new Category entity.
+     * Creates a new Rating entity.
      *
-     * @Route("/admin/create", name="admin_category_create")
+     * @Route("/create", name="rating_create")
      * @Method("post")
-     * @Template("ActualSkillAdminBundle:Category:new.html.twig")
+     * @Template("ActualSkillSharedEntityBundle:Rating:new.html.twig")
      */
     public function createAction()
     {
-        $entity  = new Category();
+        $entity  = new Rating();
         $request = $this->getRequest();
-        $form    = $this->createForm(new CategoryType(), $entity);
+        $form    = $this->createForm(new RatingType(), $entity);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
@@ -88,7 +90,7 @@ class CategoryController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('admin_category_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('rating_show', array('id' => $entity->getId())));
             
         }
 
@@ -99,22 +101,22 @@ class CategoryController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing Category entity.
+     * Displays a form to edit an existing Rating entity.
      *
-     * @Route("/admin/{id}/edit", name="admin_category_edit")
+     * @Route("/{id}/edit", name="rating_edit")
      * @Template()
      */
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('ActualSkillSharedEntityBundle:Category')->find($id);
+        $entity = $em->getRepository('ActualSkillSharedEntityBundle:Rating')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Category entity.');
+            throw $this->createNotFoundException('Unable to find Rating entity.');
         }
 
-        $editForm = $this->createForm(new CategoryType(), $entity);
+        $editForm = $this->createForm(new RatingType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -125,23 +127,23 @@ class CategoryController extends Controller
     }
 
     /**
-     * Edits an existing Category entity.
+     * Edits an existing Rating entity.
      *
-     * @Route("/admin/{id}/update", name="admin_category_update")
+     * @Route("/{id}/update", name="rating_update")
      * @Method("post")
-     * @Template("ActualSkillAdminBundle:Category:edit.html.twig")
+     * @Template("ActualSkillSharedEntityBundle:Rating:edit.html.twig")
      */
     public function updateAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('ActualSkillSharedEntityBundle:Category')->find($id);
+        $entity = $em->getRepository('ActualSkillSharedEntityBundle:Rating')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Category entity.');
+            throw $this->createNotFoundException('Unable to find Rating entity.');
         }
 
-        $editForm   = $this->createForm(new CategoryType(), $entity);
+        $editForm   = $this->createForm(new RatingType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -152,7 +154,7 @@ class CategoryController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('admin_category_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('rating_edit', array('id' => $id)));
         }
 
         return array(
@@ -163,9 +165,9 @@ class CategoryController extends Controller
     }
 
     /**
-     * Deletes a Category entity.
+     * Deletes a Rating entity.
      *
-     * @Route("/admin/{id}/delete", name="admin_category_delete")
+     * @Route("/{id}/delete", name="rating_delete")
      * @Method("post")
      */
     public function deleteAction($id)
@@ -177,17 +179,17 @@ class CategoryController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
-            $entity = $em->getRepository('ActualSkillSharedEntityBundle:Category')->find($id);
+            $entity = $em->getRepository('ActualSkillSharedEntityBundle:Rating')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Category entity.');
+                throw $this->createNotFoundException('Unable to find Rating entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('category'));
+        return $this->redirect($this->generateUrl('rating'));
     }
 
     private function createDeleteForm($id)

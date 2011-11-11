@@ -37,14 +37,14 @@ class Comment
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="BaseEntity", inversedBy="ratings")
+     * @ORM\ManyToOne(targetEntity="BaseEntity", inversedBy="comments")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="BaseEntity", inversedBy="ratings")
+     * @ORM\ManyToOne(targetEntity="BaseEntity", inversedBy="comments")
      * @ORM\JoinColumn(name="object_id", referencedColumnName="id")
      */
     private $object;

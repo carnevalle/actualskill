@@ -2,6 +2,7 @@
 
 namespace ActualSkill\SharedEntityBundle\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -30,11 +31,10 @@ class Category
     private $name;
 
     /**
-     * @var string $type
-     *
-     * @ORM\Column(name="type", type="string", length=255)
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(length=128, unique=true)
      */
-    private $type;    
+    protected $slug; 
     
     /**
      * @ORM\ManyToMany(targetEntity="Attribute")
@@ -76,25 +76,25 @@ class Category
     }
 
     /**
-     * Set type
+     * Set slug
      *
-     * @param string $type
+     * @param string $slug
      */
-    public function setType($type)
+    public function setSlug($slug)
     {
-        $this->type = $type;
+        $this->slug = $slug;
     }
 
     /**
-     * Get type
+     * Get slug
      *
      * @return string 
      */
-    public function getType()
+    public function getSlug()
     {
-        return $this->type;
-    }    
-
+        return $this->slug;
+    }   
+    
     /**
      * Add attributes
      *
