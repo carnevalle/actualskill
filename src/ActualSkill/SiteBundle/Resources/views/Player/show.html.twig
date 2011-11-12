@@ -8,11 +8,19 @@
 
 {% block body %}
 
-
 <div class="row">
     <div class="span-16">
         <h1>{{ player.fullname }} ({{player.age}} years)</h1>
         <h5>Height: {{player.height}} Weight: {{player.weight}} </h5>
+
+
+        {% for value in userratings %}
+            {% for val in value %}
+                {{ val }}
+            {% endfor %}
+            <br/>
+        {% endfor %}
+
     </div>
 </div>
 

@@ -11,6 +11,7 @@ class CategoryType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('type')
             ->add('attributes')
         ;
     }

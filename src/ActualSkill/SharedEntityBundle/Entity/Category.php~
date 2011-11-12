@@ -64,12 +64,23 @@ class Category
         return $this->id;
     }
     
-    public function setAverage($average){
-        $this->average = $average;
+    public function calculateAverage(\ActualSkill\SharedEntityBundle\Entity\Player $player){
+        
+        $sum = 0;
+        if(count(count($this->attributes)) == 0){
+            $this->average = $sum;
+            return;
+        }        
+        
+        foreach ($this->attributes as $attribute) {
+            $attribute->calculateAverage($player);
+            $sum += $attribute->getAverage();
+        }
+        $this->average = $sum / count($this->attributes);
     }
     
     public function getAverage(){
-        return round($this->average, 2);
+        return $this->average;
     }
     
     public function getTest(){
@@ -159,15 +170,5 @@ class Category
     public function getAttributes()
     {
         return $this->attributes;
-    }
-
-    /**
-     * Add attributes
-     *
-     * @param ActualSkill\SharedEntityBundle\Entity\Attribute $attributes
-     */
-    public function addAttribute(\ActualSkill\SharedEntityBundle\Entity\Attribute $attributes)
-    {
-        $this->attributes[] = $attributes;
     }
 }

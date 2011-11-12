@@ -14,6 +14,7 @@ class PlayerType extends AbstractType
             ->add('lastname')
             ->add('name')
             ->add('nickname')
+            ->add('twitter')
             ->add('birthday', 'birthday', array('widget' => 'choice', 'years' => range(date('Y')-100,date('Y'))))
             ->add('height')
             ->add('weight')

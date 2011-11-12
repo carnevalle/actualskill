@@ -65,12 +65,26 @@ class Attribute
         return $this->id;
     }
     
-    public function setAverage($average){
-        $this->average = $average;
+    public function calculateAverage(\ActualSkill\SharedEntityBundle\Entity\Player $player){
+        
+        $sum = 0;
+        if(count($this->ratings) == 0){
+            $this->average = $sum;
+            return;
+        }
+        
+        foreach ($this->ratings as $rating) {
+            if($rating->getObject()->getId() != $player->getId()){
+                continue;
+            }
+            
+            $sum += $rating->getRating();
+        }
+        $this->average = $sum / count($this->ratings);
     }
     
     public function getAverage(){
-        return round($this->average, 2);
+        $this->average;
     }    
     
     /**

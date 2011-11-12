@@ -26,6 +26,10 @@ class RatingController extends Controller
     public function rateAction($entity_slug, $attribute_slug, $value)
     {
         
+        if(!$this->getRequest()->isXmlHttpRequest()){
+            //throw new Exception("Request must AJAX");
+        }
+        
         $em = $this->getDoctrine()->getEntityManager();
         $user = $this->get('security.context')->getToken()->getUser();
         $entity = $em->getRepository('ActualSkillSharedEntityBundle:BaseEntity')->findOneBySlug($entity_slug);

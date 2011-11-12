@@ -50,4 +50,100 @@ class Rating
     private $object;
 
 
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set rating
+     *
+     * @param integer $rating
+     */
+    public function setRating($rating)
+    {
+        if($rating > 10){
+            $rating = 10;
+        }else if($rating < 0){
+            $rating = 0;
+        }
+        
+        $this->rating = $rating;
+    }
+
+    /**
+     * Get rating
+     *
+     * @return integer 
+     */
+    public function getRating()
+    {
+        return $this->rating;
+    }
+
+    /**
+     * Set attribute
+     *
+     * @param ActualSkill\SharedEntityBundle\Entity\Attribute $attribute
+     */
+    public function setAttribute(\ActualSkill\SharedEntityBundle\Entity\Attribute $attribute)
+    {
+        $this->attribute = $attribute;
+    }
+
+    /**
+     * Get attribute
+     *
+     * @return ActualSkill\SharedEntityBundle\Entity\Attribute 
+     */
+    public function getAttribute()
+    {
+        return $this->attribute;
+    }
+
+    /**
+     * Set user
+     *
+     * @param ActualSkill\SharedEntityBundle\Entity\User $user
+     */
+    public function setUser(\ActualSkill\SharedEntityBundle\Entity\User $user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * Get user
+     *
+     * @return ActualSkill\SharedEntityBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set object
+     *
+     * @param ActualSkill\SharedEntityBundle\Entity\BaseEntity $object
+     */
+    public function setObject(\ActualSkill\SharedEntityBundle\Entity\BaseEntity $object)
+    {
+        $this->object = $object;
+    }
+
+    /**
+     * Get object
+     *
+     * @return ActualSkill\SharedEntityBundle\Entity\BaseEntity 
+     */
+    public function getObject()
+    {
+        return $this->object;
+    }
 }

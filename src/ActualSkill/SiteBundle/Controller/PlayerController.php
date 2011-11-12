@@ -38,26 +38,35 @@ class PlayerController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
 
-        $player = $em->getRepository('ActualSkillSharedEntityBundle:Player')->findOneBySlug($id);
+        $player = $this->getDoctrine()->getRepository('ActualSkillSharedEntityBundle:Player')->findOneBySlug($id);
 
         if (!$player) {
             throw $this->createNotFoundException('Unable to find Player entity.');
         }
         
         $repository = $this->getDoctrine()->getRepository('ActualSkillSharedEntityBundle:Category');
-        $categories[] = $repository->findOneBySlug("technical");
-        $categories[] = $repository->findOneBySlug("physical");
         
-        //= $repository->findBy(array('type' => 'player'));
+        $categories = array();
+        $categories = $repository->findByType("player");
         
-        //$repository = $this->getDoctrine()->getRepository('ActualSkillSharedEntityBundle:Attribute');
-        //$attributes = $repository->findAll();
+        /*
+        if(!is_null($categories)){
+            foreach ($categories as $category) {
+                //$category->calculateAverage($player);
+            }
+        }
+        */
+        
+        $repository = $this->getDoctrine()->getRepository('ActualSkillSharedEntityBundle:Attribute');
+        //$average = $repository->findAverageByObject($player);
+        
+        $ratings = $repository->findAllByRatings($player, $this->get('security.context')->getToken()->getUser());
         
         return array(
             'player'      => $player,
             'categories'  => $categories,
+            'userratings' => $ratings
         );
     }
 }

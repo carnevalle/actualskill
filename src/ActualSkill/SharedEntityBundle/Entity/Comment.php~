@@ -139,44 +139,4 @@ class Comment
     {
         return $this->object_id;
     }
-
-    /**
-     * Set user
-     *
-     * @param ActualSkill\SharedEntityBundle\Entity\BaseEntity $user
-     */
-    public function setUser(\ActualSkill\SharedEntityBundle\Entity\BaseEntity $user)
-    {
-        $this->user = $user;
-    }
-
-    /**
-     * Get user
-     *
-     * @return ActualSkill\SharedEntityBundle\Entity\BaseEntity 
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * Set object
-     *
-     * @param ActualSkill\SharedEntityBundle\Entity\BaseEntity $object
-     */
-    public function setObject(\ActualSkill\SharedEntityBundle\Entity\BaseEntity $object)
-    {
-        $this->object = $object;
-    }
-
-    /**
-     * Get object
-     *
-     * @return ActualSkill\SharedEntityBundle\Entity\BaseEntity 
-     */
-    public function getObject()
-    {
-        return $this->object;
-    }
 }

@@ -133,34 +133,4 @@ class User extends BaseUser
     {
         return $this->comments;
     }
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Add ratings
-     *
-     * @param ActualSkill\SharedEntityBundle\Entity\Rating $ratings
-     */
-    public function addRating(\ActualSkill\SharedEntityBundle\Entity\Rating $ratings)
-    {
-        $this->ratings[] = $ratings;
-    }
-
-    /**
-     * Add comments
-     *
-     * @param ActualSkill\SharedEntityBundle\Entity\Comment $comments
-     */
-    public function addComment(\ActualSkill\SharedEntityBundle\Entity\Comment $comments)
-    {
-        $this->comments[] = $comments;
-    }
 }

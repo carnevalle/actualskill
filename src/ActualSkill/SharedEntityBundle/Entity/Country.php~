@@ -443,24 +443,4 @@ class Country
     public function __toString() {
         return $this->country;
     }
-
-    /**
-     * Add players
-     *
-     * @param ActualSkill\SharedEntityBundle\Entity\Player $players
-     */
-    public function addPlayer(\ActualSkill\SharedEntityBundle\Entity\Player $players)
-    {
-        $this->players[] = $players;
-    }
-
-    /**
-     * Add clubs
-     *
-     * @param ActualSkill\SharedEntityBundle\Entity\Club $clubs
-     */
-    public function addClub(\ActualSkill\SharedEntityBundle\Entity\Club $clubs)
-    {
-        $this->clubs[] = $clubs;
-    }
 }
