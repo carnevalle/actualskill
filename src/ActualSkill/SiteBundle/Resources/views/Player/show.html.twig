@@ -12,15 +12,6 @@
     <div class="span-16">
         <h1>{{ player.fullname }} ({{player.age}} years)</h1>
         <h5>Height: {{player.height}} Weight: {{player.weight}} </h5>
-
-
-        {% for value in userratings %}
-            {% for val in value %}
-                {{ val }}
-            {% endfor %}
-            <br/>
-        {% endfor %}
-
     </div>
 </div>
 
@@ -48,18 +39,22 @@
                     {% for attribute in category.attributes %}
                         <div class="rating">
                           <ul>
-                            <li class="attribute"><span title="{{ attribute.description }}">{{ attribute.name }}</span></li>
-                            <li class="active"><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">6</a></li>
-                            <li><a href="#">7</a></li>
-                            <li><a href="#">8</a></li>
-                            <li><a href="#">9</a></li>
-                            <li><a href="#">10</a></li>
-                            <li class="totalrating"><span class="tooltip" title="You need to rate before you can see the average">?</span></li>
+                            <li class="attribute"><span title="{{ attribute.description }}">{{ attribute.name }} {{ attribute.numberOfRatings }}</span></li>
+                            
+                            {% for i in 1..10 %}
+                                {% if attribute.userRating == i %}
+                                <li class="active"><a href="#">{{ i }}</a></li>
+                                {% else %}
+                                <li><a href="#">{{ i }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if attribute.userRating != null %}
+                                <li class="totalrating"><span>{{ attribute.averageRating }}</span></li>
+                            {% else %}
+                                <li class="totalrating"><span class="tooltip" title="You need to rate before you can see the average">?</span></li>
+                            {% endif %}                            
+                            
                           </ul>
                         </div>
                     {% endfor %} 

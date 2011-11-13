@@ -50,6 +50,8 @@ class Attribute
     protected $ratings;
 
     private $average;
+    private $userRating;
+    private $numberOfRatings;
     
     public function __construct() {
         $this->ratings = new ArrayCollection();
@@ -65,11 +67,27 @@ class Attribute
         return $this->id;
     }
     
-    public function setAverage($average){
+    public function setUserRating($rating){
+        $this->userRating = $rating;
+    }
+    
+    public function getUserRating(){
+        return $this->userRating;
+    }    
+    
+    public function setNumberOfRatings($total){
+        $this->numberOfRatings = $total;
+    }    
+    
+    public function getNumberOfRatings(){
+        return $this->numberOfRatings;
+    }    
+    
+    public function setAverageRating($average){
         $this->average = $average;
     }
     
-    public function getAverage(){
+    public function getAverageRating(){
         return round($this->average, 2);
     }    
     

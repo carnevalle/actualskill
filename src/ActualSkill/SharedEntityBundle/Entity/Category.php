@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * ActualSkill\SharedEntityBundle\Entity\Category
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="ActualSkill\SharedEntityBundle\Repository\CategoryRepository")
  */
 class Category
 {
@@ -70,15 +70,6 @@ class Category
     
     public function getAverage(){
         return round($this->average, 2);
-    }
-    
-    public function getTest(){
-        $sum = 0;
-        foreach ($this->attributes as $attribute) {
-            $sum += count($attribute->getRatings());
-        }        
-        
-        return $sum;
     }
     
     /**
@@ -170,4 +161,8 @@ class Category
     {
         $this->attributes[] = $attributes;
     }
+    
+    public function __toString(){
+        return $this->name;
+    }    
 }

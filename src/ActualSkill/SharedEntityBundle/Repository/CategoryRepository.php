@@ -13,11 +13,40 @@ use Doctrine\ORM\EntityRepository;
 class CategoryRepository extends EntityRepository
 {
     
-    public function getAverageRating(\ActualSkill\SharedEntityBundle\Entity\Player $player){
+    public function findByTypeWithAverage($type, \ActualSkill\SharedEntityBundle\Entity\BaseEntity $object, \ActualSkill\SharedEntityBundle\Entity\User $user){
         
+        $categories = $this->findByType($type);
+        
+        $ratings = $this->getEntityManager()
+        ->createQuery('SELECT a, AVG(r.rating) as average, COUNT(r.rating) as total, (SELECT r2.rating FROM ActualSkillSharedEntityBundle:Rating r2 WHERE r2.object = ?1 AND r2.user = ?2 AND r2.attribute = a.id) as userrating FROM ActualSkillSharedEntityBundle:Attribute a JOIN a.ratings as r WHERE r.object = ?1 GROUP BY r.attribute')
+        ->setParameter(1, $object->getId())
+        ->setParameter(2, $user->getId())
+        ->getResult();
+        
+        
+        if(!is_null($categories)){
+            foreach ($categories as $category) {
+                foreach($category->getAttributes() as $attribute){
+                    foreach($ratings as $rating){
+                        if($attribute->getId() == $rating[0]->getId()){
+                            $attribute->setAverageRating($rating['average']);
+                            $attribute->setUserRating($rating['userrating']);
+                            $attribute->setNumberOfRatings($rating['total']);
+                        }
+                    }
+                }
+            }
+        }
+        
+        return $categories;        
+        
+        /*
         return $this->getEntityManager()
-            ->createQuery('SELECT AVG(r.rating) as average FROM ActualSkillSharedEntityBundle:Rating r WHERE r.object = ?1 GROUP BY r.attribute')
-            ->setParameter(1, $player->getId())
-            ->getResult();        
+        ->createQuery('SELECT a, AVG(r.rating) as average, COUNT(r.rating) as total, (SELECT r2.rating FROM ActualSkillSharedEntityBundle:Rating r2 WHERE r2.object = ?2 AND r2.user = ?3 AND r2.attribute = a.id) as userrating  FROM ActualSkillSharedEntityBundle:Category c, ActualSkillSharedEntityBundle:Attribute a JOIN a.ratings as r WHERE c.type = ?1 AND r.object = ?2 GROUP BY r.attribute')
+        ->setParameter(1, $type)
+        ->setParameter(2, $object->getId())
+        ->setParameter(3, $user->getId())
+        ->getResult();          
+        */
     }
 }

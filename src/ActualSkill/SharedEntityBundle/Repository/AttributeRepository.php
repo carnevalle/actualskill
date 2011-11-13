@@ -13,29 +13,12 @@ use Doctrine\ORM\EntityRepository;
 class AttributeRepository extends EntityRepository
 {
     
-    public function findAverageByObject(\ActualSkill\SharedEntityBundle\Entity\BaseEntity $object){
-        
-        
-        return $this->getEntityManager()
-            ->createQuery('SELECT a, AVG(r.rating) as average, COUNT(r.rating) as total FROM ActualSkillSharedEntityBundle:Attribute a JOIN a.ratings as r WHERE r.object = ?1 GROUP BY r.attribute')
-            ->setParameter(1, $object->getId())
-            ->getResult();        
-    }
-    
     public function findAllByRatings(\ActualSkill\SharedEntityBundle\Entity\BaseEntity $object, \ActualSkill\SharedEntityBundle\Entity\User $user){
         
-            return $this->getEntityManager()
-            ->createQuery('SELECT a, AVG(r.rating) as average, COUNT(r.rating) as total, (SELECT r2.rating FROM ActualSkillSharedEntityBundle:Rating r2 WHERE r2.object = ?1 AND r2.user = ?2 AND r2.attribute = a.id) as userrating FROM ActualSkillSharedEntityBundle:Attribute a JOIN a.ratings as r WHERE r.object = ?1 GROUP BY r.attribute')
-            ->setParameter(1, $object->getId())
-            ->setParameter(2, $user->getId())
-            ->getResult();                 
-        
-        /*
         return $this->getEntityManager()
-            ->createQuery('SELECT a, r.rating FROM ActualSkillSharedEntityBundle:Attribute a JOIN a.ratings as r WHERE r.object = ?1 AND r.user = ?2 GROUP BY r.attribute')
-            ->setParameter(1, $object->getId())
-            ->setParameter(2, $user->getId())
-            ->getResult();         
-        */
+        ->createQuery('SELECT a, AVG(r.rating) as average, COUNT(r.rating) as total, (SELECT r2.rating FROM ActualSkillSharedEntityBundle:Rating r2 WHERE r2.object = ?1 AND r2.user = ?2 AND r2.attribute = a.id) as userrating FROM ActualSkillSharedEntityBundle:Attribute a JOIN a.ratings as r WHERE r.object = ?1 GROUP BY r.attribute')
+        ->setParameter(1, $object->getId())
+        ->setParameter(2, $user->getId())
+        ->getResult();                 
     }
 }

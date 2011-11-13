@@ -48,25 +48,11 @@ class PlayerController extends Controller
         $repository = $this->getDoctrine()->getRepository('ActualSkillSharedEntityBundle:Category');
         
         $categories = array();
-        $categories = $repository->findByType("player");
-        
-        /*
-        if(!is_null($categories)){
-            foreach ($categories as $category) {
-                //$category->calculateAverage($player);
-            }
-        }
-        */
-        
-        $repository = $this->getDoctrine()->getRepository('ActualSkillSharedEntityBundle:Attribute');
-        //$average = $repository->findAverageByObject($player);
-        
-        $ratings = $repository->findAllByRatings($player, $this->get('security.context')->getToken()->getUser());
+        $categories = $repository->findByTypeWithAverage("player", $player, $this->get('security.context')->getToken()->getUser());
         
         return array(
             'player'      => $player,
             'categories'  => $categories,
-            'userratings' => $ratings
         );
     }
 }
