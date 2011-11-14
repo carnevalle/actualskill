@@ -43,10 +43,13 @@
   width: 35px;
   text-align: center;
   color: #ffffff;
-  background-color: #02435e;
+  background-color: #0378a9;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
+}
+.rating .totalrating.secret span {
+  background-color: #000000;
 }
 .rating .disabled a, .rating .disabled a:hover {
   background-color: transparent;

@@ -59,6 +59,12 @@ class RatingController extends Controller
         $em->persist($rating);
         $em->flush();
         
-        return new Response($entity->getName()." rated ".$rating->getRating().' in '.$attribute->getName().' user: '.$user->getUsername());
+        $repository = $this->getDoctrine()->getRepository('ActualSkillSharedEntityBundle:Attribute');
+        $result = $repository->findBySlugWithRating($attribute_slug, $entity, $this->get('security.context')->getToken()->getUser());
+        
+        //print_r($attribute[0]->getSlug());
+        
+        
+        return new Response( '{ "id" : '.$result[0][0]->getId().', "slug" : "'.$result[0][0]->getSlug().'", "average" : '.$result[0]['average'].' }' );
     }
 }

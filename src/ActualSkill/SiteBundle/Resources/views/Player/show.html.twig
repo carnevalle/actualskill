@@ -1,5 +1,49 @@
 {% extends 'ActualSkillSiteBundle::base.html.twig' %}
 
+{% block header %}
+<script language="javascript"> 
+    $(document).ready(function() {
+        $('.rateclick').bind('click', function() {
+            
+            var attribute = this.id.split("_")[0];
+            var id = this.id.split("_")[1];
+            var value = $(this).find('a').html();
+
+            $(this).parent().find('.rateclick').removeClass('active');
+
+            $.post("/web/app_dev.php/rate/{{player.slug}}/"+attribute+"/"+value, function(data) {
+               // first success
+                data = jQuery.parseJSON(data);
+            })
+            .success(function(data) {
+                data = jQuery.parseJSON(data);
+
+                var el = $("#"+data.slug+"_"+data.id).parent().find(".totalrating span");
+                //el.html(data.average);
+                
+                el.fadeOut('fast', function() {
+                    $(this).parent().removeClass('secret');
+                    $(this).html(data.average);
+                    $(this).fadeIn('fast');
+                });
+
+
+                //$("#"+data.slug+"_"+data.id).parent().find(".totalrating span").html(data.average)
+            })
+            .error(function() {})
+            .complete(function() {
+               
+            });
+
+            
+            $(this).addClass('active');
+
+            return false;
+        });
+    });
+</script> 
+{% endblock %}
+
 {% block breadcrumb %}
     <li><a href="{{ path('_welcome') }}">Home</a> <span class="divider">/</span></li>
     <li><a href="{{ path('site_clubs') }}">Clubs</a> <span class="divider">/</span></li>
@@ -36,28 +80,30 @@
                     <div id="{{category.slug}}">
                 {% endif %}
 
+                    
                     {% for attribute in category.attributes %}
                         <div class="rating">
                           <ul>
                             <li class="attribute"><span title="{{ attribute.description }}">{{ attribute.name }} {{ attribute.numberOfRatings }}</span></li>
-                            
+
                             {% for i in 1..10 %}
                                 {% if attribute.userRating == i %}
-                                <li class="active"><a href="#">{{ i }}</a></li>
+                                <li id="{{attribute.slug}}_{{attribute.id}}" class="active rateclick"><a href="#">{{ i }}</a></li>
                                 {% else %}
-                                <li><a href="#">{{ i }}</a></li>
+                                <li id="{{attribute.slug}}_{{attribute.id}}" class="rateclick"><a href="#">{{ i }}</a></li>
                                 {% endif %}
                             {% endfor %}
 
                             {% if attribute.userRating != null %}
-                                <li class="totalrating"><span>{{ attribute.averageRating }}</span></li>
+                                <li class="totalrating "><span>{{ attribute.averageRating }}</span></li>
                             {% else %}
-                                <li class="totalrating"><span class="tooltip" title="You need to rate before you can see the average">?</span></li>
+                                <li class="totalrating secret"><span class="tooltip" title="You need to rate before you can see the average">?</span></li>
                             {% endif %}                            
                             
                           </ul>
                         </div>
                     {% endfor %} 
+
                 </div>
             {% endfor %}
         </div>           

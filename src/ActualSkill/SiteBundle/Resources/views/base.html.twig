@@ -3,6 +3,15 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>{% block title %}ActualSkill{% endblock %}</title>
+
+        {% stylesheets 
+            '@ActualSkillSiteBundle/Resources/public/css/*'
+            '@ActualSkillSharedEntityBundle/Resources/public/css/*'
+            output='css/styles.css'%}
+
+            <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+
+        {% endstylesheets %}
         
         <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
         <!--[if lt IE 9]>
@@ -18,15 +27,10 @@
         <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
 
-        <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.3.0/bootstrap.min.css">
+        {% block header %}
 
-        {% stylesheets 
-            '@ActualSkillSiteBundle/Resources/public/css/*'
-            output='css/styles.css'%}
+        {% endblock %}
 
-            <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
-
-        {% endstylesheets %}
         <style type="text/css">
           body {
             padding-top: 60px;
@@ -91,7 +95,7 @@
 
             <div class="row">
                 <div class="span-16">
-                   {% block header %}
+                   {% block top %}
                     
                     {% endblock %}
                 </div>

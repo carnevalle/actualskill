@@ -21,4 +21,13 @@ class AttributeRepository extends EntityRepository
         ->setParameter(2, $user->getId())
         ->getResult();                 
     }
+    
+    public function findBySlugWithRating($attribute_slug, \ActualSkill\SharedEntityBundle\Entity\BaseEntity $object, \ActualSkill\SharedEntityBundle\Entity\User $user){
+        
+        return $this->getEntityManager()
+        ->createQuery('SELECT a, AVG(r.rating) as average, COUNT(r.rating) as total FROM ActualSkillSharedEntityBundle:Attribute a JOIN a.ratings as r WHERE a.slug = ?1 AND r.object = ?2')
+        ->setParameter(1, $attribute_slug)
+        ->setParameter(2, $object->getId())
+        ->getResult();                
+    }    
 }
