@@ -84,7 +84,7 @@ class PlayerController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('admin_player_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('admin_player_show', array('id' => $entity->getSlug())));
             
         }
 

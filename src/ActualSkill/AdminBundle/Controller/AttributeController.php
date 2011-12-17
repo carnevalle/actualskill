@@ -187,7 +187,7 @@ class AttributeController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('attribute'));
+        return $this->redirect($this->generateUrl('admin_attributes'));
     }
 
     private function createDeleteForm($id)

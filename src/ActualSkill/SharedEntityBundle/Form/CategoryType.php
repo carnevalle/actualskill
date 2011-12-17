@@ -14,6 +14,8 @@ class CategoryType extends AbstractType
             ->add('type')
             ->add('attributes')
         ;
+        
+        $builder->get('attributes')->setRequired(false);
     }
 
     public function getName()

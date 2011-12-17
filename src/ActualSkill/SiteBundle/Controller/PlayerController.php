@@ -38,7 +38,6 @@ class PlayerController extends Controller
      */
     public function showAction($id)
     {
-
         $player = $this->getDoctrine()->getRepository('ActualSkillSharedEntityBundle:Player')->findOneBySlug($id);
 
         if (!$player) {

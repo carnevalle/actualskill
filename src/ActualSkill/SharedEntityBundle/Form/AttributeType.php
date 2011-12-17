@@ -13,6 +13,8 @@ class AttributeType extends AbstractType
             ->add('name')
             ->add('description')
         ;
+        
+        $builder->get('description')->setRequired(false);
     }
 
     public function getName()

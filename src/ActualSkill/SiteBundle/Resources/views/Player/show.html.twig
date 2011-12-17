@@ -1,5 +1,17 @@
 {% extends 'ActualSkillSiteBundle::base.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+    
+    {% javascripts
+        '@ActualSkillSharedEntityBundle/Resources/public/js/highcharts/highcharts.js'
+    %}    
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    
+
+{% endblock %}
+
 {% block header %}
 <script language="javascript"> 
     $(document).ready(function() {
@@ -41,6 +53,68 @@
             return false;
         });
     });
+
+var chart;
+$(document).ready(function() {
+   chart = new Highcharts.Chart({
+      chart: {
+         renderTo: 'chart',
+         defaultSeriesType: 'line',
+         marginRight: 0,
+         marginBottom: 25,
+         height: 250,
+         width: 600
+      },
+      title: {
+         text: 'Player development',
+         x: -20 //center
+      },
+      subtitle: {
+         text: '',
+         x: -20
+      },
+      xAxis: {
+         categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+      },
+      yAxis: {
+         title: {
+            text: 'Rating'
+         },
+         plotLines: [{
+            value: 0,
+            width: 1,
+            color: '#808080'
+         }]
+      },
+      tooltip: {
+         formatter: function() {
+                   return '<b>'+ this.series.name +'</b><br/>'+
+               this.x +': '+ this.y + ' average';
+         }
+      },
+      legend: {
+         layout: 'vertical',
+         align: 'right',
+         verticalAlign: 'top',
+         x: 100,
+         y: 100,
+         borderWidth: 0
+      },
+      series: [{
+         name: 'Technical',
+         data: [7.0, 6.9, 7, 7, 7.1, 7.2, 7.2, 7.1, 7.4, 7.6, 7.2, 6.5]
+      }, {
+         name: 'Physical',
+         data: [2.0, 2.9, 2, 2, 3.1, 3.2, 3.5, 4.1, 4.4, 4.6, 5.2, 6.5]
+      }, {
+         name: 'Mentality',
+         data: [4.0, 4.3, 4.3, 5, 4.8, 5.2, 5, 5, 5, 5.5, 6, 7]
+      }]
+   });
+   
+   
+});
+
 </script> 
 {% endblock %}
 
@@ -62,9 +136,10 @@
 <div class="row">
     <div class="span-16">
         <ul class="tabs">
+            <li class="active"><a href="#chart">Development</a></li>
             {% for category in categories %}
                 {% if category.slug == "technical" %}
-                    <li class="active"><a href="#{{category.slug}}">{{category.name}}</a></li>
+                    <li><a href="#{{category.slug}}">{{category.name}}</a></li>
                 {% else %}
                     <li><a href="#{{category.slug}}">{{category.name}}</a></li>
                 {% endif %}
@@ -72,10 +147,11 @@
         </ul>
 
         <div class="tab-content">
+            <div id="chart" class="active"></div>
             {% for category in categories %}
 
                 {% if category.slug == "technical" %}
-                    <div id="{{category.slug}}" class="active">
+                    <div id="{{category.slug}}">
                 {% else %}
                     <div id="{{category.slug}}">
                 {% endif %}
@@ -84,7 +160,7 @@
                     {% for attribute in category.attributes %}
                         <div class="rating">
                           <ul>
-                            <li class="attribute"><span title="{{ attribute.description }}">{{ attribute.name }} {{ attribute.numberOfRatings }}</span></li>
+                            <li class="attribute"><span title="{{ attribute.description }}">{{ attribute.name }}</span></li>
 
                             {% for i in 1..10 %}
                                 {% if attribute.userRating == i %}
@@ -94,11 +170,7 @@
                                 {% endif %}
                             {% endfor %}
 
-                            {% if attribute.userRating != null %}
-                                <li class="totalrating "><span>{{ attribute.averageRating }}</span></li>
-                            {% else %}
-                                <li class="totalrating secret"><span class="tooltip" title="You need to rate before you can see the average">?</span></li>
-                            {% endif %}                            
+                            <li class="totalrating" title="{{ attribute.numberOfRatings }}"><span>{{ attribute.averageRating }}</span></li>
                             
                           </ul>
                         </div>

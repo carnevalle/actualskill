@@ -21,6 +21,11 @@ class PlayerType extends AbstractType
             ->add('country')
             ->add('isGoalkeeper')
         ;
+        
+        $builder->get('name')->setRequired(false);
+        $builder->get('nickname')->setRequired(false);
+        $builder->get('twitter')->setRequired(false);
+        $builder->get('isGoalkeeper')->setRequired(false);
     }
 
     public function getName()

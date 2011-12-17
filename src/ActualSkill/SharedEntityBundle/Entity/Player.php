@@ -32,14 +32,14 @@ class Player extends BaseEntity
     /**
      * @var string $nickmane
      *
-     * @ORM\Column(name="nickname", type="string", length=255)
+     * @ORM\Column(name="nickname", type="string", length=255, nullable=true)
      */
     private $nickname;  
 
     /**
      * @var string $twitter
      *
-     * @ORM\Column(name="twitter", type="string", length=255)
+     * @ORM\Column(name="twitter", type="string", length=255, nullable=true)
      */
     private $twitter;     
     

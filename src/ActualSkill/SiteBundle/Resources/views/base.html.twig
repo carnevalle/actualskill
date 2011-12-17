@@ -4,28 +4,39 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>{% block title %}ActualSkill{% endblock %}</title>
 
-        {% stylesheets 
-            '@ActualSkillSiteBundle/Resources/public/css/*'
-            '@ActualSkillSharedEntityBundle/Resources/public/css/*'
-            output='css/styles.css'%}
+        {% block stylesheets %}
+            {% stylesheets 
+                '@ActualSkillSiteBundle/Resources/public/css/*'
+                '@ActualSkillSharedEntityBundle/Resources/public/css/*'
+                output='css/styles.css'%}
 
-            <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+                <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
 
-        {% endstylesheets %}
+            {% endstylesheets %}
+        {% endblock %}        
         
-        <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
-        <!--[if lt IE 9]>
-          <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
+        {% block javascripts %} 
 
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/jquery-ui.min.js"></script>
-         
-        {% javascripts
-            '@ActualSkillSiteBundle/Resources/public/bootstrap/js/*'
-        %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}
+            <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+            <!--[if lt IE 9]>
+              <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+            <![endif]-->
+
+            <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+            <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/jquery-ui.min.js"></script>
+
+            {% javascripts
+                '@ActualSkillSiteBundle/Resources/public/bootstrap/js/bootstrap-modal.js'
+                '@ActualSkillSiteBundle/Resources/public/bootstrap/js/bootstrap-alerts.js'
+                '@ActualSkillSiteBundle/Resources/public/bootstrap/js/bootstrap-dropdown.js'
+                '@ActualSkillSiteBundle/Resources/public/bootstrap/js/bootstrap-scrollspy.js'
+                '@ActualSkillSiteBundle/Resources/public/bootstrap/js/bootstrap-tabs.js'
+                '@ActualSkillSiteBundle/Resources/public/bootstrap/js/bootstrap-twipsy.js'
+                '@ActualSkillSiteBundle/Resources/public/bootstrap/js/bootstrap-popover.js'
+            %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endblock %}
 
         {% block header %}
 

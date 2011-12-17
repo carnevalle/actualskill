@@ -2,9 +2,9 @@
 
 {% block body %}
 
-
+<ul>
 {% for player in players %}
-    <a href="{{ path('player_show', { 'id': player.slug }) }}">{{ player.fullname }}</a>
+    <li><a href="{{ path('player_show', { 'id': player.slug }) }}">{{ player.fullname }}</a></li>
 {% endfor %}
-
+</ul>
 {% endblock %}
