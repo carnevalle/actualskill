@@ -55,7 +55,7 @@ class ClubController extends Controller
     /**
      * Displays a form to create a new Club entity.
      *
-     * @Route("/admin/new", name="club_new")
+     * @Route("/admin/club/new", name="club_new")
      * @Template()
      */
     public function newAction()
@@ -72,7 +72,7 @@ class ClubController extends Controller
     /**
      * Creates a new Club entity.
      *
-     * @Route("/admin/create", name="club_create")
+     * @Route("/admin/club/create", name="club_create")
      * @Method("post")
      * @Template("ActualSkillSharedEntityBundle:Club:new.html.twig")
      */

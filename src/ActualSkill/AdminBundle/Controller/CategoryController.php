@@ -72,7 +72,7 @@ class CategoryController extends Controller
     /**
      * Creates a new Category entity.
      *
-     * @Route("/admin/create", name="admin_category_create")
+     * @Route("/admin/catgory/create", name="admin_category_create")
      * @Method("post")
      * @Template("ActualSkillAdminBundle:Category:new.html.twig")
      */
@@ -101,7 +101,7 @@ class CategoryController extends Controller
     /**
      * Displays a form to edit an existing Category entity.
      *
-     * @Route("/admin/{id}/edit", name="admin_category_edit")
+     * @Route("/admin/category/{id}/edit", name="admin_category_edit")
      * @Template()
      */
     public function editAction($id)
@@ -127,7 +127,7 @@ class CategoryController extends Controller
     /**
      * Edits an existing Category entity.
      *
-     * @Route("/admin/{id}/update", name="admin_category_update")
+     * @Route("/admin/category/{id}/update", name="admin_category_update")
      * @Method("post")
      * @Template("ActualSkillAdminBundle:Category:edit.html.twig")
      */
@@ -165,7 +165,7 @@ class CategoryController extends Controller
     /**
      * Deletes a Category entity.
      *
-     * @Route("/admin/{id}/delete", name="admin_category_delete")
+     * @Route("/admin/category/{id}/delete", name="admin_category_delete")
      * @Method("post")
      */
     public function deleteAction($id)
