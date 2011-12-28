@@ -21,6 +21,20 @@ class User extends BaseUser
     protected $id;
 
     /**
+     * @var string $firstname
+     *
+     * @ORM\Column(name="firstname", type="string", length=255)
+     */
+    private $firstname;
+    
+    /**
+     * @var string $lastname
+     *
+     * @ORM\Column(name="lastname", type="string", length=255)
+     */
+    private $lastname;    
+    
+    /**
      *
      * @ORM\ManyToOne(targetEntity="Country")
      * @ORM\JoinColumn(name="country_id", referencedColumnName="id")
@@ -74,6 +88,26 @@ class User extends BaseUser
         return $this->nationality;
     }
 
+    public function getFirstname()
+    {
+        return $this->firstname;
+    }    
+
+    public function setFirstname($firstname)
+    {
+        $this->firstname = $firstname;
+    }    
+    
+    public function getLastname()
+    {
+        return $this->firstname;
+    }    
+    
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
+    }  
+    
     /**
      * Set club
      *
