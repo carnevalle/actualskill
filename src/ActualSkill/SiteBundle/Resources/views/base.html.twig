@@ -7,6 +7,7 @@
         {% block stylesheets %}
             {% stylesheets 
                 '@ActualSkillSiteBundle/Resources/public/css/*'
+                '@ActualSkillSiteBundle/Resources/public/js/libs/jgrowl/jquery.jgrowl.css'
                 output='css/styles.css'%}
 
                 <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
@@ -34,6 +35,7 @@
                 '@ActualSkillSiteBundle/Resources/public/bootstrap/js/bootstrap-tabs.js'
                 '@ActualSkillSiteBundle/Resources/public/bootstrap/js/bootstrap-twipsy.js'
                 '@ActualSkillSiteBundle/Resources/public/bootstrap/js/bootstrap-popover.js'
+                '@ActualSkillSiteBundle/Resources/public/js/libs/jgrowl/jquery.jgrowl_minimized.js'
             %}
             <script type="text/javascript" src="{{ asset_url }}"></script>
             {% endjavascripts %}

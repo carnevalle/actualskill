@@ -15,6 +15,7 @@
 {% block header %}
 <script language="javascript"> 
     $(document).ready(function() {
+
         $('.rateclick').bind('click', function() {
             
             var attribute = this.id.split("_")[0];
@@ -39,6 +40,7 @@
                     $(this).fadeIn('fast');
                 });
 
+                $.jGrowl("Rated player", { life: 1000 });
 
                 //$("#"+data.slug+"_"+data.id).parent().find(".totalrating span").html(data.average)
             })
