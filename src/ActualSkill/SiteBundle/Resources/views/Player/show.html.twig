@@ -147,7 +147,10 @@ $(document).ready(function() {
         </ul>
 
         <div class="tab-content">
-            <div id="chart" class="active"></div>
+            <div id="chart" class="active">
+                <div id="chart"></div>
+                Dummy data
+            </div>
             {% for category in categories %}
 
                 {% if category.slug == "technical" %}
