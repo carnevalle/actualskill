@@ -23,7 +23,7 @@
 
             $(this).parent().find('.rateclick').removeClass('active');
 
-            $.post("/web/app_dev.php/rate/{{player.slug}}/"+attribute+"/"+value, function(data) {
+            $.post("/rate/{{player.slug}}/"+attribute+"/"+value, function(data) {
                // first success
                 data = jQuery.parseJSON(data);
             })
