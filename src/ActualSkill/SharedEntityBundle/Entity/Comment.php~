@@ -33,8 +33,8 @@ class Comment
      *
      * @ORM\Column(name="comment", type="text")
      */
-    private $comment;
-
+    private $comment;    
+    
     /**
      *
      * @ORM\ManyToOne(targetEntity="BaseEntity", inversedBy="comments")
@@ -49,6 +49,16 @@ class Comment
      */
     private $object;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Comment", inversedBy="children")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
+     */
+    private $parent;    
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="parent")
+     */
+    private $children;    
 
     /**
      * Get id
@@ -138,5 +148,45 @@ class Comment
     public function getObjectId()
     {
         return $this->object_id;
+    }
+
+    /**
+     * Set user
+     *
+     * @param ActualSkill\SharedEntityBundle\Entity\BaseEntity $user
+     */
+    public function setUser(\ActualSkill\SharedEntityBundle\Entity\BaseEntity $user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * Get user
+     *
+     * @return ActualSkill\SharedEntityBundle\Entity\BaseEntity 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set object
+     *
+     * @param ActualSkill\SharedEntityBundle\Entity\BaseEntity $object
+     */
+    public function setObject(\ActualSkill\SharedEntityBundle\Entity\BaseEntity $object)
+    {
+        $this->object = $object;
+    }
+
+    /**
+     * Get object
+     *
+     * @return ActualSkill\SharedEntityBundle\Entity\BaseEntity 
+     */
+    public function getObject()
+    {
+        return $this->object;
     }
 }

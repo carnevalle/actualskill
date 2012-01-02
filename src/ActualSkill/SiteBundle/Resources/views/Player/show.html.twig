@@ -5,6 +5,7 @@
     
     {% javascripts
         '@ActualSkillSharedEntityBundle/Resources/public/js/highcharts/highcharts.js'
+        '@ActualSkillSharedEntityBundle/Resources/public/js/jquery.autogrowtextarea.js'
     %}    
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -15,6 +16,36 @@
 {% block header %}
 <script language="javascript"> 
     $(document).ready(function() {
+        $(".autogrow").autogrow({
+            
+        });
+        
+        
+        $('.btncomment').click(function() {  
+            var textarea = $(this).siblings('textarea');
+            var comment = textarea.val();
+
+            if(jQuery.trim( comment ) == ""){
+                console.log("no input. Forget about it!");
+                return;
+            }
+
+            var dataString = 'comment='+comment;  
+            $.post("http://actualskill.dev/app_dev.php/comment/create/{{player.slug}}", dataString, function(data) {
+               // first success
+            })
+            .success(function(data) {
+                data = jQuery.parseJSON(data);
+                console.log(data);
+                $("#comments").prepend(data.comment);
+                textarea.val("");
+                textarea.blur();
+            })
+            .error(function() {})
+            .complete(function() {});
+
+            return false;
+        });
 
         $('.rateclick').bind('click', function() {
             
@@ -58,6 +89,8 @@
 
 var chart;
 $(document).ready(function() {
+
+/*
    chart = new Highcharts.Chart({
       chart: {
          renderTo: 'chart',
@@ -113,7 +146,7 @@ $(document).ready(function() {
          data: [4.0, 4.3, 4.3, 5, 4.8, 5.2, 5, 5, 5, 5.5, 6, 7]
       }]
    });
-   
+*/
    
 });
 
@@ -138,7 +171,6 @@ $(document).ready(function() {
 <div class="row">
     <div class="span-16">
         <ul class="tabs">
-            <li class="active"><a href="#chart">Development</a></li>
             {% for category in categories %}
                 {% if category.slug == "technical" %}
                     <li><a href="#{{category.slug}}">{{category.name}}</a></li>
@@ -149,15 +181,10 @@ $(document).ready(function() {
         </ul>
 
         <div class="tab-content">
-            <div class="active">
-                Dummy data
-                <div id="chart"></div>
-                
-            </div>
             {% for category in categories %}
 
                 {% if category.slug == "technical" %}
-                    <div id="{{category.slug}}">
+                    <div id="{{category.slug}}" class="active">
                 {% else %}
                     <div id="{{category.slug}}">
                 {% endif %}
@@ -188,6 +215,35 @@ $(document).ready(function() {
     </div>
 </div>
     
+<div class="row">
+    <h2>Comments</h2>
+
+    post
+<form action="http://actualskill.dev/app_dev.php/comment/create/{{player.slug}}" method="post">
+    <textarea class="xxlarge" name="comment" rows="1" style="resize:none"></textarea>
+    <input type="submit" class="btn primary" value="Submit"/>
+</form>
+    
+    
+    <div>
+    <textarea class="xxlarge autogrow" name="comment" rows="1" style="resize:none"></textarea>
+    <input type="submit" class="btn primary btncomment" value="Submit"/>
+    </div>  
+
+    <div>
+    <textarea class="xxlarge autogrow" name="comment" rows="1" style="resize:none"></textarea>
+    <input type="submit" class="btn primary btncomment" value="Submit"/>
+    </div>
+
+    <div id="comments">
+    {% for comment in player.comments %}
+        {{comment.comment}} <br />
+    {% endfor %}
+    </div>
+    
+
+</div>
+
   <script>
     $(function () {
       $(".attribute span").twipsy({

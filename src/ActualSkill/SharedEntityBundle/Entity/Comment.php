@@ -24,7 +24,7 @@ class Comment
     /**
      * @var datetime $created_at
      *
-     * @ORM\Column(name="created_at", type="datetime")
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     private $created_at;
 
@@ -33,11 +33,11 @@ class Comment
      *
      * @ORM\Column(name="comment", type="text")
      */
-    private $comment;
-
+    private $comment;    
+    
     /**
      *
-     * @ORM\ManyToOne(targetEntity="BaseEntity", inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="comments")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
@@ -49,6 +49,16 @@ class Comment
      */
     private $object;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Comment", inversedBy="children")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
+     */
+    private $parent;    
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="parent")
+     */
+    private $children;    
 
     /**
      * Get id
@@ -143,9 +153,9 @@ class Comment
     /**
      * Set user
      *
-     * @param ActualSkill\SharedEntityBundle\Entity\BaseEntity $user
+     * @param ActualSkill\SharedEntityBundle\Entity\User $user
      */
-    public function setUser(\ActualSkill\SharedEntityBundle\Entity\BaseEntity $user)
+    public function setUser(\ActualSkill\SharedEntityBundle\Entity\User $user)
     {
         $this->user = $user;
     }
@@ -178,5 +188,49 @@ class Comment
     public function getObject()
     {
         return $this->object;
+    }
+    public function __construct()
+    {
+        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Set parent
+     *
+     * @param ActualSkill\SharedEntityBundle\Entity\Comment $parent
+     */
+    public function setParent(\ActualSkill\SharedEntityBundle\Entity\Comment $parent)
+    {
+        $this->parent = $parent;
+    }
+
+    /**
+     * Get parent
+     *
+     * @return ActualSkill\SharedEntityBundle\Entity\Comment 
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Add children
+     *
+     * @param ActualSkill\SharedEntityBundle\Entity\Comment $children
+     */
+    public function addComment(\ActualSkill\SharedEntityBundle\Entity\Comment $children)
+    {
+        $this->children[] = $children;
+    }
+
+    /**
+     * Get children
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getChildren()
+    {
+        return $this->children;
     }
 }

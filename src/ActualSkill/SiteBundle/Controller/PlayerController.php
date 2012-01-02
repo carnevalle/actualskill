@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use ActualSkill\SharedEntityBundle\Entity\Player;
 use ActualSkill\SiteBundle\Form\PlayerType;
+use ActualSkill\SharedEntityBundle\Entity\Comment;
 
 /**
  * Player controller.
@@ -39,7 +40,7 @@ class PlayerController extends Controller
     public function showAction($id)
     {
         $player = $this->getDoctrine()->getRepository('ActualSkillSharedEntityBundle:Player')->findOneBySlug($id);
-
+        
         if (!$player) {
             throw $this->createNotFoundException('Unable to find Player entity.');
         }

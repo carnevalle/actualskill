@@ -197,4 +197,8 @@ class User extends BaseUser
     {
         $this->comments[] = $comments;
     }
+    
+    public function __toString() {
+        return $this->firstname." ".$this->lastname;
+    }    
 }
