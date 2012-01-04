@@ -115,13 +115,13 @@ class Country
 
     /**
      *
-     * @ORM\OneToMany(targetEntity="Player", mappedBy="country_id")
+     * @ORM\OneToMany(targetEntity="Player", mappedBy="country")
      */    
     private $players;
     
     /**
      *
-     * @ORM\OneToMany(targetEntity="Club", mappedBy="country_id")
+     * @ORM\OneToMany(targetEntity="Club", mappedBy="country")
      */    
     private $clubs;
 

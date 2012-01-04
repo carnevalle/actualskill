@@ -25,8 +25,8 @@
             var textarea = $(this).siblings('textarea');
             var comment = textarea.val();
 
+            // If comment is empty. Abandon!
             if(jQuery.trim( comment ) == ""){
-                console.log("no input. Forget about it!");
                 return;
             }
 
@@ -165,6 +165,7 @@ $(document).ready(function() {
     <div class="span-16">
         <h1>{{ player.fullname }} ({{player.age}} years)</h1>
         <h5>Height: {{player.height}} Weight: {{player.weight}} </h5>
+        <h5>Club: {{player.club}} </h5>
     </div>
 </div>
 

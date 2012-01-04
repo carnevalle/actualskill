@@ -31,10 +31,15 @@ class Club extends BaseEntity
     
     /**
      *
+     * @ORM\OneToMany(targetEntity="Player", mappedBy="club")
+     */    
+    private $players;    
+    
+    /**
+     *
      * @ORM\ManyToOne(targetEntity="Stadium", inversedBy="clubs")
      * @ORM\JoinColumn(name="stadium_id", referencedColumnName="id")
      */
-    
     protected $stadium;    
     
     public function __construct() {
@@ -85,6 +90,26 @@ class Club extends BaseEntity
         return $this->country;
     }
 
+    /**
+     * Set players
+     *
+     * @param ActualSkill\SharedEntityBundle\Entity\Player $player
+     */
+    public function setPlayers(\ActualSkill\SharedEntityBundle\Entity\Player $players)
+    {
+        $this->players = $players;
+    }
+
+    /**
+     * Get player
+     *
+     * @return ActualSkill\SharedEntityBundle\Entity\Player 
+     */
+    public function getPlayers()
+    {
+        return $this->players;
+    }    
+    
     /**
      * Set stadium
      *

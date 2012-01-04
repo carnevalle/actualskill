@@ -46,10 +46,8 @@ class ClubController extends Controller
             throw $this->createNotFoundException('Unable to find Club entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
-
         return array(
-            'club'      => $club,
-            'delete_form' => $deleteForm->createView(),        );
+            'club'  => $club,
+        );
     }
 }

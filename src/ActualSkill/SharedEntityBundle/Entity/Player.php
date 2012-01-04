@@ -73,6 +73,13 @@ class Player extends BaseEntity
     
     /**
      *
+     * @ORM\ManyToOne(targetEntity="Club", inversedBy="players")
+     * @ORM\JoinColumn(name="club_id", referencedColumnName="id")
+     */
+    protected $club;      
+    
+    /**
+     *
      * @ORM\ManyToOne(targetEntity="Country", inversedBy="players")
      * @ORM\JoinColumn(name="country_id", referencedColumnName="id")
      */
@@ -161,6 +168,26 @@ class Player extends BaseEntity
         return $this->lastname;
     }
 
+    /**
+     * Set country
+     *
+     * @param ActualSkill\SharedEntityBundle\Entity\Club $country
+     */
+    public function setClub(\ActualSkill\SharedEntityBundle\Entity\Club $club)
+    {
+        $this->club = $club;
+    }
+
+    /**
+     * Get country
+     *
+     * @return ActualSkill\SharedEntityBundle\Entity\Club 
+     */
+    public function getClub()
+    {
+        return $this->club;
+    }    
+    
     /**
      * Set country
      *

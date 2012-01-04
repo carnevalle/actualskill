@@ -6,8 +6,9 @@
 
         {% block stylesheets %}
             {% stylesheets 
-                '@ActualSkillSiteBundle/Resources/public/css/*'
+                '@ActualSkillSiteBundle/Resources/public/css/site.css'
                 '@ActualSkillSiteBundle/Resources/public/js/libs/jgrowl/jquery.jgrowl.css'
+                output='css/site.css'
             %}
             
             <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
@@ -25,7 +26,7 @@
             <![endif]-->
 
             <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-            <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/jquery-ui.min.js"></script>
+            <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
 
             {% javascripts
                 '@ActualSkillSiteBundle/Resources/public/bootstrap/js/bootstrap-modal.js'
@@ -36,6 +37,7 @@
                 '@ActualSkillSiteBundle/Resources/public/bootstrap/js/bootstrap-twipsy.js'
                 '@ActualSkillSiteBundle/Resources/public/bootstrap/js/bootstrap-popover.js'
                 '@ActualSkillSiteBundle/Resources/public/js/libs/jgrowl/jquery.jgrowl_minimized.js'
+                output='css/site.js'
             %}
             <script type="text/javascript" src="{{ asset_url }}"></script>
             {% endjavascripts %}

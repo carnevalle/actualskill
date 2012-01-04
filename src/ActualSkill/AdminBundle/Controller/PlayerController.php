@@ -166,7 +166,7 @@ class PlayerController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('admin_player_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('admin_player_edit', array('id' => $entity->getSlug())));
         }
 
         return array(
@@ -201,7 +201,7 @@ class PlayerController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('admin_player'));
+        return $this->redirect($this->generateUrl('admin_players'));
     }
 
     private function createDeleteForm($id)

@@ -17,4 +17,12 @@
         </tr>
     </tbody>
 </table>
+
+<h2>Players</h2>
+<ul>
+{% for player in club.players %}
+    <li><a href="{{ path('player_show', { 'id': player.slug }) }}">{{ player.fullname }}</a></li>
+{% endfor %}
+</ul>
+
 {% endblock %}

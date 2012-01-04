@@ -24,7 +24,7 @@ class Stadium extends BaseEntity
 
     /**
      *
-     * @ORM\OneToMany(targetEntity="Club", mappedBy="stadium_id")
+     * @ORM\OneToMany(targetEntity="Club", mappedBy="stadium")
      */
     protected $clubs;    
     
