@@ -165,7 +165,7 @@ $(document).ready(function() {
     <div class="span-16">
         <h1>{{ player.fullname }} ({{player.age}} years)</h1>
         <h5>Height: {{player.height}} Weight: {{player.weight}} </h5>
-        <h5>Club: {{player.club}} </h5>
+        <h5>Club: <a href="{{ path('site_club_show', { 'id': player.club.slug }) }}">{{ player.club.name }}</a> </h5>
     </div>
 </div>
 
@@ -218,12 +218,6 @@ $(document).ready(function() {
     
 <div class="row">
     <h2>Comments</h2>
-
-    post
-<form action="http://actualskill.dev/app_dev.php/comment/create/{{player.slug}}" method="post">
-    <textarea class="xxlarge" name="comment" rows="1" style="resize:none"></textarea>
-    <input type="submit" class="btn primary" value="Submit"/>
-</form>
     
     
     <div>
@@ -231,14 +225,9 @@ $(document).ready(function() {
     <input type="submit" class="btn primary btncomment" value="Submit"/>
     </div>  
 
-    <div>
-    <textarea class="xxlarge autogrow" name="comment" rows="1" style="resize:none"></textarea>
-    <input type="submit" class="btn primary btncomment" value="Submit"/>
-    </div>
-
     <div id="comments">
     {% for comment in player.comments %}
-        {{comment.comment}} <br />
+        {{comment.createdAt|date("m/d/Y")}} {{comment.comment}} <br />
     {% endfor %}
     </div>
     

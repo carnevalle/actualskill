@@ -2,6 +2,7 @@
 
 namespace ActualSkill\SharedEntityBundle\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -23,7 +24,8 @@ class Comment
 
     /**
      * @var datetime $created_at
-     *
+     * 
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     private $created_at;
