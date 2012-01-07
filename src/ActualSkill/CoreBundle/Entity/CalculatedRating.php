@@ -1,0 +1,142 @@
+<?php
+
+namespace ActualSkill\CoreBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * ActualSkill\CoreBundle\Entity\CalculatedRating
+ *
+ * @ORM\Table()
+ * @ORM\Entity
+ */
+class CalculatedRating
+{
+    /**
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var integer $number_of_ratings
+     *
+     * @ORM\Column(name="number_of_ratings", type="integer")
+     */
+    private $number_of_ratings;
+
+    /**
+     * @var float $average_clean
+     *
+     * @ORM\Column(name="average_clean", type="decimal")
+     */
+    private $average_clean;
+
+    /**
+     * @var float $average_weighted
+     *
+     * @ORM\Column(name="average_weighted", type="decimal")
+     */
+    private $average_weighted;
+
+    /**
+     * @var object $data
+     *
+     * @ORM\Column(name="data", type="object")
+     */
+    private $data;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set number_of_ratings
+     *
+     * @param integer $numberOfRatings
+     */
+    public function setNumberOfRatings($numberOfRatings)
+    {
+        $this->number_of_ratings = $numberOfRatings;
+    }
+
+    /**
+     * Get number_of_ratings
+     *
+     * @return integer 
+     */
+    public function getNumberOfRatings()
+    {
+        return $this->number_of_ratings;
+    }
+
+    /**
+     * Set average_clean
+     *
+     * @param float $averageClean
+     */
+    public function setAverageClean($averageClean)
+    {
+        $this->average_clean = $averageClean;
+    }
+
+    /**
+     * Get average_clean
+     *
+     * @return float 
+     */
+    public function getAverageClean()
+    {
+        return $this->average_clean;
+    }
+
+    /**
+     * Set average_weighted
+     *
+     * @param float $averageWeighted
+     */
+    public function setAverageWeighted($averageWeighted)
+    {
+        $this->average_weighted = $averageWeighted;
+    }
+
+    /**
+     * Get average_weighted
+     *
+     * @return float 
+     */
+    public function getAverageWeighted()
+    {
+        return $this->average_weighted;
+    }
+
+    /**
+     * Set data
+     *
+     * @param object $data
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+    }
+
+    /**
+     * Get data
+     *
+     * @return object 
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+}
