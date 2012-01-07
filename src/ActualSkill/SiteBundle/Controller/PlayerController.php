@@ -6,9 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use ActualSkill\SharedEntityBundle\Entity\Player;
+use ActualSkill\CoreBundle\Entity\Player;
 use ActualSkill\SiteBundle\Form\PlayerType;
-use ActualSkill\SharedEntityBundle\Entity\Comment;
+use ActualSkill\CoreBundle\Entity\Comment;
 
 /**
  * Player controller.
@@ -25,8 +25,8 @@ class PlayerController extends Controller
     public function indexAction(){
         $em = $this->getDoctrine()->getEntityManager();
 
-        $players = $em->getRepository('ActualSkillSharedEntityBundle:Player')->findAll();
-        $clubs = $em->getRepository('ActualSkillSharedEntityBundle:Club')->findAll();
+        $players = $em->getRepository('ActualSkillCoreBundle:Player')->findAll();
+        $clubs = $em->getRepository('ActualSkillCoreBundle:Club')->findAll();
         
         return array('players' => $players, 'clubs' => $clubs);
     }
@@ -39,13 +39,13 @@ class PlayerController extends Controller
      */
     public function showAction($id)
     {
-        $player = $this->getDoctrine()->getRepository('ActualSkillSharedEntityBundle:Player')->findOneBySlug($id);
+        $player = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:Player')->findOneBySlug($id);
         
         if (!$player) {
             throw $this->createNotFoundException('Unable to find Player entity.');
         }
         
-        $repository = $this->getDoctrine()->getRepository('ActualSkillSharedEntityBundle:Category');
+        $repository = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:Category');
         
         $categories = array();
         $categories = $repository->findByTypeWithAverage("player", $player, $this->get('security.context')->getToken()->getUser());

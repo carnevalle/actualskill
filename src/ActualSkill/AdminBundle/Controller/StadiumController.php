@@ -6,8 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use ActualSkill\SharedEntityBundle\Entity\Stadium;
-use ActualSkill\SharedEntityBundle\Form\StadiumType;
+use ActualSkill\CoreBundle\Entity\Stadium;
+use ActualSkill\CoreBundle\Form\StadiumType;
 
 /**
  * Stadium controller.
@@ -26,7 +26,7 @@ class StadiumController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entities = $em->getRepository('ActualSkillSharedEntityBundle:Stadium')->findAll();
+        $entities = $em->getRepository('ActualSkillCoreBundle:Stadium')->findAll();
 
         return array('entities' => $entities);
     }
@@ -41,7 +41,7 @@ class StadiumController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('ActualSkillSharedEntityBundle:Stadium')->find($id);
+        $entity = $em->getRepository('ActualSkillCoreBundle:Stadium')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Stadium entity.');
@@ -76,7 +76,7 @@ class StadiumController extends Controller
      *
      * @Route("/create", name="stadium_create")
      * @Method("post")
-     * @Template("ActualSkillSharedEntityBundle:Stadium:new.html.twig")
+     * @Template("ActualSkillCoreBundle:Stadium:new.html.twig")
      */
     public function createAction()
     {
@@ -110,7 +110,7 @@ class StadiumController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('ActualSkillSharedEntityBundle:Stadium')->find($id);
+        $entity = $em->getRepository('ActualSkillCoreBundle:Stadium')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Stadium entity.');
@@ -131,13 +131,13 @@ class StadiumController extends Controller
      *
      * @Route("/{id}/update", name="stadium_update")
      * @Method("post")
-     * @Template("ActualSkillSharedEntityBundle:Stadium:edit.html.twig")
+     * @Template("ActualSkillCoreBundle:Stadium:edit.html.twig")
      */
     public function updateAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('ActualSkillSharedEntityBundle:Stadium')->find($id);
+        $entity = $em->getRepository('ActualSkillCoreBundle:Stadium')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Stadium entity.');
@@ -179,7 +179,7 @@ class StadiumController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
-            $entity = $em->getRepository('ActualSkillSharedEntityBundle:Stadium')->find($id);
+            $entity = $em->getRepository('ActualSkillCoreBundle:Stadium')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Stadium entity.');

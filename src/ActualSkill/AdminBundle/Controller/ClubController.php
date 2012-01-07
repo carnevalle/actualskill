@@ -6,8 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use ActualSkill\SharedEntityBundle\Entity\Club;
-use ActualSkill\SharedEntityBundle\Form\ClubType;
+use ActualSkill\CoreBundle\Entity\Club;
+use ActualSkill\CoreBundle\Form\ClubType;
 
 /**
  * Club controller.
@@ -24,7 +24,7 @@ class ClubController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $clubs = $em->getRepository('ActualSkillSharedEntityBundle:Club')->findAll();
+        $clubs = $em->getRepository('ActualSkillCoreBundle:Club')->findAll();
 
         return array('clubs' => $clubs);
     }
@@ -39,7 +39,7 @@ class ClubController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $club = $em->getRepository('ActualSkillSharedEntityBundle:Club')->findOneBySlug($id);
+        $club = $em->getRepository('ActualSkillCoreBundle:Club')->findOneBySlug($id);
 
         if (!$club) {
             throw $this->createNotFoundException('Unable to find Club entity.');
@@ -74,7 +74,7 @@ class ClubController extends Controller
      *
      * @Route("/admin/club/create", name="club_create")
      * @Method("post")
-     * @Template("ActualSkillSharedEntityBundle:Club:new.html.twig")
+     * @Template("ActualSkillCoreBundle:Club:new.html.twig")
      */
     public function createAction()
     {
@@ -108,7 +108,7 @@ class ClubController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('ActualSkillSharedEntityBundle:Club')->findOneBySlug($id);
+        $entity = $em->getRepository('ActualSkillCoreBundle:Club')->findOneBySlug($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Club entity.');
@@ -129,13 +129,13 @@ class ClubController extends Controller
      *
      * @Route("/admin/{id}/update", name="club_update")
      * @Method("post")
-     * @Template("ActualSkillSharedEntityBundle:Club:edit.html.twig")
+     * @Template("ActualSkillCoreBundle:Club:edit.html.twig")
      */
     public function updateAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('ActualSkillSharedEntityBundle:Club')->find($id);
+        $entity = $em->getRepository('ActualSkillCoreBundle:Club')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Club entity.');
@@ -177,7 +177,7 @@ class ClubController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
-            $entity = $em->getRepository('ActualSkillSharedEntityBundle:Club')->find($id);
+            $entity = $em->getRepository('ActualSkillCoreBundle:Club')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Club entity.');

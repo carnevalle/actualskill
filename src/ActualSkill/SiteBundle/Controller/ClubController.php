@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use ActualSkill\SharedEntityBundle\Entity\Club;
+use ActualSkill\CoreBundle\Entity\Club;
 use ActualSkill\SiteBundle\Form\ClubType;
 
 /**
@@ -25,7 +25,7 @@ class ClubController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $clubs = $em->getRepository('ActualSkillSharedEntityBundle:Club')->findAll();
+        $clubs = $em->getRepository('ActualSkillCoreBundle:Club')->findAll();
 
         return array('clubs' => $clubs);
     }    
@@ -40,7 +40,7 @@ class ClubController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $club = $em->getRepository('ActualSkillSharedEntityBundle:Club')->findOneBySlug($id);
+        $club = $em->getRepository('ActualSkillCoreBundle:Club')->findOneBySlug($id);
 
         if (!$club) {
             throw $this->createNotFoundException('Unable to find Club entity.');

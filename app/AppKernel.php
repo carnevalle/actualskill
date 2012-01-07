@@ -20,7 +20,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new ActualSkill\SiteBundle\ActualSkillSiteBundle(),
-            new ActualSkill\SharedEntityBundle\ActualSkillSharedEntityBundle(),
+            new ActualSkill\CoreBundle\ActualSkillCoreBundle(),
             new ActualSkill\AdminBundle\ActualSkillAdminBundle(),
         );
 

@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use ActualSkill\SharedEntityBundle\Entity\Attribute;
+use ActualSkill\CoreBundle\Entity\Attribute;
 use ActualSkill\SiteBundle\Form\AttributeType;
 
 /**
@@ -26,7 +26,7 @@ class AttributeController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entities = $em->getRepository('ActualSkillSharedEntityBundle:Attribute')->findAll();
+        $entities = $em->getRepository('ActualSkillCoreBundle:Attribute')->findAll();
 
         return array('entities' => $entities);
     }
@@ -41,7 +41,7 @@ class AttributeController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('ActualSkillSharedEntityBundle:Attribute')->find($id);
+        $entity = $em->getRepository('ActualSkillCoreBundle:Attribute')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Attribute entity.');

@@ -6,8 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use ActualSkill\SharedEntityBundle\Entity\Rating;
-use ActualSkill\SharedEntityBundle\Form\RatingType;
+use ActualSkill\CoreBundle\Entity\Rating;
+use ActualSkill\CoreBundle\Form\RatingType;
 use Symfony\Component\HttpFoundation\Response;
 use \Exception;
 
@@ -32,8 +32,8 @@ class RatingController extends Controller
         
         $em = $this->getDoctrine()->getEntityManager();
         $user = $this->get('security.context')->getToken()->getUser();
-        $entity = $em->getRepository('ActualSkillSharedEntityBundle:BaseEntity')->findOneBySlug($entity_slug);
-        $attribute = $em->getRepository('ActualSkillSharedEntityBundle:Attribute')->findOneBySlug($attribute_slug);
+        $entity = $em->getRepository('ActualSkillCoreBundle:BaseEntity')->findOneBySlug($entity_slug);
+        $attribute = $em->getRepository('ActualSkillCoreBundle:Attribute')->findOneBySlug($attribute_slug);
         
         if(!is_numeric($value)){
             throw new Exception("Rating must be a numeric value");
@@ -44,7 +44,7 @@ class RatingController extends Controller
         }
         
         $rating = $this->getDoctrine()
-                ->getRepository('ActualSkillSharedEntityBundle:Rating')
+                ->getRepository('ActualSkillCoreBundle:Rating')
                 ->findOneBy(array('object' => $entity->getId(), 'user' => $user->getId(), 'attribute' => $attribute->getId()));
         
         if(is_null($rating)){
@@ -59,7 +59,7 @@ class RatingController extends Controller
         $em->persist($rating);
         $em->flush();
         
-        $repository = $this->getDoctrine()->getRepository('ActualSkillSharedEntityBundle:Attribute');
+        $repository = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:Attribute');
         $result = $repository->findBySlugWithRating($attribute_slug, $entity, $this->get('security.context')->getToken()->getUser());
         
         //print_r($attribute[0]->getSlug());

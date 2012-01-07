@@ -29,8 +29,8 @@ class CommentController extends Controller
             
             $em = $this->getDoctrine()->getEntityManager();
             $user = $this->get('security.context')->getToken()->getUser();
-            $entity = $em->getRepository('ActualSkillSharedEntityBundle:BaseEntity')->findOneBySlug($entity_slug);
-            $comment = new \ActualSkill\SharedEntityBundle\Entity\Comment();            
+            $entity = $em->getRepository('ActualSkillCoreBundle:BaseEntity')->findOneBySlug($entity_slug);
+            $comment = new \ActualSkill\CoreBundle\Entity\Comment();            
             
             $comment->setComment($request->get("comment"));
             $comment->setUser($user);
@@ -80,13 +80,13 @@ class CommentController extends Controller
      *
      * @Route("/comment/{id}/update", name="comment_update")
      * @Method("post")
-     * @Template("ActualSkillSharedEntityBundle:Comment:edit.html.twig")
+     * @Template("ActualSkillCoreBundle:Comment:edit.html.twig")
      */
     public function updateAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('ActualSkillSharedEntityBundle:Comment')->find($id);
+        $entity = $em->getRepository('ActualSkillCoreBundle:Comment')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Comment entity.');
@@ -128,7 +128,7 @@ class CommentController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
-            $entity = $em->getRepository('ActualSkillSharedEntityBundle:Comment')->find($id);
+            $entity = $em->getRepository('ActualSkillCoreBundle:Comment')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Comment entity.');

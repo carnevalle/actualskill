@@ -3,8 +3,8 @@ ActualSkillAdminBundle:
     type:     annotation
     prefix:   /
 
-ActualSkillSharedEntityBundle:
-    resource: "@ActualSkillSharedEntityBundle/Controller/"
+ActualSkillCoreBundle:
+    resource: "@ActualSkillCoreBundle/Controller/"
     type:     annotation
     prefix:   /
 

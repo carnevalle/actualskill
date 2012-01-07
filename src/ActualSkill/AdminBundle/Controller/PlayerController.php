@@ -6,8 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use ActualSkill\SharedEntityBundle\Entity\Player;
-use ActualSkill\SharedEntityBundle\Form\PlayerType;
+use ActualSkill\CoreBundle\Entity\Player;
+use ActualSkill\CoreBundle\Form\PlayerType;
 
 class PlayerController extends Controller
 {
@@ -19,7 +19,7 @@ class PlayerController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $players = $em->getRepository('ActualSkillSharedEntityBundle:Player')->findAll();
+        $players = $em->getRepository('ActualSkillCoreBundle:Player')->findAll();
 
         return array('players' => $players); 
     }
@@ -34,7 +34,7 @@ class PlayerController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
         
-        $player = $em->getRepository('ActualSkillSharedEntityBundle:Player')->findOneBySlug($id);
+        $player = $em->getRepository('ActualSkillCoreBundle:Player')->findOneBySlug($id);
 
         if (!$player) {
             throw $this->createNotFoundException('Unable to find Player entity.');
@@ -70,7 +70,7 @@ class PlayerController extends Controller
      *
      * @Route("/admin/player/create", name="admin_player_create")
      * @Method("post")
-     * @Template("ActualSkillSharedEntityBundle:Player:new.html.twig")
+     * @Template("ActualSkillCoreBundle:Player:new.html.twig")
      */
     public function createAction()
     {
@@ -122,7 +122,7 @@ class PlayerController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('ActualSkillSharedEntityBundle:Player')->findOneBySlug($id);
+        $entity = $em->getRepository('ActualSkillCoreBundle:Player')->findOneBySlug($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Player entity.');
@@ -143,13 +143,13 @@ class PlayerController extends Controller
      *
      * @Route("/admin/player/{id}/update", name="admin_player_update")
      * @Method("post")
-     * @Template("ActualSkillSharedEntityBundle:Player:edit.html.twig")
+     * @Template("ActualSkillCoreBundle:Player:edit.html.twig")
      */
     public function updateAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('ActualSkillSharedEntityBundle:Player')->find($id);
+        $entity = $em->getRepository('ActualSkillCoreBundle:Player')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Player entity.');
@@ -191,7 +191,7 @@ class PlayerController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
-            $entity = $em->getRepository('ActualSkillSharedEntityBundle:Player')->find($id);
+            $entity = $em->getRepository('ActualSkillCoreBundle:Player')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Player entity.');

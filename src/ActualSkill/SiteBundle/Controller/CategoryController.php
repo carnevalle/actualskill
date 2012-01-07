@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use ActualSkill\SharedEntityBundle\Entity\Category;
+use ActualSkill\CoreBundle\Entity\Category;
 use ActualSkill\SiteBundle\Form\CategoryType;
 
 /**
@@ -26,7 +26,7 @@ class CategoryController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entities = $em->getRepository('ActualSkillSharedEntityBundle:Category')->findAll();
+        $entities = $em->getRepository('ActualSkillCoreBundle:Category')->findAll();
 
         return array('entities' => $entities);
     }
@@ -41,7 +41,7 @@ class CategoryController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('ActualSkillSharedEntityBundle:Category')->find($id);
+        $entity = $em->getRepository('ActualSkillCoreBundle:Category')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Category entity.');
@@ -76,7 +76,7 @@ class CategoryController extends Controller
      *
      * @Route("/create", name="category_create")
      * @Method("post")
-     * @Template("ActualSkillSharedEntityBundle:Category:new.html.twig")
+     * @Template("ActualSkillCoreBundle:Category:new.html.twig")
      */
     public function createAction()
     {
@@ -110,7 +110,7 @@ class CategoryController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('ActualSkillSharedEntityBundle:Category')->find($id);
+        $entity = $em->getRepository('ActualSkillCoreBundle:Category')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Category entity.');
@@ -131,13 +131,13 @@ class CategoryController extends Controller
      *
      * @Route("/{id}/update", name="category_update")
      * @Method("post")
-     * @Template("ActualSkillSharedEntityBundle:Category:edit.html.twig")
+     * @Template("ActualSkillCoreBundle:Category:edit.html.twig")
      */
     public function updateAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('ActualSkillSharedEntityBundle:Category')->find($id);
+        $entity = $em->getRepository('ActualSkillCoreBundle:Category')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Category entity.');
@@ -179,7 +179,7 @@ class CategoryController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
-            $entity = $em->getRepository('ActualSkillSharedEntityBundle:Category')->find($id);
+            $entity = $em->getRepository('ActualSkillCoreBundle:Category')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Category entity.');
