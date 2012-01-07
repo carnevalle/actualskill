@@ -49,6 +49,12 @@ class Attribute
      */    
     protected $ratings;
 
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="CalculatedRating", mappedBy="attribute")
+     */   
+    private $calculatedRatings;
+    
     private $average;
     private $userRating;
     private $numberOfRatings;

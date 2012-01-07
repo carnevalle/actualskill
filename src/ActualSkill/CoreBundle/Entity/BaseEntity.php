@@ -57,6 +57,12 @@ class BaseEntity
      */        
     protected $comments;
     
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="StatSheet", mappedBy="object")
+     */    
+    protected $statsheets;
+    
     public function __construct() {
         $this->ratings = new ArrayCollection();
         $this->comments = new ArrayCollection();

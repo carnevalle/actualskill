@@ -15,26 +15,25 @@ class CalculateRatingsCommand extends ContainerAwareCommand
     {
         $this
             ->setName('actualskill:ratings:calculate')
-            ->setDescription('Greet someone')
-            ->addArgument('name', InputArgument::OPTIONAL, 'Who do you want to greet?')
-            ->addOption('yell', null, InputOption::VALUE_NONE, 'If set, the task will yell in uppercase letters')
+            ->setDescription('Calculate aggregated ratings for attributes')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $name = $input->getArgument('name');
+        
+        $dialog = $this->getHelperSet()->get('dialog');
+        $name = $dialog->ask($output, 'Please enter the name of the widget: ', 'Troels');
+        
         if ($name) {
             $text = 'Hello '.$name;
         } else {
             $text = 'Hello';
         }
 
-        if ($input->getOption('yell')) {
-            $text = strtoupper($text);
-        }
-
-        $output->writeln($text);
+        $ratingService = $this->getContainer()->get('actual_skill_core.rating_service');
+        
+        $output->writeln($ratingService->test());
     }
 }
 

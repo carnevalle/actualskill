@@ -48,8 +48,20 @@ class CalculatedRating
      * @ORM\Column(name="data", type="object")
      */
     private $data;
-
-
+ 
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="StatSheet", inversedBy="ratings")
+     */     
+    private $statsheet;    
+    
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="Attribute", inversedBy="ratings")
+     * @ORM\JoinColumn(name="attribute_id", referencedColumnName="id")
+     */
+    private $attribute;    
+    
     /**
      * Get id
      *

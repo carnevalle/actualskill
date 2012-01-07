@@ -35,7 +35,19 @@ class StatSheet
      */
     private $rating;
 
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="BaseEntity", inversedBy="statsheets")
+     * @ORM\JoinColumn(name="object_id", referencedColumnName="id")
+     */    
+    private $object;
 
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="CalculatedRating", mappedBy="statsheet")
+     */ 
+    private $ratings;
+    
     /**
      * Get id
      *
