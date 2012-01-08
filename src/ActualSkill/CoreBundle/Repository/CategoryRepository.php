@@ -18,7 +18,15 @@ class CategoryRepository extends EntityRepository
         $categories = $this->findByType($type);
         
         $ratings = $this->getEntityManager()
-        ->createQuery('SELECT a, AVG(r.rating) as average, COUNT(r.rating) as total, (SELECT r2.rating FROM ActualSkillCoreBundle:Rating r2 WHERE r2.object = ?1 AND r2.user = ?2 AND r2.attribute = a.id) as userrating FROM ActualSkillCoreBundle:Attribute a JOIN a.ratings as r WHERE r.object = ?1 GROUP BY r.attribute')
+        ->createQuery('
+            SELECT 
+            a, 
+            AVG(r.rating) as average, COUNT(r.rating) as total, 
+            (SELECT r2.rating FROM ActualSkillCoreBundle:Rating r2 WHERE r2.object = ?1 AND r2.user = ?2 AND r2.attribute = a.id) as userrating 
+            FROM ActualSkillCoreBundle:Attribute a 
+            JOIN a.ratings as r 
+            WHERE r.object = ?1 
+            GROUP BY r.attribute')
         ->setParameter(1, $object->getId())
         ->setParameter(2, $user->getId())
         ->getResult();
@@ -41,15 +49,6 @@ class CategoryRepository extends EntityRepository
             }
         }
         
-        return $categories;        
-        
-        /*
-        return $this->getEntityManager()
-        ->createQuery('SELECT a, AVG(r.rating) as average, COUNT(r.rating) as total, (SELECT r2.rating FROM ActualSkillCoreBundle:Rating r2 WHERE r2.object = ?2 AND r2.user = ?3 AND r2.attribute = a.id) as userrating  FROM ActualSkillCoreBundle:Category c, ActualSkillCoreBundle:Attribute a JOIN a.ratings as r WHERE c.type = ?1 AND r.object = ?2 GROUP BY r.attribute')
-        ->setParameter(1, $type)
-        ->setParameter(2, $object->getId())
-        ->setParameter(3, $user->getId())
-        ->getResult();          
-        */
+        return $categories;
     }
 }

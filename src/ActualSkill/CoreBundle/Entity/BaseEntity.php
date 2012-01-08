@@ -63,6 +63,12 @@ class BaseEntity
      */    
     protected $statsheets;
     
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="RatingSchema", inversedBy="objects")
+     */        
+    protected $ratingschema;
+    
     public function __construct() {
         $this->ratings = new ArrayCollection();
         $this->comments = new ArrayCollection();
@@ -197,5 +203,45 @@ class BaseEntity
     public function addComment(\ActualSkill\CoreBundle\Entity\Comment $comments)
     {
         $this->comments[] = $comments;
+    }
+
+    /**
+     * Add statsheets
+     *
+     * @param ActualSkill\CoreBundle\Entity\StatSheet $statsheets
+     */
+    public function addStatSheet(\ActualSkill\CoreBundle\Entity\StatSheet $statsheets)
+    {
+        $this->statsheets[] = $statsheets;
+    }
+
+    /**
+     * Get statsheets
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getStatsheets()
+    {
+        return $this->statsheets;
+    }
+
+    /**
+     * Set ratingschema
+     *
+     * @param ActualSkill\CoreBundle\Entity\RatingSchema $ratingschema
+     */
+    public function setRatingschema(\ActualSkill\CoreBundle\Entity\RatingSchema $ratingschema)
+    {
+        $this->ratingschema = $ratingschema;
+    }
+
+    /**
+     * Get ratingschema
+     *
+     * @return ActualSkill\CoreBundle\Entity\RatingSchema 
+     */
+    public function getRatingschema()
+    {
+        return $this->ratingschema;
     }
 }

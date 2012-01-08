@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\DataTransformer\NumberToLocalizedStrin
 /**
  * ActualSkill\CoreBundle\Entity\Stadium
  *
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Table()
  * @ORM\Entity
  */
@@ -32,6 +33,14 @@ class Stadium extends BaseEntity
         $this->clubs = new ArrayCollection();
     }
 
+    /**
+    * @ORM\postLoad
+    */    
+    public function setObjectTypeOnLoad(){
+        
+        $this->type="stadium";
+    }    
+    
     /**
      * Set capacity
      *

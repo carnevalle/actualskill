@@ -13,6 +13,7 @@ class ClubType extends AbstractType
             ->add('name')
             ->add('shortname')
             ->add('country')
+            ->add('ratingschema')
         ;
     }
 

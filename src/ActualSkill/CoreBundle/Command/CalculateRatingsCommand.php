@@ -33,7 +33,8 @@ class CalculateRatingsCommand extends ContainerAwareCommand
 
         $ratingService = $this->getContainer()->get('actual_skill_core.rating_service');
         
-        $output->writeln($ratingService->test());
+        $output->writeln($ratingService->calculateRatings());
+        //$output->writeln($ratingService->test());
     }
 }
 

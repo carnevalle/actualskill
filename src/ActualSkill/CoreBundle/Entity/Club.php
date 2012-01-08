@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * ActualSkill\CoreBundle\Entity\Club
  *
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Table()
  * @ORM\Entity
  */
@@ -46,6 +47,14 @@ class Club extends BaseEntity
         parent::__construct();
     }
 
+    /**
+    * @ORM\postLoad
+    */    
+    public function setObjectTypeOnLoad(){
+        
+        $this->type="club";
+    }    
+    
     /**
      * Set shortname
      *

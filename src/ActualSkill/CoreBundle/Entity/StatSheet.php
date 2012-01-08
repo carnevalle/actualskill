@@ -41,7 +41,7 @@ class StatSheet
      * @ORM\JoinColumn(name="object_id", referencedColumnName="id")
      */    
     private $object;
-
+    
     /**
      *
      * @ORM\OneToMany(targetEntity="CalculatedRating", mappedBy="statsheet")
@@ -96,5 +96,25 @@ class StatSheet
     public function getRating()
     {
         return $this->rating;
+    }
+    
+    /**
+     * Set object
+     *
+     * @param ActualSkill\CoreBundle\Entity\BaseEntity $object
+     */
+    public function setObject(\ActualSkill\CoreBundle\Entity\BaseEntity $object)
+    {
+        $this->object = $object;
+    }
+
+    /**
+     * Get object
+     *
+     * @return ActualSkill\CoreBundle\Entity\BaseEntity 
+     */
+    public function getObject()
+    {
+        return $this->object;
     }
 }

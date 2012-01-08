@@ -19,6 +19,7 @@ class PlayerType extends AbstractType
             ->add('height')
             ->add('weight')
             ->add('isGoalkeeper')
+            ->add('ratingschema')
             ->add('club')
             ->add('country')
         ;

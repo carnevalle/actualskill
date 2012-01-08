@@ -1,6 +1,6 @@
 <?php
 
-namespace ActualSkill\SharedEntityBundle\Entity;
+namespace ActualSkill\CoreBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
@@ -57,6 +57,18 @@ class BaseEntity
      */        
     protected $comments;
     
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="StatSheet", mappedBy="object")
+     */    
+    protected $statsheets;
+    
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="RatingSchema", inversedBy="objects")
+     */        
+    protected $ratingschema;
+    
     public function __construct() {
         $this->ratings = new ArrayCollection();
         $this->comments = new ArrayCollection();
@@ -106,9 +118,9 @@ class BaseEntity
     /**
      * Add ratings
      *
-     * @param ActualSkill\SharedEntityBundle\Entity\Rating $ratings
+     * @param ActualSkill\CoreBundle\Entity\Rating $ratings
      */
-    public function addRatings(\ActualSkill\SharedEntityBundle\Entity\Rating $ratings)
+    public function addRatings(\ActualSkill\CoreBundle\Entity\Rating $ratings)
     {
         $this->ratings[] = $ratings;
     }
@@ -126,9 +138,9 @@ class BaseEntity
     /**
      * Add comments
      *
-     * @param ActualSkill\SharedEntityBundle\Entity\Comment $comments
+     * @param ActualSkill\CoreBundle\Entity\Comment $comments
      */
-    public function addComments(\ActualSkill\SharedEntityBundle\Entity\Comment $comments)
+    public function addComments(\ActualSkill\CoreBundle\Entity\Comment $comments)
     {
         $this->comments[] = $comments;
     }
@@ -171,5 +183,25 @@ class BaseEntity
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Add ratings
+     *
+     * @param ActualSkill\CoreBundle\Entity\Rating $ratings
+     */
+    public function addRating(\ActualSkill\CoreBundle\Entity\Rating $ratings)
+    {
+        $this->ratings[] = $ratings;
+    }
+
+    /**
+     * Add comments
+     *
+     * @param ActualSkill\CoreBundle\Entity\Comment $comments
+     */
+    public function addComment(\ActualSkill\CoreBundle\Entity\Comment $comments)
+    {
+        $this->comments[] = $comments;
     }
 }

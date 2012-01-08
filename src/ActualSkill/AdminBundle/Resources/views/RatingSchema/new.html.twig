@@ -2,9 +2,9 @@
 
 {% block body %}
 
-<h1>Player creation</h1>
+<h1>RatingSchema creation</h1>
 
-<form action="{{ path('admin_player_create') }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('admin_ratingschema_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <p>
         <button type="submit">Create</button>
@@ -13,7 +13,7 @@
 
 <ul class="record_actions">
     <li>
-        <a href="{{ path('admin_players') }}">
+        <a href="{{ path('admin_ratingschema') }}">
             Back to the list
         </a>
     </li>

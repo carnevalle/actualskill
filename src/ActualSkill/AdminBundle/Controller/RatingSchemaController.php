@@ -6,62 +6,64 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use ActualSkill\CoreBundle\Entity\Club;
-use ActualSkill\CoreBundle\Form\ClubType;
+use ActualSkill\CoreBundle\Entity\RatingSchema;
+use ActualSkill\CoreBundle\Form\RatingSchemaType;
 
 /**
- * Club controller.
+ * RatingSchema controller.
+ *
+ * @Route("/admin/ratingschema")
  */
-class ClubController extends Controller
+class RatingSchemaController extends Controller
 {
     /**
-     * Lists all Club entities.
+     * Lists all RatingSchema entities.
      *
-     * @Route("/admin/clubs/", name="admin_clubs")
+     * @Route("/", name="admin_ratingschema")
      * @Template()
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $clubs = $em->getRepository('ActualSkillCoreBundle:Club')->findAll();
+        $entities = $em->getRepository('ActualSkillCoreBundle:RatingSchema')->findAll();
 
-        return array('clubs' => $clubs);
+        return array('entities' => $entities);
     }
-    
+
     /**
-     * Finds and displays a Club entity.
+     * Finds and displays a RatingSchema entity.
      *
-     * @Route("/admin/club/{id}/", name="club_show")
+     * @Route("/{id}/show", name="admin_ratingschema_show")
      * @Template()
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $club = $em->getRepository('ActualSkillCoreBundle:Club')->findOneBySlug($id);
+        $entity = $em->getRepository('ActualSkillCoreBundle:RatingSchema')->find($id);
 
-        if (!$club) {
-            throw $this->createNotFoundException('Unable to find Club entity.');
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find RatingSchema entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'club'      => $club,
+            'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),        );
     }
 
     /**
-     * Displays a form to create a new Club entity.
+     * Displays a form to create a new RatingSchema entity.
      *
-     * @Route("/admin/club/new", name="club_new")
+     * @Route("/new", name="admin_ratingschema_new")
      * @Template()
      */
     public function newAction()
     {
-        $entity = new Club();
-        $form   = $this->createForm(new ClubType(), $entity);
+        $entity = new RatingSchema();
+        $form   = $this->createForm(new RatingSchemaType(), $entity);
 
         return array(
             'entity' => $entity,
@@ -70,17 +72,17 @@ class ClubController extends Controller
     }
 
     /**
-     * Creates a new Club entity.
+     * Creates a new RatingSchema entity.
      *
-     * @Route("/admin/club/create", name="club_create")
+     * @Route("/create", name="admin_ratingschema_create")
      * @Method("post")
-     * @Template("ActualSkillCoreBundle:Club:new.html.twig")
+     * @Template("ActualSkillCoreBundle:RatingSchema:new.html.twig")
      */
     public function createAction()
     {
-        $entity  = new Club();
+        $entity  = new RatingSchema();
         $request = $this->getRequest();
-        $form    = $this->createForm(new ClubType(), $entity);
+        $form    = $this->createForm(new RatingSchemaType(), $entity);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
@@ -88,7 +90,7 @@ class ClubController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('club_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('admin_ratingschema_show', array('id' => $entity->getId())));
             
         }
 
@@ -99,22 +101,22 @@ class ClubController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing Club entity.
+     * Displays a form to edit an existing RatingSchema entity.
      *
-     * @Route("/admin/club/{id}/edit", name="club_edit")
+     * @Route("/{id}/edit", name="admin_ratingschema_edit")
      * @Template()
      */
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('ActualSkillCoreBundle:Club')->findOneBySlug($id);
+        $entity = $em->getRepository('ActualSkillCoreBundle:RatingSchema')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Club entity.');
+            throw $this->createNotFoundException('Unable to find RatingSchema entity.');
         }
 
-        $editForm = $this->createForm(new ClubType(), $entity);
+        $editForm = $this->createForm(new RatingSchemaType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -125,23 +127,23 @@ class ClubController extends Controller
     }
 
     /**
-     * Edits an existing Club entity.
+     * Edits an existing RatingSchema entity.
      *
-     * @Route("/admin/{id}/update", name="club_update")
+     * @Route("/{id}/update", name="admin_ratingschema_update")
      * @Method("post")
-     * @Template("ActualSkillCoreBundle:Club:edit.html.twig")
+     * @Template("ActualSkillCoreBundle:RatingSchema:edit.html.twig")
      */
     public function updateAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        $entity = $em->getRepository('ActualSkillCoreBundle:Club')->findOneBySlug($id);
+        $entity = $em->getRepository('ActualSkillCoreBundle:RatingSchema')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Club entity.');
+            throw $this->createNotFoundException('Unable to find RatingSchema entity.');
         }
 
-        $editForm   = $this->createForm(new ClubType(), $entity);
+        $editForm   = $this->createForm(new RatingSchemaType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -152,9 +154,7 @@ class ClubController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            //return $this->redirect($this->generateUrl('club_edit', array('id' => $id)));
-            return $this->redirect($this->generateUrl('admin_clubs'));
-            
+            return $this->redirect($this->generateUrl('admin_ratingschema_edit', array('id' => $id)));
         }
 
         return array(
@@ -165,9 +165,9 @@ class ClubController extends Controller
     }
 
     /**
-     * Deletes a Club entity.
+     * Deletes a RatingSchema entity.
      *
-     * @Route("/admin/{id}/delete", name="club_delete")
+     * @Route("/{id}/delete", name="admin_ratingschema_delete")
      * @Method("post")
      */
     public function deleteAction($id)
@@ -179,17 +179,17 @@ class ClubController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
-            $entity = $em->getRepository('ActualSkillCoreBundle:Club')->find($id);
+            $entity = $em->getRepository('ActualSkillCoreBundle:RatingSchema')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Club entity.');
+                throw $this->createNotFoundException('Unable to find RatingSchema entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('club'));
+        return $this->redirect($this->generateUrl('admin_ratingschema'));
     }
 
     private function createDeleteForm($id)
