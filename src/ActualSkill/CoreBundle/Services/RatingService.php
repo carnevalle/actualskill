@@ -26,6 +26,7 @@ class RatingService {
     public function calculateRatings(){
         
         $objects = $this->em->getRepository('ActualSkillCoreBundle:BaseEntity')->findAll();
+        
         $string = "";
         foreach($objects as $object){
             $ratings = $this->em
@@ -43,21 +44,44 @@ class RatingService {
                 ')
                 ->setParameter(1, $object->getId())
                 ->getResult();
+            
+            if(count($ratings) > 0){
+                
+                $statsheet = new \ActualSkill\CoreBundle\Entity\StatSheet();
+                $statsheet->setObject($object);                
+                
+                
+                $num=0;
+                $sum = 0;
+                
+                foreach ($ratings as $rating){
+                    $calculatedRating = new \ActualSkill\CoreBundle\Entity\CalculatedRating();
+                    $calculatedRating->setAttribute($rating[0]);
+                    $calculatedRating->setAverageClean($rating['average']);
+                    $calculatedRating->setNumberOfRatings($rating['total']);
 
-            //$statsheet = new \ActualSkill\CoreBundle\Entity\StatSheet();
-            //$statsheet->setObject($object);
-            //$em->persist($statsheet);
-            
-            $string .= $object->getName().": ";
-            
-            foreach ($ratings as $rating){
-                $string .= $rating['lowest'];
-            }
-            
-            $string .= "\n";
+                    $statsheet->addCalculatedRating($calculatedRating);
+                    $calculatedRating->setStatsheet($statsheet);
+                    
+                    //$string .= $rating[0];
+
+                    $sum += $rating['average'];
+                    $num++;
+                }
+
+                $average = $sum/$num;
+                $statsheet->setRating($average);
+                
+                $this->em->persist($statsheet);                
+                
+                $string .= $object->getName().": ";
+                $string .= "Attributes: ".$num." ";
+                $string .= "Average: ".$average;
+                $string .= "\n"; 
+            }               
         }
         
-        //$em->flush();
+        $this->em->flush();
     
         /*
         $attributes = $this->em
@@ -87,8 +111,47 @@ class RatingService {
         return $string;
     }
     
-    public function test(){
-        return "This is a test!!!";
+    
+    /*
+     * This function adds user ratings to a base entity object
+     */
+    public function addUserRatingsToBaseEntity(\ActualSkill\CoreBundle\Entity\BaseEntity $object, \ActualSkill\CoreBundle\Entity\User $user){
+        
+        $categories = $object->getRatingschema()->getCategories();
+        
+        $ratings = $this->em
+        ->createQuery('
+            SELECT 
+            a, 
+            AVG(r.rating) as average, COUNT(r.rating) as total, 
+            (SELECT r2.rating FROM ActualSkillCoreBundle:Rating r2 WHERE r2.object = ?1 AND r2.user = ?2 AND r2.attribute = a.id) as userrating 
+            FROM ActualSkillCoreBundle:Attribute a 
+            JOIN a.ratings as r 
+            WHERE r.object = ?1 
+            GROUP BY r.attribute')
+        ->setParameter(1, $object->getId())
+        ->setParameter(2, $user->getId())
+        ->getResult();
+        
+        
+        if(!is_null($categories)){
+            foreach ($categories as $category) {
+                
+                $i = 0;
+                
+                foreach($category->getAttributes() as $attribute){
+                    foreach($ratings as $rating){
+                        if($attribute->getId() == $rating[0]->getId()){
+                            $attribute->setAverageRating($rating['average']);
+                            $attribute->setUserRating($rating['userrating']);
+                            $attribute->setNumberOfRatings($rating['total']);
+                        }
+                    }
+                }
+            }
+        }
+        
+        return $object;
     }
 }
 

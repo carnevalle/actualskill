@@ -3,13 +3,11 @@
 namespace ActualSkill\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\UniqueConstraint;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * ActualSkill\CoreBundle\Entity\StatSheet
  *
- * @ORM\Table(uniqueConstraints={@UniqueConstraint(name="one_per_day", columns={"object_id", "created_at"})})
+ * @ORM\Table()
  * @ORM\Entity
  */
 class StatSheet
@@ -26,7 +24,6 @@ class StatSheet
     /**
      * @var date $created_at
      *
-     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="date")
      */
     private $created_at;
@@ -34,7 +31,7 @@ class StatSheet
     /**
      * @var float $rating
      *
-     * @ORM\Column(name="rating", type="decimal", nullable=true)
+     * @ORM\Column(name="rating", type="decimal")
      */
     private $rating;
 
@@ -47,7 +44,7 @@ class StatSheet
     
     /**
      *
-     * @ORM\OneToMany(targetEntity="CalculatedRating", mappedBy="statsheet", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="CalculatedRating", mappedBy="statsheet")
      */ 
     private $ratings;
     
@@ -119,29 +116,5 @@ class StatSheet
     public function getObject()
     {
         return $this->object;
-    }
-    public function __construct()
-    {
-        $this->ratings = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
-    /**
-     * Add ratings
-     *
-     * @param ActualSkill\CoreBundle\Entity\CalculatedRating $ratings
-     */
-    public function addCalculatedRating(\ActualSkill\CoreBundle\Entity\CalculatedRating $ratings)
-    {
-        $this->ratings[] = $ratings;
-    }
-
-    /**
-     * Get ratings
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getRatings()
-    {
-        return $this->ratings;
     }
 }

@@ -38,14 +38,14 @@ class CalculatedRating
     /**
      * @var float $average_weighted
      *
-     * @ORM\Column(name="average_weighted", type="decimal", nullable=true)
+     * @ORM\Column(name="average_weighted", type="decimal")
      */
     private $average_weighted;
 
     /**
      * @var object $data
      *
-     * @ORM\Column(name="data", type="object", nullable=true)
+     * @ORM\Column(name="data", type="object")
      */
     private $data;
  
@@ -151,48 +151,4 @@ class CalculatedRating
     {
         return $this->data;
     }
-
-    /**
-     * Set statsheet
-     *
-     * @param ActualSkill\CoreBundle\Entity\StatSheet $statsheet
-     */
-    public function setStatsheet(\ActualSkill\CoreBundle\Entity\StatSheet $statsheet)
-    {
-        $this->statsheet = $statsheet;
-    }
-
-    /**
-     * Get statsheet
-     *
-     * @return ActualSkill\CoreBundle\Entity\StatSheet 
-     */
-    public function getStatsheet()
-    {
-        return $this->statsheet;
-    }
-
-    /**
-     * Set attribute
-     *
-     * @param ActualSkill\CoreBundle\Entity\Attribute $attribute
-     */
-    public function setAttribute(\ActualSkill\CoreBundle\Entity\Attribute $attribute)
-    {
-        $this->attribute = $attribute;
-    }
-
-    /**
-     * Get attribute
-     *
-     * @return ActualSkill\CoreBundle\Entity\Attribute 
-     */
-    public function getAttribute()
-    {
-        return $this->attribute;
-    }
-    
-    public function __toString() {
-        return $this->attribute->getName();
-    }    
 }

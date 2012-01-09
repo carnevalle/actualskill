@@ -22,19 +22,9 @@ class CalculateRatingsCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         
-        $dialog = $this->getHelperSet()->get('dialog');
-        $name = $dialog->ask($output, 'Please enter the name of the widget: ', 'Troels');
-        
-        if ($name) {
-            $text = 'Hello '.$name;
-        } else {
-            $text = 'Hello';
-        }
-
         $ratingService = $this->getContainer()->get('actual_skill_core.rating_service');
         
         $output->writeln($ratingService->calculateRatings());
-        //$output->writeln($ratingService->test());
     }
 }
 
