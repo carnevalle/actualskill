@@ -47,7 +47,7 @@ class StatSheet
     
     /**
      *
-     * @ORM\OneToMany(targetEntity="CalculatedRating", mappedBy="statsheet", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="CalculatedRating", mappedBy="statsheet", cascade={"persist"})
      */ 
     private $ratings;
     

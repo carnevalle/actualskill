@@ -52,6 +52,8 @@ class CalculatedRating
     /**
      *
      * @ORM\ManyToOne(targetEntity="StatSheet", inversedBy="ratings")
+     * @ORM\JoinColumn(name="$statsheet_id", referencedColumnName="id", onDelete="CASCADE")
+     * 
      */     
     private $statsheet;    
     
