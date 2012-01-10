@@ -31,14 +31,14 @@ class CalculatedRating
     /**
      * @var float $average_clean
      *
-     * @ORM\Column(name="average_clean", type="decimal")
+     * @ORM\Column(name="average_clean", type="decimal", precision=4, scale=2)
      */
     private $average_clean;
 
     /**
      * @var float $average_weighted
      *
-     * @ORM\Column(name="average_weighted", type="decimal", nullable=true)
+     * @ORM\Column(name="average_weighted", type="decimal", precision=4, scale=2, nullable=true)
      */
     private $average_weighted;
 

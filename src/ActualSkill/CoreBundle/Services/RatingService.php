@@ -51,6 +51,9 @@ class RatingService {
                 $statsheet->setObject($object);                
                 
                 
+                $avg_num_votes = 100;
+                $avg_rating = 6;
+                
                 $num=0;
                 $sum = 0;
                 
@@ -59,7 +62,8 @@ class RatingService {
                     $calculatedRating->setAttribute($rating[0]);
                     $calculatedRating->setAverageClean($rating['average']);
                     $calculatedRating->setNumberOfRatings($rating['total']);
-
+                    $calculatedRating->setAverageWeighted($this->calculateBayesianRating($avg_num_votes, $avg_rating, $rating['total'], $rating['average']));
+                    
                     $statsheet->addCalculatedRating($calculatedRating);
                     $calculatedRating->setStatsheet($statsheet);
                     
@@ -83,34 +87,12 @@ class RatingService {
         
         $this->em->flush();
     
-        /*
-        $attributes = $this->em
-                ->createQuery('
-                    SELECT
-                    
-                    
-
-                ')
-                ->getResult();
-        
-        $ratings = $this->getEntityManager()
-        ->createQuery('
-            SELECT 
-            a, 
-            AVG(r.rating) as average, COUNT(r.rating) as total, 
-            (SELECT r2.rating FROM ActualSkillCoreBundle:Rating r2 WHERE r2.object = ?1 AND r2.user = ?2 AND r2.attribute = a.id) as userrating 
-            FROM ActualSkillCoreBundle:Attribute a 
-            JOIN a.ratings as r 
-            WHERE r.object = ?1 
-            GROUP BY r.attribute')
-        ->setParameter(1, $object->getId())
-        ->setParameter(2, $user->getId())
-        ->getResult();        
-        */
-        
         return $string;
     }
     
+    private function calculateBayesianRating($avg_num_votes, $avg_rating, $this_num_votes, $this_rating){
+        return ( ($avg_num_votes * $avg_rating) + ($this_num_votes * $this_rating) ) / ($avg_num_votes + $this_num_votes);
+    }
     
     /*
      * This function adds user ratings to a base entity object

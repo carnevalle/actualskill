@@ -34,7 +34,7 @@ class StatSheet
     /**
      * @var float $rating
      *
-     * @ORM\Column(name="rating", type="decimal", nullable=true)
+     * @ORM\Column(name="rating", type="decimal", precision=4, scale=2, nullable=true)
      */
     private $rating;
 
