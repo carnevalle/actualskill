@@ -26,6 +26,17 @@ class RatingService {
     public function calculateRatings(){
         
         $objects = $this->em->getRepository('ActualSkillCoreBundle:BaseEntity')->findAll();
+
+        
+        $constants = $this->em
+                ->createQuery('
+                    SELECT
+                    AVG(r.rating) as average, 
+                    COUNT(r.rating) as total,
+                    (SELECT COUNT(DISTINCT a.id) FROM ActualSkillCoreBundle:Attribute a JOIN a.ratings r2) as attributes
+                    FROM ActualSkillCoreBundle:Rating r
+                ')
+                ->getSingleResult();
         
         $string = "";
         foreach($objects as $object){
@@ -50,9 +61,8 @@ class RatingService {
                 $statsheet = new \ActualSkill\CoreBundle\Entity\StatSheet();
                 $statsheet->setObject($object);                
                 
-                
-                $avg_num_votes = 100;
-                $avg_rating = 6;
+                $avg_num_votes = $constants['average']/$constants['attributes'];
+                $avg_rating = $constants['average'];
                 
                 $num=0;
                 $sum = 0;
@@ -66,10 +76,8 @@ class RatingService {
                     
                     $statsheet->addCalculatedRating($calculatedRating);
                     $calculatedRating->setStatsheet($statsheet);
-                    
-                    //$string .= $rating[0];
 
-                    $sum += $rating['average'];
+                    $sum += $calculatedRating->getAverageWeighted();
                     $num++;
                 }
 
