@@ -32,12 +32,33 @@ class StatSheet
     private $created_at;
 
     /**
-     * @var float $rating
+     * @var float $attributeRatingClean
      *
-     * @ORM\Column(name="rating", type="decimal", precision=4, scale=2, nullable=true)
+     * @ORM\Column(name="attribute_rating_clean", type="decimal", precision=4, scale=2, nullable=true)
      */
-    private $rating;
+    private $attributeRatingClean;
 
+    /**
+     * @var float $attributeRatingWeighted
+     *
+     * @ORM\Column(name="attribute_rating_weighted", type="decimal", precision=4, scale=2, nullable=true)
+     */    
+    private $attributeRatingWeighted;
+    
+    /**
+     * @var integer $attributes_total
+     *
+     * @ORM\Column(name="attributes_total", type="integer")
+     */    
+    private $attributes_total;
+    
+    /**
+     * @var integer $attributes_rated
+     *
+     * @ORM\Column(name="attributes_rated", type="integer")
+     */     
+    private $attributes_rated;
+    
     /**
      *
      * @ORM\ManyToOne(targetEntity="BaseEntity", inversedBy="statsheets")
@@ -79,26 +100,6 @@ class StatSheet
     public function getCreatedAt()
     {
         return $this->created_at;
-    }
-
-    /**
-     * Set rating
-     *
-     * @param float $rating
-     */
-    public function setRating($rating)
-    {
-        $this->rating = $rating;
-    }
-
-    /**
-     * Get rating
-     *
-     * @return float 
-     */
-    public function getRating()
-    {
-        return $this->rating;
     }
     
     /**
@@ -143,5 +144,85 @@ class StatSheet
     public function getRatings()
     {
         return $this->ratings;
+    }
+
+    /**
+     * Set attributeRatingClean
+     *
+     * @param decimal $attributeRatingClean
+     */
+    public function setAttributeRatingClean($attributeRatingClean)
+    {
+        $this->attributeRatingClean = $attributeRatingClean;
+    }
+
+    /**
+     * Get attributeRatingClean
+     *
+     * @return decimal 
+     */
+    public function getAttributeRatingClean()
+    {
+        return $this->attributeRatingClean;
+    }
+
+    /**
+     * Set attributeRatingWeighted
+     *
+     * @param decimal $attributeRatingWeighted
+     */
+    public function setAttributeRatingWeighted($attributeRatingWeighted)
+    {
+        $this->attributeRatingWeighted = $attributeRatingWeighted;
+    }
+
+    /**
+     * Get attributeRatingWeighted
+     *
+     * @return decimal 
+     */
+    public function getAttributeRatingWeighted()
+    {
+        return $this->attributeRatingWeighted;
+    }
+
+    /**
+     * Set attributes_total
+     *
+     * @param integer $attributesTotal
+     */
+    public function setAttributesTotal($attributesTotal)
+    {
+        $this->attributes_total = $attributesTotal;
+    }
+
+    /**
+     * Get attributes_total
+     *
+     * @return integer 
+     */
+    public function getAttributesTotal()
+    {
+        return $this->attributes_total;
+    }
+
+    /**
+     * Set attributes_rated
+     *
+     * @param integer $attributesRated
+     */
+    public function setAttributesRated($attributesRated)
+    {
+        $this->attributes_rated = $attributesRated;
+    }
+
+    /**
+     * Get attributes_rated
+     *
+     * @return integer 
+     */
+    public function getAttributesRated()
+    {
+        return $this->attributes_rated;
     }
 }

@@ -25,8 +25,7 @@ class RatingService {
     
     public function calculateRatings(){
         
-        $objects = $this->em->getRepository('ActualSkillCoreBundle:BaseEntity')->findAll();
-
+        $entities = $this->em->getRepository('ActualSkillCoreBundle:BaseEntity')->findAll();
         
         $constants = $this->em
                 ->createQuery('
@@ -39,7 +38,8 @@ class RatingService {
                 ->getSingleResult();
         
         $string = "";
-        foreach($objects as $object){
+        foreach($entities as $entity){
+           
             $ratings = $this->em
                 ->createQuery('
                     SELECT
@@ -53,19 +53,44 @@ class RatingService {
                     WHERE r.object = ?1
                     GROUP BY r.attribute
                 ')
-                ->setParameter(1, $object->getId())
+                ->setParameter(1, $entity->getId())
                 ->getResult();
             
             if(count($ratings) > 0){
+                $hasStatSheet = $this->em
+                ->createQuery('
+                    SELECT
+                    s
+                    FROM ActualSkillCoreBundle:StatSheet s 
+                    WHERE s.object = ?1
+                    AND s.created_at = ?2
+                ')
+                ->setParameter(1, $entity->getId())
+                ->setParameter(2, date("Y-m-d"))
+                ->getResult();
+                
+                if($hasStatSheet != null){
+                    // We already have a statsheet
+                    // For now we just continue
+                    continue;
+                }
+                
+                $num_attributes = count($entity->getRatingschema()->getAttributes());
+                $num_ratings = count($ratings);
+                
+                // We abort if the RatingSchema has 0 attributes
+                if($num_attributes == 0){
+                    continue;
+                }
                 
                 $statsheet = new \ActualSkill\CoreBundle\Entity\StatSheet();
-                $statsheet->setObject($object);                
+                $statsheet->setObject($entity);                
                 
                 $avg_num_votes = $constants['average']/$constants['attributes'];
                 $avg_rating = $constants['average'];
                 
-                $num=0;
-                $sum = 0;
+                $clean = 0;
+                $weighted = 0;
                 
                 foreach ($ratings as $rating){
                     $calculatedRating = new \ActualSkill\CoreBundle\Entity\CalculatedRating();
@@ -77,18 +102,25 @@ class RatingService {
                     $statsheet->addCalculatedRating($calculatedRating);
                     $calculatedRating->setStatsheet($statsheet);
 
-                    $sum += $calculatedRating->getAverageWeighted();
-                    $num++;
+                    // We count up 
+                    $clean += $calculatedRating->getAverageClean();
+                    $weighted += $calculatedRating->getAverageWeighted();
                 }
 
-                $average = $sum/$num;
-                $statsheet->setRating($average);
+                $statsheet->setAttributeRatingWeighted($weighted/$num_attributes);
+                $statsheet->setAttributeRatingClean($clean/$num_attributes);
+                $statsheet->setAttributesTotal($num_attributes);
+                $statsheet->setAttributesRated($num_ratings);
                 
+                $entity->setRatingAverage($weighted/$num_attributes);
+                
+                $this->em->persist($entity);                
                 $this->em->persist($statsheet);                
                 
-                $string .= $object->getName().": ";
-                $string .= "Attributes: ".$num." ";
-                $string .= "Average: ".$average;
+                $string .= $entity->getName().": ";
+                $string .= "Attributes rated: ".$num_ratings."/".$num_attributes." ";
+                $string .= "Average(clean): ".$statsheet->getAttributeRatingClean()." ";
+                $string .= "Average(weighted): ".$statsheet->getAttributeRatingWeighted()." ";
                 $string .= "\n"; 
             }               
         }

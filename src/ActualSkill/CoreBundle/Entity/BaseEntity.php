@@ -52,6 +52,13 @@ class BaseEntity
     protected $ratings;
     
     /**
+     * @var float $ratingAverage
+     *
+     * @ORM\Column(name="rating_average", type="decimal", precision=4, scale=2, nullable=true)
+     */       
+    protected $ratingAverage;
+    
+    /**
      *
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="object")
      */        
@@ -244,4 +251,24 @@ class BaseEntity
     {
         return $this->ratingschema;
     }
+    
+    /**
+     * Set ratingAverage
+     *
+     * @param string $ratingAverage
+     */
+    public function setRatingAverage($ratingAverage)
+    {
+        $this->ratingAverage = $ratingAverage;
+    }
+
+    /**
+     * Get ratingAverage
+     *
+     * @return string 
+     */
+    public function getRatingAverage()
+    {
+        return $this->ratingAverage;
+    }      
 }

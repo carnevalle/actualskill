@@ -20,7 +20,6 @@
             
         });
         
-        
         $('.btncomment').click(function() {  
             var textarea = $(this).siblings('textarea');
             var comment = textarea.val();
@@ -165,6 +164,7 @@ $(document).ready(function() {
     <div class="span-16">
         <h1>{{ player.fullname }} ({{player.age}} years)</h1>
         <h5>Height: {{player.height}} Weight: {{player.weight}} </h5>
+        <h5>Total skill: {{ player.ratingAverage }}</h5>
         <h5>Club: <a href="{{ path('site_club_show', { 'id': player.club.slug }) }}">{{ player.club.name }}</a> </h5>
     </div>
 </div>

@@ -146,9 +146,41 @@ class RatingSchema
     public function getSlug()
     {
         return $this->slug;
+    } 
+
+    /**
+     * Add objects
+     *
+     * @param ActualSkill\CoreBundle\Entity\BaseEntity $objects
+     */
+    public function addBaseEntity(\ActualSkill\CoreBundle\Entity\BaseEntity $objects)
+    {
+        $this->objects[] = $objects;
+    }
+
+    /**
+     * Get objects
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getObjects()
+    {
+        return $this->objects;
+    }
+    
+    public function getAttributes(){
+        $list = array();
+        
+        foreach ($this->categories as $category) {
+            foreach ($category->getAttributes() as $attribute){
+                $list[] = $attribute;
+            }
+        }
+        
+        return $list;
     }
     
     public function __toString() {
         return $this->name;
-    }    
+    }
 }
