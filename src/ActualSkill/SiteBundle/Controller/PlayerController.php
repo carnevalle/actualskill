@@ -39,10 +39,8 @@ class PlayerController extends Controller
      */
     public function showAction($id)
     {
-        $player = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:Player')->findOneBySlug($id);
-        
-        // test to trigger Symfony to load ratingschema
-        $player->getRatingschema();
+        //$player = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:Player')->findOneBySlug($id);
+        $player = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:Player')->findOneBySlugJoinedToRatingSchema($id);
         
         if (!$player) {
             throw $this->createNotFoundException('Unable to find Player entity.');

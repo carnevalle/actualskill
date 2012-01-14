@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\HasLifecycleCallbacks()
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="ActualSkill\CoreBundle\Repository\PlayerRepository")
  * @ORM\Table(name="Player")
  */
 class Player extends BaseEntity
