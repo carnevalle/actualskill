@@ -148,9 +148,11 @@
                       <ul>
                         <li class="attribute"><span title="{{ attribute.description }}">{{ attribute.name }}</span></li>
 
-
+                        {% if attribute.userRating is null %}
+                        <li id="{{attribute.slug}}_{{attribute.id}}" class="rateclick"><a href="#">?</a></li>
+                        {% else %}
                         <li id="{{attribute.slug}}_{{attribute.id}}" class="rateclick"><a href="#">{{ attribute.userRating }}</a></li>
-
+                        {% endif %}
 
                         <li class="totalrating" title="{{ attribute.numberOfRatings }}"><span>{{ attribute.averageRating }}</span></li>
 
