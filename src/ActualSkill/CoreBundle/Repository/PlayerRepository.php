@@ -17,8 +17,10 @@ class PlayerRepository extends EntityRepository
     {
         $query = $this->getEntityManager()
             ->createQuery('
-                SELECT p, r FROM ActualSkillCoreBundle:Player p
+                SELECT p, r, c, a FROM ActualSkillCoreBundle:Player p
                 JOIN p.ratingschema r
+                JOIN r.categories c
+                JOIN c.attributes a
                 WHERE p.slug = :slug'
             )->setParameter('slug', $slug);
 

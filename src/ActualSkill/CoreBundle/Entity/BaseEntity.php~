@@ -52,6 +52,13 @@ class BaseEntity
     protected $ratings;
     
     /**
+     * @var float $ratingAverage
+     *
+     * @ORM\Column(name="rating_average", type="decimal", precision=4, scale=2, nullable=true)
+     */       
+    protected $ratingAverage;
+    
+    /**
      *
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="object")
      */        
@@ -68,6 +75,12 @@ class BaseEntity
      * @ORM\ManyToOne(targetEntity="RatingSchema", inversedBy="objects")
      */        
     protected $ratingschema;
+    
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="BaseEntityLike", mappedBy="object")
+     */   
+    protected $likes;
     
     public function __construct() {
         $this->ratings = new ArrayCollection();
@@ -204,4 +217,64 @@ class BaseEntity
     {
         $this->comments[] = $comments;
     }
+
+    /**
+     * Add statsheets
+     *
+     * @param ActualSkill\CoreBundle\Entity\StatSheet $statsheets
+     */
+    public function addStatSheet(\ActualSkill\CoreBundle\Entity\StatSheet $statsheets)
+    {
+        $this->statsheets[] = $statsheets;
+    }
+
+    /**
+     * Get statsheets
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getStatsheets()
+    {
+        return $this->statsheets;
+    }
+
+    /**
+     * Set ratingschema
+     *
+     * @param ActualSkill\CoreBundle\Entity\RatingSchema $ratingschema
+     */
+    public function setRatingschema(\ActualSkill\CoreBundle\Entity\RatingSchema $ratingschema)
+    {
+        $this->ratingschema = $ratingschema;
+    }
+
+    /**
+     * Get ratingschema
+     *
+     * @return ActualSkill\CoreBundle\Entity\RatingSchema 
+     */
+    public function getRatingschema()
+    {
+        return $this->ratingschema;
+    }
+    
+    /**
+     * Set ratingAverage
+     *
+     * @param string $ratingAverage
+     */
+    public function setRatingAverage($ratingAverage)
+    {
+        $this->ratingAverage = $ratingAverage;
+    }
+
+    /**
+     * Get ratingAverage
+     *
+     * @return string 
+     */
+    public function getRatingAverage()
+    {
+        return $this->ratingAverage;
+    }      
 }

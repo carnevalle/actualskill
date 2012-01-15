@@ -60,12 +60,20 @@ class User extends BaseUser
      */        
     protected $comments;    
     
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="BaseEntityLike", mappedBy="user")
+     */
+    protected $likes;
+
+
     public function __construct()
     {
         parent::__construct();
         
         $this->ratings = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
     
     /**
@@ -197,6 +205,26 @@ class User extends BaseUser
     {
         $this->comments[] = $comments;
     }
+    
+    /**
+     * Add likes
+     *
+     * @param ActualSkill\CoreBundle\Entity\BaseEntityLike $likes
+     */
+    public function addBaseEntityLike(\ActualSkill\CoreBundle\Entity\BaseEntityLike $likes)
+    {
+        $this->likes[] = $likes;
+    }
+
+    /**
+     * Get likes
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getLikes()
+    {
+        return $this->likes;
+    }    
     
     public function __toString() {
         return $this->firstname." ".$this->lastname;

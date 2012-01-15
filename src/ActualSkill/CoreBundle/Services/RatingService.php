@@ -23,6 +23,26 @@ class RatingService {
         $this->em = $em;
     }
     
+    public function doesUserLikeEntity(\ActualSkill\CoreBundle\Entity\BaseEntity $object, \ActualSkill\CoreBundle\Entity\User $user){
+        $likes = $this->em
+                ->createQuery('
+                    SELECT
+                    l
+                    FROM ActualSkillCoreBundle:BaseEntityLike l
+                    WHERE l.object = ?1
+                    AND l.user = ?2
+                ')
+                ->setParameter(1, $object->getId())
+                ->setParameter(2, $user->getId())
+                ->getResult();        
+        
+        if($likes){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
     public function calculateRatings(){
         
         $entities = $this->em->getRepository('ActualSkillCoreBundle:BaseEntity')->findAll();

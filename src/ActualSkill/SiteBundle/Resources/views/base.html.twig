@@ -100,7 +100,7 @@
         <div class="container">
 
             <div class="row">
-                <div class="span-16">
+                <div class="span16">
                     <ul class="breadcrumb">
                     {% block breadcrumb %}
                         <li><a class="active" href="{{ path('_welcome') }}">Home</a> <span class="divider">/</span></li>
@@ -110,21 +110,17 @@
             </div>
 
             <div class="row">
-                <div class="span-16">
+                <div class="span16">
                    {% block top %}
                     
                     {% endblock %}
                 </div>
             </div>
 
-            <div class="row">
-                <div class="span-16">
-                  {% block body %}{% endblock %}
-                </div>
-            </div>
+            {% block body %}{% endblock %}
 
             <div class="row">
-                <div class="span-16">
+                <div class="span16">
                   {% block footer %}{% endblock %}
                 </div>
             </div>

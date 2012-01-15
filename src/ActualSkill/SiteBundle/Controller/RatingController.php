@@ -65,6 +65,6 @@ class RatingController extends Controller
         //print_r($attribute[0]->getSlug());
         
         
-        return new Response( '{ "id" : '.$result[0][0]->getId().', "slug" : "'.$result[0][0]->getSlug().'", "average" : '.$result[0]['average'].' }' );
+        return new Response( '{ "id" : '.$result[0][0]->getId().', "slug" : "'.$result[0][0]->getSlug().'", "average" : '.$result[0]['average'].', "name" : "'.$entity->getName().'" }' );
     }
 }

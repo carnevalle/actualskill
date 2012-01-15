@@ -2,6 +2,7 @@
 
 namespace ActualSkill\CoreBundle\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -49,7 +50,13 @@ class Rating
      */
     private $object;
 
-
+    /**
+     * @var datetime $updated_at
+     * 
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     */
+    private $created_at;
 
     /**
      * Get id
