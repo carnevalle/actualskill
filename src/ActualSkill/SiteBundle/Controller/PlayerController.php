@@ -41,6 +41,7 @@ class PlayerController extends Controller
     {
         //$player = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:Player')->findOneBySlug($id);
         $player = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:Player')->findOneBySlugJoinedToRatingSchema($id);
+        $randomplayer = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:Player')->findOneRandomJoinedToRatingSchema();
         
         if (!$player) {
             throw $this->createNotFoundException('Unable to find Player entity.');
@@ -56,6 +57,7 @@ class PlayerController extends Controller
         
         return array(
             'player'      => $player,
+            'randomplayer'=> $randomplayer,
             'categories'  => $player->getRatingschema()->getCategories(),
             'likes'       => $likes
             //'categories'  => $categories,

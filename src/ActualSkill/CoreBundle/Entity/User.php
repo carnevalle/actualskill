@@ -117,6 +117,16 @@ class User extends BaseUser
     }  
     
     /**
+     * Get full name
+     *
+     * @return string 
+     */
+    public function getFullname()
+    {
+        return $this->firstname." ".$this->lastname;
+    }      
+    
+    /**
      * Set club
      *
      * @param ActualSkill\CoreBundle\Entity\Club $club

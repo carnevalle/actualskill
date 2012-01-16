@@ -13,6 +13,27 @@ use Doctrine\ORM\EntityRepository;
 class PlayerRepository extends EntityRepository
 {
     
+    public function findOneRandomJoinedToRatingSchema($ignore = null){
+
+        $players = $this->findAll();
+        $randomplayer = $players[array_rand($players)];
+        
+        $query = $this->getEntityManager()
+            ->createQuery('
+                SELECT p, r, c, a FROM ActualSkillCoreBundle:Player p
+                JOIN p.ratingschema r
+                JOIN r.categories c
+                JOIN c.attributes a
+                WHERE p.id = :id'
+            )->setParameter('id', $randomplayer->getId());        
+
+        try {
+            return $query->getSingleResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
+    
     public function findOneBySlugJoinedToRatingSchema($slug)
     {
         $query = $this->getEntityManager()

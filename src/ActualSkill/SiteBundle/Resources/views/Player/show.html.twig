@@ -4,8 +4,8 @@
     {{ parent() }}
     
     {% javascripts
-        '@ActualSkillCoreBundle/Resources/public/js/libs/flot/jquery.flot.min.js'
         '@ActualSkillCoreBundle/Resources/public/js/jquery.autogrowtextarea.js'
+        '@ActualSkillCoreBundle/Resources/public/js/highcharts.js'
     %}    
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -15,6 +15,9 @@
 
 {% block header %}
 <script language="javascript"> 
+    
+    
+    var chart;
     $(document).ready(function() {     
         
         $(".autogrow").autogrow({
@@ -33,6 +36,7 @@
                 
                 if(data.like){
                     $('#likebutton a').html("unlike");
+                    $.jGrowl("You like {{player.name}}", { life: 1000 });
                 }else{
                     $('#likebutton a').html("like");
                 }
@@ -106,7 +110,54 @@
             $(this).addClass('active');
 
             return false;
+        });  
+        
+        var data = [];
+        var categories = [];
+        
+        {% for statsheet in player.statsheets %}
+            data.push({{statsheet.attributeRatingWeighted}})
+            categories.push("{{statsheet.createdAt|date("d. M", "Europe/Copenhagen")}}");
+        {% endfor %}
+        
+        chart1 = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container',
+                type: 'line'
+            },
+            legend: {
+                align: 'left',
+                verticalAlign: 'top',
+                y: 0,
+                floating: true,
+                borderWidth: 0
+            },         
+            title: {
+                text: 'Player Development'
+            },
+            credits: {
+                enabled: false
+            },
+            xAxis: {
+                tickInterval: 1,
+                categories: categories
+            },
+            yAxis: {
+                max: 10,
+                min: 0,
+                tickInterval: 2,
+                gridLineWidth: 1,
+                gridLineDashStyle: "dot",
+                title: {
+                    text: ''
+                }
+            },
+            series: [{
+                name: 'Skills',
+                data: data
+            }]
         });        
+        
     });
 
 </script> 
@@ -121,7 +172,7 @@
 {% block body %}
 
 <div class="page-header">
-    <h1>{{ player.fullname }} <small><span id="likebutton"><a href="#">{% if likes == true %} Unlike {% else %} Like {% endif %}</a></span></small></h1>    
+    <h1>{{ player.fullname }} <small><span id="likebutton"><a href="#">{% if likes == true %} Unlike {% else %} Like {% endif %}</a></span></small></h1>
 </div>    
     
 <div class="row">
@@ -130,53 +181,33 @@
         <img class="thumbnail" src="http://placehold.it/160x160" alt="">
 
     </div>
-    <div class="span13">
+    <div class="span6">
         <h2><a href="{{ path('site_club_show', { 'id': player.club.slug }) }}">{{ player.club.name }}</a></h2>       
         
         <h5>Age: {{player.age}}, Height: {{player.height}}, Weight: {{player.weight}} </h5>
         <h5>Total skill: {{ player.ratingAverage }}</h5>
-    </div>        
+    </div>              
 </div> 
-
-    <div class="row">
-        {% for category in categories %}
-            <div class="span4">
-                <h3>{{category.name}}</h3>
-                
-                {% for attribute in category.attributes %}
-                    <div class="rating2">
-                      <ul>
-                        <li class="attribute"><span title="{{ attribute.description }}">{{ attribute.name }}</span></li>
-
-                        {% if attribute.userRating is null %}
-                        <li id="{{attribute.slug}}_{{attribute.id}}" class="rateclick"><a href="#">?</a></li>
-                        {% else %}
-                        <li id="{{attribute.slug}}_{{attribute.id}}" class="rateclick"><a href="#">{{ attribute.userRating }}</a></li>
-                        {% endif %}
-
-                        <li class="totalrating" title="{{ attribute.numberOfRatings }}"><span>{{ attribute.averageRating }}</span></li>
-
-                      </ul>
-                    </div>
-                {% endfor %}
-                
-            </div>
-        {% endfor %}
-    </div>
     
 <div class="row">
     <div class="span16">
-        <ul class="tabs">
+        <div id="container" style="height:160px; width: 100%"></div>
+    </div>  
+</div>    
+    
+<div class="row">
+    <div class="span16">
+        <ul class="pills" data-pills="pills">
             {% for category in categories %}
                 {% if category.slug == "technical" %}
-                    <li><a href="#{{category.slug}}">{{category.name}}</a></li>
+                    <li class="active"><a href="#{{category.slug}}">{{category.name}}</a></li>
                 {% else %}
                     <li><a href="#{{category.slug}}">{{category.name}}</a></li>
                 {% endif %}
             {% endfor %}
         </ul>
 
-        <div class="tab-content">
+        <div class="pill-content">
             {% for category in categories %}
 
                 {% if category.slug == "technical" %}
@@ -184,7 +215,6 @@
                 {% else %}
                     <div id="{{category.slug}}">
                 {% endif %}
-
                     
                     {% for attribute in category.attributes %}
                         <div class="rating">
@@ -212,21 +242,22 @@
 </div>
     
 <div class="row">
-    <h2>Comments</h2>
-    
-    
-    <div>
-    <textarea class="xxlarge autogrow" name="comment" rows="1" style="resize:none"></textarea>
-    <input type="submit" class="btn primary btncomment" value="Submit"/>
-    </div>  
-
-    <div id="comments">
-    {% for comment in player.comments %}
-        {{comment.createdAt|date("m/d/Y")}} {{comment.comment}} <br />
-    {% endfor %}
+    <div class="span16">
+        <h2>Comments</h2>
+        <textarea class="xxlarge span16 autogrow" name="comment" rows="1"></textarea>
+        <input type="submit" class="btn primary btncomment" value="Submit"/>    
+        
+        <div id="comments">
+        {% for comment in player.comments %}
+            <div>
+                <span><strong>{{comment.user.fullname}}</strong></span><br/>
+                <span>{{comment.comment}}</span><br/>
+                <span><small>{{comment.createdAt|date("m/d/Y")}}</small></span>
+            </div>
+        {% endfor %}
+        </div>        
     </div>
     
-
 </div>
 
   <script>
