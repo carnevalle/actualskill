@@ -4,11 +4,19 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
+    <parameters>
+        <parameter key="actualskill.request_listener.class">ActualSkill\CoreBundle\EventListener\RequestListener</parameter>
+    </parameters>
+
     <services>
         <service id="actual_skill_core.rating_service" class="ActualSkill\CoreBundle\Services\RatingService">
             <!--Inject entity manager-->
             <argument type="service" id="doctrine.orm.entity_manager" />            
         </service>
+       <service id="actualskill.request_listener" class="%actualskill.request_listener.class%">
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
+            <argument type="service" id="service_container" />
+        </service>    
     </services>
 
     <!--

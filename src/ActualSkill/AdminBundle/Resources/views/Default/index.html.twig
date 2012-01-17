@@ -1,5 +1,17 @@
 {% extends 'ActualSkillAdminBundle::admin.html.twig' %}
 
 {% block body %}
-This is the admin
+
+<table>
+    {% for user in users %}
+    
+        <tr>
+            <td>{{user.username}}</td>
+            <td>{{user.lastLogin|date("d/m/Y H:i")}}</td>
+        </tr>
+
+    {% endfor %}
+
+</table>
+
 {% endblock %}
