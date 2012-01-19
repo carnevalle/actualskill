@@ -6,24 +6,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use ActualSkill\CoreBundle\Entity\Rating;
-use ActualSkill\CoreBundle\Form\RatingType;
+use ActualSkill\CoreBundle\Entity\FieldPositionRating;
 use Symfony\Component\HttpFoundation\Response;
 use \Exception;
 
 /**
- * Rating controller.
+ * FieldPositionRating controller.
  */
-class RatingController extends Controller
+class FieldPositionRatingController extends Controller
 {
 
 
     /**
      * Creates a new Rating entity.
      *
-     * @Route("/rate/{entity_slug}/{attribute_slug}/{value}", defaults={"value" = 5}, name="rate_attribute")
+     * @Route("/rate/{player_slug}/position/{position_slug}/{value}", defaults={"value" = 5}, name="rate_field_position")
      */    
-    public function rateAction($entity_slug, $attribute_slug, $value)
+    public function rateAction($player_slug, $position_slug, $value)
     {
         
         $value = min(max(0,$value),10);
@@ -34,26 +33,29 @@ class RatingController extends Controller
         
         $em = $this->getDoctrine()->getEntityManager();
         $user = $this->get('security.context')->getToken()->getUser();
-        $entity = $em->getRepository('ActualSkillCoreBundle:BaseEntity')->findOneBySlug($entity_slug);
-        $attribute = $em->getRepository('ActualSkillCoreBundle:Attribute')->findOneBySlug($attribute_slug);
+        $player = $em->getRepository('ActualSkillCoreBundle:Player')->findOneBySlug($player_slug);
+        $fieldPosition = $em->getRepository('ActualSkillCoreBundle:FieldPosition')->findOneBySlug($position_slug);
         
         if(!is_numeric($value)){
             throw new Exception("Rating must be a numeric value");
-        }else if (!$entity) {
-            throw $this->createNotFoundException('Unable to find entity.');
-        }else if(!$attribute){
-            throw $this->createNotFoundException('Unable to find Attribute entity.');
+        }else if (!$player) {
+            throw $this->createNotFoundException('Unable to find player entity.');
+        }else if(!$fieldPosition){
+            throw $this->createNotFoundException('Unable to find FieldPosition entity.');
         }
         
         $rating = $this->getDoctrine()
-                ->getRepository('ActualSkillCoreBundle:Rating')
-                ->findOneBy(array('object' => $entity->getId(), 'user' => $user->getId(), 'attribute' => $attribute->getId()));
+                ->getRepository('ActualSkillCoreBundle:FieldPositionRating')
+                ->findOneBy(array('player' => $player->getId(), 'user' => $user->getId(), 'fieldPosition' => $fieldPosition->getId()));
+        
         
         if(is_null($rating)){
-            $rating = new Rating();
-            $rating->setObject($entity);
-            $rating->setAttribute($attribute);
+            
+            $rating = new FieldPositionRating();
+            $rating->setPlayer($player);
+            $rating->setFieldPosition($fieldPosition);
             $rating->setUser($user);            
+            
         }
         
         $rating->setRating($value);
@@ -61,9 +63,10 @@ class RatingController extends Controller
         $em->persist($rating);
         $em->flush();
         
+        /*
         $repository = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:Attribute');
         $result = $repository->findBySlugWithRating($attribute_slug, $entity, $this->get('security.context')->getToken()->getUser());
-        
-        return new Response( '{ "id" : '.$result[0][0]->getId().', "slug" : "'.$result[0][0]->getSlug().'", "average" : '.$result[0]['average'].', "name" : "'.$entity->getName().'" }' );
+        */
+        return new Response("I want to rate crazy shit! ".$value);
     }
 }

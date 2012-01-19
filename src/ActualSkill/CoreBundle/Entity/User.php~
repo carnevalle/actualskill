@@ -1,12 +1,12 @@
 <?php
 
-namespace ActualSkill\SharedEntityBundle\Entity;
+namespace ActualSkill\CoreBundle\Entity;
 use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * ActualSkill\SharedEntityBundle\Entity\User
+ * ActualSkill\CoreBundle\Entity\User
  * 
  * @ORM\Entity
  * @ORM\Table(name="ActualSkillUser")
@@ -20,6 +20,20 @@ class User extends BaseUser
      */
     protected $id;
 
+    /**
+     * @var string $firstname
+     *
+     * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
+     */
+    private $firstname;
+    
+    /**
+     * @var string $lastname
+     *
+     * @ORM\Column(name="lastname", type="string", length=255, nullable=true)
+     */
+    private $lastname;    
+    
     /**
      *
      * @ORM\ManyToOne(targetEntity="Country")
@@ -42,24 +56,38 @@ class User extends BaseUser
     
     /**
      *
+     * @ORM\OneToMany(targetEntity="FieldPositionRating", mappedBy="user")
+     */    
+    protected $fieldPositionRatings;    
+    
+    /**
+     *
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="user")
      */        
     protected $comments;    
     
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="BaseEntityLike", mappedBy="user")
+     */
+    protected $likes;
+
+
     public function __construct()
     {
         parent::__construct();
         
         $this->ratings = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
     
     /**
      * Set nationality
      *
-     * @param ActualSkill\SharedEntityBundle\Entity\Country $nationality
+     * @param ActualSkill\CoreBundle\Entity\Country $nationality
      */
-    public function setNationality(\ActualSkill\SharedEntityBundle\Entity\Country $nationality)
+    public function setNationality(\ActualSkill\CoreBundle\Entity\Country $nationality)
     {
         $this->nationality = $nationality;
     }
@@ -67,19 +95,49 @@ class User extends BaseUser
     /**
      * Get nationality
      *
-     * @return ActualSkill\SharedEntityBundle\Entity\Country 
+     * @return ActualSkill\CoreBundle\Entity\Country 
      */
     public function getNationality()
     {
         return $this->nationality;
     }
 
+    public function getFirstname()
+    {
+        return $this->firstname;
+    }    
+
+    public function setFirstname($firstname)
+    {
+        $this->firstname = $firstname;
+    }    
+    
+    public function getLastname()
+    {
+        return $this->lastname;
+    }    
+    
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
+    }  
+    
+    /**
+     * Get full name
+     *
+     * @return string 
+     */
+    public function getFullname()
+    {
+        return $this->firstname." ".$this->lastname;
+    }      
+    
     /**
      * Set club
      *
-     * @param ActualSkill\SharedEntityBundle\Entity\Club $club
+     * @param ActualSkill\CoreBundle\Entity\Club $club
      */
-    public function setClub(\ActualSkill\SharedEntityBundle\Entity\Club $club)
+    public function setClub(\ActualSkill\CoreBundle\Entity\Club $club)
     {
         $this->club = $club;
     }
@@ -87,7 +145,7 @@ class User extends BaseUser
     /**
      * Get club
      *
-     * @return ActualSkill\SharedEntityBundle\Entity\Club 
+     * @return ActualSkill\CoreBundle\Entity\Club 
      */
     public function getClub()
     {
@@ -97,9 +155,9 @@ class User extends BaseUser
     /**
      * Add ratings
      *
-     * @param ActualSkill\SharedEntityBundle\Entity\Rating $ratings
+     * @param ActualSkill\CoreBundle\Entity\Rating $ratings
      */
-    public function addRatings(\ActualSkill\SharedEntityBundle\Entity\Rating $ratings)
+    public function addRatings(\ActualSkill\CoreBundle\Entity\Rating $ratings)
     {
         $this->ratings[] = $ratings;
     }
@@ -117,9 +175,9 @@ class User extends BaseUser
     /**
      * Add comments
      *
-     * @param ActualSkill\SharedEntityBundle\Entity\Comment $comments
+     * @param ActualSkill\CoreBundle\Entity\Comment $comments
      */
-    public function addComments(\ActualSkill\SharedEntityBundle\Entity\Comment $comments)
+    public function addComments(\ActualSkill\CoreBundle\Entity\Comment $comments)
     {
         $this->comments[] = $comments;
     }
@@ -133,4 +191,58 @@ class User extends BaseUser
     {
         return $this->comments;
     }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Add ratings
+     *
+     * @param ActualSkill\CoreBundle\Entity\Rating $ratings
+     */
+    public function addRating(\ActualSkill\CoreBundle\Entity\Rating $ratings)
+    {
+        $this->ratings[] = $ratings;
+    }
+
+    /**
+     * Add comments
+     *
+     * @param ActualSkill\CoreBundle\Entity\Comment $comments
+     */
+    public function addComment(\ActualSkill\CoreBundle\Entity\Comment $comments)
+    {
+        $this->comments[] = $comments;
+    }
+    
+    /**
+     * Add likes
+     *
+     * @param ActualSkill\CoreBundle\Entity\BaseEntityLike $likes
+     */
+    public function addBaseEntityLike(\ActualSkill\CoreBundle\Entity\BaseEntityLike $likes)
+    {
+        $this->likes[] = $likes;
+    }
+
+    /**
+     * Get likes
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getLikes()
+    {
+        return $this->likes;
+    }    
+    
+    public function __toString() {
+        return $this->firstname." ".$this->lastname;
+    }    
 }

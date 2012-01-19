@@ -56,6 +56,12 @@ class User extends BaseUser
     
     /**
      *
+     * @ORM\OneToMany(targetEntity="FieldPositionRating", mappedBy="user")
+     */    
+    protected $fieldPositionRatings;    
+    
+    /**
+     *
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="user")
      */        
     protected $comments;    
@@ -74,6 +80,7 @@ class User extends BaseUser
         $this->ratings = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->likes = new ArrayCollection();
+        $this->fieldPositionRatings = new ArrayCollection();
     }
     
     /**
@@ -239,4 +246,24 @@ class User extends BaseUser
     public function __toString() {
         return $this->firstname." ".$this->lastname;
     }    
+
+    /**
+     * Add fieldPositionRatings
+     *
+     * @param ActualSkill\CoreBundle\Entity\FieldPositionRating $fieldPositionRatings
+     */
+    public function addFieldPositionRating(\ActualSkill\CoreBundle\Entity\FieldPositionRating $fieldPositionRatings)
+    {
+        $this->fieldPositionRatings[] = $fieldPositionRatings;
+    }
+
+    /**
+     * Get fieldPositionRatings
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getFieldPositionRatings()
+    {
+        return $this->fieldPositionRatings;
+    }
 }

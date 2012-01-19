@@ -13,10 +13,12 @@
             <!--Inject entity manager-->
             <argument type="service" id="doctrine.orm.entity_manager" />            
         </service>
+        <!--
        <service id="actualskill.request_listener" class="%actualskill.request_listener.class%">
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
             <argument type="service" id="service_container" />
         </service>    
+        -->
     </services>
 
     <!--

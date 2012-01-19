@@ -3,6 +3,7 @@
 namespace ActualSkill\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * ActualSkill\CoreBundle\Entity\Player
@@ -46,30 +47,23 @@ class Player extends BaseEntity
     /**
      * @var date $birthday
      *
-     * @ORM\Column(name="birthday", type="date")
+     * @ORM\Column(name="birthday", type="date", nullable=true)
      */
     private $birthday;    
     
     /**
      * @var integer $height
      *
-     * @ORM\Column(name="height", type="integer")
+     * @ORM\Column(name="height", type="integer", nullable=true)
      */
     private $height;
 
     /**
      * @var integer $weight
      *
-     * @ORM\Column(name="weight", type="integer")
+     * @ORM\Column(name="weight", type="integer", nullable=true)
      */
-    private $weight;
-    
-    /**
-     * @var integer $isGoalkeeper
-     *
-     * @ORM\Column(name="isGoalkeeper", type="boolean")
-     */
-    private $isGoalkeeper;    
+    private $weight; 
     
     /**
      *
@@ -83,10 +77,18 @@ class Player extends BaseEntity
      * @ORM\ManyToOne(targetEntity="Country", inversedBy="players")
      * @ORM\JoinColumn(name="country_id", referencedColumnName="id")
      */
-    protected $country;    
+    protected $country; 
+    
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="FieldPositionRating", mappedBy="player")
+     */    
+    protected $fieldPositionRatings;     
     
     public function __construct() {
         parent::__construct();
+        $this->fieldPositionRatings = new ArrayCollection();
+        
     }
     
     /**
@@ -315,4 +317,28 @@ class Player extends BaseEntity
     public function getIsGoalkeeper(){
         return $this->isGoalkeeper;
     }
+    
+    /**
+     * Add fieldPositionRatings
+     *
+     * @param ActualSkill\CoreBundle\Entity\FieldPositionRating $fieldPositionRatings
+     */
+    public function addFieldPositionRating(\ActualSkill\CoreBundle\Entity\FieldPositionRating $fieldPositionRatings)
+    {
+        $this->fieldPositionRatings[] = $fieldPositionRatings;
+    }
+
+    /**
+     * Get fieldPositionRatings
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getFieldPositionRatings()
+    {
+        return $this->fieldPositionRatings;
+    }    
+    
+    public function __toString() {
+        return "";
+    }     
 }

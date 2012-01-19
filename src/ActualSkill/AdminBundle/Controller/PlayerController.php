@@ -102,16 +102,67 @@ class PlayerController extends Controller
      */
     public function importAction(){
         
-        $form   = $this->createFormBuilder()
-                ->add("data", "textarea")
-                ->getForm();
+        $request = $this->getRequest();
         
-        return array(
-            'form'   => $form->createView()
-        );
+        
+        if($request->get("comment") != null && strlen( trim($request->get("comment")) ) > 0 ){
+            
+            $data = $this->parse_csv($request->get("comment"));
+            
+            return array(
+                'data' => $data
+            );
+        }else{
+            return array(
+                'data' => null
+            );            
+        }
         
     }
 
+    private function parse_csv($file,$comma=';',$quote='"',$newline="\n") {
+    
+    $db_quote = $quote . $quote;
+    
+    // Clean up file
+    $file = trim($file);
+    $file = str_replace("\r\n",$newline,$file);
+    
+    $file = str_replace($db_quote,'&quot;',$file); // replace double quotes with &quot; HTML entities
+    $file = str_replace(',&quot;,',',,',$file); // handle ,"", empty cells correctly
+  
+    $file .= $comma; // Put a comma on the end, so we parse last cell  
+  
+    $inquotes = false;
+    $start_point = 0;
+    $row = 0;
+    
+    for($i=0; $i<strlen($file); $i++) {
+        
+        $char = $file[$i];
+        if ($char == $quote) {
+            if ($inquotes) {
+                $inquotes = false;
+                }
+            else { 
+                $inquotes = true;
+                }
+            }        
+        
+        if (($char == $comma or $char == $newline) and !$inquotes) {
+            $cell = substr($file,$start_point,$i-$start_point);
+            $cell = str_replace($quote,'',$cell); // Remove delimiter quotes
+            $cell = str_replace('&quot;',$quote,$cell); // Add in data quotes
+            $data[$row][] = $cell;
+            $start_point = $i + 1;
+            if ($char == $newline) {
+                $row ++;
+                }
+            }
+        }
+        return $data;
+    }
+    
     /**
      * Displays a form to edit an existing Player entity.
      *

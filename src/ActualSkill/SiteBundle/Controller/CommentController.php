@@ -25,7 +25,7 @@ class CommentController extends Controller
         
         $request = $this->getRequest();
 
-        if($request->get("comment") != null && strlen( trim($request->get("comment")) ) ){
+        if($request->get("comment") != null && strlen( trim($request->get("comment")) ) > 0 ){
             
             $em = $this->getDoctrine()->getEntityManager();
             $user = $this->get('security.context')->getToken()->getUser();

@@ -1,16 +1,43 @@
-<h1>Import players</h1>
+{% extends 'ActualSkillAdminBundle::admin.html.twig' %}
 
-<form action="{{ path('admin_player_import') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <p>
-        <button type="submit">Create</button>
-    </p>
-</form>
+{% block body %}
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('admin_players') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+<div class="row">
+    <div class="span16">
+        <h1>Import players</h1>
+
+        {% if data == null %}
+            <form action="{{ path('admin_player_import') }}" method="post">
+                <textarea class="xxlarge span16 autogrow" name="comment" rows="15" style="margin-bottom: 10px">{{data}}</textarea>
+                <input type="submit" class="btn primary" value="Submit"/>   
+            </form>
+        {% else %}
+
+        <form action="{{ path('admin_player_import') }}" method="post">
+
+            <table>
+            
+                <tr>
+                    <td></td>
+                {% for row in data[0] %}
+                    <td><input type="checkbox" name="col[]" /></td>
+                {% endfor %}
+                </tr>
+            {% for row in data %}
+                <tr>
+                    <td><input type="checkbox" checked="checked" name="row[]"/></td>
+                {% for column in row %}
+                    <td><input type="input" value="{{ column }}" class="span2" name="col_data_{{loop.index0}}[]"/></td>
+                {% endfor %}
+                </tr>
+            {% endfor %}
+            </table>
+                
+            <input type="submit" class="btn primary" value="Submit"/>   
+        </form>
+
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

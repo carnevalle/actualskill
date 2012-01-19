@@ -34,14 +34,7 @@ class Category
      * @Gedmo\Slug(fields={"name"})
      * @ORM\Column(length=128, unique=true)
      */
-    protected $slug; 
-    
-    /**
-     * @var string $type
-     *
-     * @ORM\Column(name="type", type="string", length=255)
-     */
-    private $type;
+    protected $slug;
     
     /**
      * @ORM\ManyToMany(targetEntity="Attribute")
@@ -110,27 +103,7 @@ class Category
     public function getSlug()
     {
         return $this->slug;
-    }   
-    
-    /**
-     * Set type
-     *
-     * @param string $type
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-    }
-
-    /**
-     * Get type
-     *
-     * @return string 
-     */
-    public function getType()
-    {
-        return $this->type;
-    }    
+    }      
     
     /**
      * Add attributes
