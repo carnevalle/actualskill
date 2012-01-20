@@ -56,9 +56,9 @@ class User extends BaseUser
     
     /**
      *
-     * @ORM\OneToMany(targetEntity="FieldPositionRating", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="PositionRating", mappedBy="user")
      */    
-    protected $fieldPositionRatings;    
+    protected $positionRatings;    
     
     /**
      *
@@ -80,7 +80,7 @@ class User extends BaseUser
         $this->ratings = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->likes = new ArrayCollection();
-        $this->fieldPositionRatings = new ArrayCollection();
+        $this->ositionRatings = new ArrayCollection();
     }
     
     /**
@@ -248,22 +248,22 @@ class User extends BaseUser
     }    
 
     /**
-     * Add fieldPositionRatings
+     * Add positionRatings
      *
-     * @param ActualSkill\CoreBundle\Entity\FieldPositionRating $fieldPositionRatings
+     * @param ActualSkill\CoreBundle\Entity\PositionRating $positionRatings
      */
-    public function addFieldPositionRating(\ActualSkill\CoreBundle\Entity\FieldPositionRating $fieldPositionRatings)
+    public function addPositionRating(\ActualSkill\CoreBundle\Entity\PositionRating $positionRatings)
     {
-        $this->fieldPositionRatings[] = $fieldPositionRatings;
+        $this->positionRatings[] = $positionRatings;
     }
 
     /**
-     * Get fieldPositionRatings
+     * Get positionRatings
      *
      * @return Doctrine\Common\Collections\Collection 
      */
-    public function getFieldPositionRatings()
+    public function getPositionRatings()
     {
-        return $this->fieldPositionRatings;
+        return $this->positionRatings;
     }
 }

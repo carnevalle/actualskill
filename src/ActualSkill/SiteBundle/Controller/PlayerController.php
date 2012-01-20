@@ -42,6 +42,7 @@ class PlayerController extends Controller
         //$player = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:Player')->findOneBySlug($id);
         $player = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:Player')->findOneBySlugJoinedToRatingSchema($id);
         $randomplayer = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:Player')->findOneRandomJoinedToRatingSchema();
+        $positions = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:PlayerPosition')->findAllOrderByASC();
         
         if (!$player) {
             throw $this->createNotFoundException('Unable to find Player entity.');
@@ -59,7 +60,8 @@ class PlayerController extends Controller
             'player'      => $player,
             'randomplayer'=> $randomplayer,
             'categories'  => $player->getRatingschema()->getCategories(),
-            'likes'       => $likes
+            'likes'       => $likes,
+            'positions'   => $positions,
             //'categories'  => $categories,
         );
     }

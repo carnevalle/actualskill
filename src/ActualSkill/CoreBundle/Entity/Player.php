@@ -81,13 +81,13 @@ class Player extends BaseEntity
     
     /**
      *
-     * @ORM\OneToMany(targetEntity="FieldPositionRating", mappedBy="player")
+     * @ORM\OneToMany(targetEntity="PositionRating", mappedBy="player")
      */    
-    protected $fieldPositionRatings;     
+    protected $positionRatings;     
     
     public function __construct() {
         parent::__construct();
-        $this->fieldPositionRatings = new ArrayCollection();
+        $this->positionRatings = new ArrayCollection();
         
     }
     
@@ -319,24 +319,24 @@ class Player extends BaseEntity
     }
     
     /**
-     * Add fieldPositionRatings
+     * Add positionRatings
      *
-     * @param ActualSkill\CoreBundle\Entity\FieldPositionRating $fieldPositionRatings
+     * @param ActualSkill\CoreBundle\Entity\PositionRating $positionRatings
      */
-    public function addFieldPositionRating(\ActualSkill\CoreBundle\Entity\FieldPositionRating $fieldPositionRatings)
+    public function addPositionRating(\ActualSkill\CoreBundle\Entity\PositionRating $positionRatings)
     {
-        $this->fieldPositionRatings[] = $fieldPositionRatings;
+        $this->positionRatings[] = $positionRatings;
     }
 
     /**
-     * Get fieldPositionRatings
+     * Get positionRatings
      *
      * @return Doctrine\Common\Collections\Collection 
      */
-    public function getFieldPositionRatings()
+    public function getPositionRatings()
     {
-        return $this->fieldPositionRatings;
-    }    
+        return $this->positionRatings;
+    }   
     
     public function __toString() {
         return "";

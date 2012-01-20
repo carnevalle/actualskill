@@ -306,6 +306,23 @@
     </div>
 </div>
     
+        
+<div class="row">
+    <div class="span16">
+        {% for position in positions %}
+            
+            {% if position.category == "defence" %}
+            <span style="color:red">{{position.name}} ({{position.shortname}})</span>
+            {% elseif position.category == "midfield" %}
+            <span style="color:blue">{{position.name}} ({{position.shortname}})</span>
+            {% elseif position.category == "attack" %}
+            <span style="color:green">{{position.name}} ({{position.shortname}})</span>
+            {% endif %}
+            <br />
+        {% endfor %}   
+    </div>
+</div>        
+        
 <div class="row">
     <div class="span16">
         <h2>Comments</h2>
