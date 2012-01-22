@@ -4,7 +4,7 @@
 
 <ul>
 {% for player in players %}
-    <li><a href="{{ path('player_show', { 'id': player.slug }) }}">{{ player.fullname }}</a></li>
+    <li><span class="label success">{{player.ratingAverage}}</span> <a href="{{ path('player_show', { 'id': player.slug }) }}">{{ player.fullname }}</a></li>
 {% endfor %}
 </ul>
 {% endblock %}
