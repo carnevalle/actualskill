@@ -47,6 +47,7 @@ class RatingService {
         
         $entities = $this->em->getRepository('ActualSkillCoreBundle:BaseEntity')->findAll();
         
+        // We get average rating, total number of ratings
         $constants = $this->em
                 ->createQuery('
                     SELECT
@@ -106,7 +107,7 @@ class RatingService {
                 $statsheet = new \ActualSkill\CoreBundle\Entity\StatSheet();
                 $statsheet->setObject($entity);                
                 
-                $avg_num_votes = $constants['average']/$constants['attributes'];
+                $avg_num_votes = $constants['total']/$constants['attributes'];
                 $avg_rating = $constants['average'];
                 
                 $clean = 0;
