@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new ActualSkill\SiteBundle\ActualSkillSiteBundle(),
             new ActualSkill\CoreBundle\ActualSkillCoreBundle(),
             new ActualSkill\AdminBundle\ActualSkillAdminBundle(),
+            new ActualSkill\UserBundle\ActualSkillUserBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

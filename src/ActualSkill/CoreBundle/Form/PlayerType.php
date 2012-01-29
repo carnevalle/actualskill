@@ -18,7 +18,6 @@ class PlayerType extends AbstractType
             ->add('birthday', 'birthday', array('widget' => 'choice', 'years' => range(date('Y')-100,date('Y'))))
             ->add('height')
             ->add('weight')
-            ->add('isGoalkeeper')
             ->add('ratingschema')
             ->add('club')
             ->add('country')
@@ -27,8 +26,7 @@ class PlayerType extends AbstractType
         $builder->get('name')->setRequired(false);
         $builder->get('nickname')->setRequired(false);
         $builder->get('twitter')->setRequired(false);
-        $builder->get('club')->setRequired(false);
-        $builder->get('isGoalkeeper')->setRequired(false);        
+        $builder->get('club')->setRequired(false);       
     }
 
     public function getName()
