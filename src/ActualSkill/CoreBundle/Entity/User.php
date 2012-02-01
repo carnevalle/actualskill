@@ -62,6 +62,12 @@ class User extends BaseUser
     
     /**
      *
+     * @ORM\OneToMany(targetEntity="PerformanceRating", mappedBy="user")
+     */    
+    protected $performanceRatings;       
+    
+    /**
+     *
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="user")
      */        
     protected $comments;    
@@ -80,7 +86,8 @@ class User extends BaseUser
         $this->ratings = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->likes = new ArrayCollection();
-        $this->ositionRatings = new ArrayCollection();
+        $this->positionRatings = new ArrayCollection();
+        $this->performanceRatings = new ArrayCollection();
     }
     
     /**
@@ -266,4 +273,24 @@ class User extends BaseUser
     {
         return $this->positionRatings;
     }
+    
+    /**
+     * Add performanceRatings
+     *
+     * @param ActualSkill\CoreBundle\Entity\PerformanceRating $performanceRatings
+     */
+    public function addPerformanceRating(\ActualSkill\CoreBundle\Entity\PerformanceRating $performanceRatings)
+    {
+        $this->performanceRatings[] = $performanceRatings;
+    }
+
+    /**
+     * Get performanceRatings
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getPerformanceRatings()
+    {
+        return $this->performanceRatings;
+    }    
 }

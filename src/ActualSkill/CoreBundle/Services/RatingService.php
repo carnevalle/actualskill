@@ -61,6 +61,7 @@ class RatingService {
         $string = "";
         foreach($entities as $entity){
            
+            // Shouldn't this only get ratings from attributes in the associated Rating Schema?
             $ratings = $this->em
                 ->createQuery('
                     SELECT

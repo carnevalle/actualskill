@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({"base" = "BaseEntity", "player" = "Player", "club" = "Club", "stadium" = "Stadium"})
+ * @ORM\DiscriminatorMap({"base" = "BaseEntity", "player" = "Player", "club" = "Club", "stadium" = "Stadium", "match" = "FootballMatch"})
  */
 class BaseEntity
 {

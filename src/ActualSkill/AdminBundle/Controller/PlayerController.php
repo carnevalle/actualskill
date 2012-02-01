@@ -97,7 +97,7 @@ class PlayerController extends Controller
     /**
      * Imports players from a CSV list
      * 
-     * @Route("/admin/player/import", name="admin_player_import")
+     * @Route("/admin/players/import", name="admin_players_import")
      * @Template()
      */
     public function importAction(){

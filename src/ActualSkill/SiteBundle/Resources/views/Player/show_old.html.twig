@@ -73,10 +73,6 @@
             return false;
         });
 
-        $('.ratingbox').bind('click', function() {
-            $('#myModal').modal();
-        }); 
-
         $('.rateclick').bind('click', function() {
             
             var attribute = this.id.split("_")[0];
@@ -242,13 +238,13 @@
 
 {% block body %}
 
-<div class="row">
-    <div class="span8">
-        <h1>{{ player.fullname }} <img src="{{ asset('bundles/actualskillsite/img/flags/') }}{{player.country.iso2}}.png"/> <small><span id="likebutton"><a href="#">{% if likes == true %} Unlike {% else %} Like {% endif %}</a></span></small></h1>
-        <h2><a href="{{ path('site_club_show', { 'id': player.club.slug }) }}">{{ player.club.name }}</a> <small>Age: {{player.age}}, Height: {{player.height}}cm, Weight: {{player.weight}}kg</small></h2>				        
-    </div>
-        
-    <div class="span4">
+<div class="header">
+    <div class="container">
+        <div class="eleven columns">
+            <h1>{{ player.fullname }} <img src="{{ asset('bundles/actualskillsite/img/flags/') }}{{player.country.iso2}}.png"/> <small><span id="likebutton"><a href="#">{% if likes == true %} Unlike {% else %} Like {% endif %}</a></span></small></h1>
+            <h2><a href="{{ path('site_club_show', { 'id': player.club.slug }) }}">{{ player.club.name }}</a> <small>Age: {{player.age}}, Height: {{player.height}}cm, Weight: {{player.weight}}kg</small></h2>				
+        </div>
+
         <div class="five columns statcontainer">
             <div class="stats">
                 <span class="statbox">
@@ -264,46 +260,89 @@
                     <span class="number">0</span>
                 </span>
             </div>					
-        </div>
-    </div>
-        
-    <div class="span12">
-        <div id="chart" style="height:200px; width: 100%"></div>
-    </div>                
-</div>
- 
-<div class="row">
-    {% for category in categories %}
+        </div>							
+    </div><!-- container -->
+</div>    
+<div class="body">
+    <div class="container" >
+        <div class="eleven columns">
+            <div id="chart" style="height:200px; width: 100%"></div>
+            
+                <ul class="pills" data-pills="pills">
+                    {% for category in categories %}
+                        {% if category.slug == "technical" %}
+                            <li class="active"><a href="#{{category.slug}}">{{category.name}}</a></li>
+                        {% else %}
+                            <li><a href="#{{category.slug}}">{{category.name}}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>            
+            
+                <div class="pill-content">
+                {% for category in categories %}
 
-            <div id="{{category.slug}}" class="span3">
-                <h3>{{category.name}}</h3>
-            {% for attribute in category.attributes %}
-
-                <div title="{{ attribute.description }}" class="ratingbox">
-                    <div class="description">
-                        {{ attribute.name }}                             
+                    {% if category.slug == "technical" %}
+                        <div id="{{category.slug}}" class="active">
+                    {% else %}
+                        <div id="{{category.slug}}" class="">
+                    {% endif %}
+    
+                        {% for attribute in category.attributes %}
+                            
+                            <div title="{{ attribute.description }}" class="ratingbox clearfix">
+                                <div class="description">{{ attribute.name }}</div>
+                                
+                                <div class="buttons">
+                                    {% for i in 1..10 %}
+                                        {% if attribute.userRating == i %}
+                                        <div id="{{attribute.slug}}_{{attribute.id}}" class="active rateclick ratingbutton">{{i}}</div>
+                                        {% else %}
+                                        <div id="{{attribute.slug}}_{{attribute.id}}" class="rateclick ratingbutton">{{i}}</div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>    
+                            </div>    
+                        {% endfor %} 
                     </div>
-
-                    <div class="ratingbuttons">                            
-                        {% for i in 1..10 %}
-                            {% if attribute.userRating == i %}
-                            <div id="{{attribute.slug}}_{{attribute.id}}" class="active rateclick ratingbutton">{{i}}</div>
-                            {% else %}
-                            <div id="{{attribute.slug}}_{{attribute.id}}" class="rateclick ratingbutton">{{i}}</div>
-                            {% endif %}
-                        {% endfor %}                                                             
-                    </div>    
-                    <div class="progress">
-                        <div class="bar" style="width:{{(attribute.averageRating/10)*100}}%;"></div>
-                    </div>                             
-                </div>    
-            {% endfor %} 
+                {% endfor %}                
+                </div>            
         </div>
-    {% endfor %}                         
+        <div class="five columns">
+            
+            <table class="condensed-table bordered-table zebra-striped">
+                <thead>
+                    <tr>
+                        <th colspan="11">Positions</th>
+                    </tr>
+                </thead>						
+                <tbody>
+                    <tr>
+                        <th>Dribbling</th>	
+                        <td>Competent</td>
+                        <td>Natural</td>								
+                    </tr>
+                    <tr>
+                        <th>Dribbling</th>
+                        <td>Competent</td>
+                        <td>Natural</td>															
+                    </tr>							
+                </tbody>
+            </table>            
+            
+        </div>
+    </div><!-- container -->
+</div>      
+    
+<div class="row">
+    <div class="span16">
+
+          
+    </div>
 </div>
+    
         
 <div class="row">
-    <div class="span12">
+    <div class="span16">
         {% for position in positions %}
             
             {% if position.category == "defence" %}
@@ -319,7 +358,7 @@
 </div>        
         
 <div class="row">
-    <div class="span12">
+    <div class="span16">
         <h2>Comments</h2>
         <textarea class="xxlarge span16 autogrow" name="comment" rows="1"></textarea>
         <input type="submit" class="btn primary btncomment" value="Submit"/>    
@@ -336,24 +375,17 @@
     </div>
     
 </div>
-<div id="myModal" class="modal hide" style="display: none; ">
-            <div class="modal-header">
-              <a class="close" data-dismiss="modal">×</a>
-              <h3>Modal Heading</h3>
-            </div>
-            <div class="modal-body">
-              <h4>Text in a modal</h4>
-              <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem.</p>
 
-              <h4>Popover in a modal</h4>
-              <p>This <a href="#" class="btn popover-test" data-content="And here's some amazing content. It's very engaging. right?" data-original-title="A Title">button</a> should trigger a popover on hover.</p>
+  <script>
+    $(function () {
+      $(".attribute span").twipsy({
+        live: true
+      })
+      $(".tooltip").twipsy({
+        live: true,
+        placement: "right"
+      })
+    })
+  </script>
 
-              <h4>Tooltips in a modal</h4>
-              <p><a href="#" class="tooltip-test" data-original-title="Tooltip">This link</a> and <a href="#" class="tooltip-test" data-original-title="Tooltip">that link</a> should have tooltips on hover.</p>
-            </div>
-            <div class="modal-footer">
-              <a href="#" class="btn btn-primary">Save changes</a>
-              <a href="#" class="btn" data-dismiss="modal">Close</a>
-            </div>
-</div>
 {% endblock %}

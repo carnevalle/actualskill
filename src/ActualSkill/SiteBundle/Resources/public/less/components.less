@@ -6,10 +6,10 @@
 	margin: 0 1px 0 1px;
 	text-align: center;
 	display: inline-block;
-	font-size: @basefont;
+	font-size: @baseFontSize;
 	font-weight: normal;
 	color: @white;
-	background-color: @baseDark;
+	background-color: @primaryDark;
 	.border-radius(3px);
 	text-shadow: 0 1px 0 rgba(0,0,0,.5);
 	
@@ -21,14 +21,21 @@
             padding: 0 10px 5px 10px;
             font-weight: bold;
             display: block;
-            font-size: @basefont * 1.40;
+            font-size: @baseFontSize * 1.40;
 	}	
 }
 
 .ratingbox{
     border-bottom: 1px solid @grayLighter;
     padding: 2px;
-    
+    cursor: pointer;
+    .clearfix();
+
+    .progress{
+        margin-bottom: 5px;
+        height: 8px;
+    }
+
     &:hover{
         .description{
             font-weight: bold;
@@ -36,15 +43,16 @@
     }
 
     .description{
-        float: left;
-        padding: 10px 0 10px 0;
+        
+        padding: 5px 0 0 0;
     }
 
-    .buttons{
-        float: right;
+    .ratingbuttons{
+        display: none;
+        .clearfix();
         .ratingbutton {
             text-align: center;
-            min-width: 35px;
+            min-width: 30px;
             float: left;
             border: 1px solid #DDD;
             border-radius: 3px;
@@ -63,15 +71,15 @@
             transition: all 0.2s ease-in-out;
 
             &.active{
-                border-color: @baseLighter;
-                background-color: @baseLightest;
+                border-color: @primaryLighter;
+                background-color: @primaryLightest;
             }
 
             &:hover {
-                border-color: @baseColor;
-                background-color: @baseLightest;
+                border-color: @primaryColor;
+                background-color: @primaryLightest;
 
-                //background: linear-gradient(top,@baseColor 0,@baseLightest 100%);
+                //background: linear-gradient(top,@primaryColor 0,@primaryLightest 100%);
                 box-shadow: 0 1px 2px rgba(0,0,0,0.25), inset 0 0 3px #fff;
             }
             &:active, &:focus {
@@ -99,7 +107,7 @@
         background-color: @grayLighter;
 
         &.active{
-            background-color: @baseColor;
+            background-color: @primaryColor;
         }
 
         &:hover{
