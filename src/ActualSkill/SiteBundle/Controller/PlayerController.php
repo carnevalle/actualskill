@@ -58,16 +58,20 @@ class PlayerController extends Controller
         
         // This sorts attributes be average rating (descending)
         $categories = $player->getRatingschema()->getCategories();
+        $attributesSorted = array();
         $topattributes = array();
+        $bottomattributes = array();
         foreach ($categories as $category) {
             $attributes = $category->getAttributes();
             foreach ($attributes as $attribute) {
-                $topattributes[] = $attribute;
+                $attributesSorted[] = $attribute;
                 
             }
             
-            $this->sortAttributesByAverage($topattributes);
-            $topattributes = array_slice($topattributes, 0, 5);
+            $this->sortAttributesByAverage($attributesSorted, "DESC");
+            $topattributes = array_slice($attributesSorted, 0, 5);
+            $bottomattributes = array_slice($attributesSorted, count($attributesSorted)-5, 5);
+            $this->sortAttributesByAverage($bottomattributes);
         }
         
         return array(  
@@ -77,11 +81,12 @@ class PlayerController extends Controller
             'likes'         => $likes,
             'positions'     => $positions,
             'topattributes' => $topattributes,
+            'bottomattributes' => $bottomattributes,
             //'categories'  => $categories,
         );
     }
     
-    private function sortAttributesByAverage(&$array){
+    private function sortAttributesByAverage(&$array, $type = "ASC"){
         $cur = 1;
         $stack[1]['l'] = 0;
         $stack[1]['r'] = count($array) - 1;
@@ -100,12 +105,23 @@ class PlayerController extends Controller
                 // left from $tmp are with smaller values,
                 // right from $tmp are with bigger ones
                 do {
-                    while ($array[$i]->getAverageRating() > $tmp->getAverageRating())
-                        $i++;
+                    
+                    if($type == "ASC"){
+                    
+                        while ($array[$i]->getAverageRating() < $tmp->getAverageRating())
+                            $i++;
 
-                    while ($tmp->getAverageRating() > $array[$j]->getAverageRating())
-                        $j--;
+                        while ($tmp->getAverageRating() < $array[$j]->getAverageRating())
+                            $j--;
+                    }else{
+                        
+                        while ($array[$i]->getAverageRating() > $tmp->getAverageRating())
+                            $i++;
 
+                        while ($tmp->getAverageRating() > $array[$j]->getAverageRating())
+                            $j--;                        
+                    }
+                    
                     // swap elements from the two sides
                     if ($i <= $j) {
                         $w = $array[$i];
