@@ -259,7 +259,15 @@
                 <table class="table table-condensed table-striped">
                     {% for attribute in topattributes %}
                     <tr>
-                        <td><span class="label label-success label-average"> {{attribute.averageRating}}</span> {{ attribute.name }}</td>
+                        {% if attribute.averageRating > 7 %}
+                        {% set label = 'label-success' %}
+                        {% elseif attribute.averageRating < 4 %}
+                        {% set label = 'label-important' %}    
+                        {% else %}
+                        {% set label = 'label-warning' %}    
+                        {% endif %}    
+                        
+                        <td><span class="label {{label}} label-average"> {{attribute.averageRating}}</span> {{ attribute.name }}</td>
                     </tr>
                     {% endfor %}
                 </table>     
@@ -269,7 +277,15 @@
                 <table class="table table-condensed table-striped">
                     {% for attribute in bottomattributes %}
                     <tr>
-                        <td><span class="label label-important label-average"> {{attribute.averageRating}}</span> {{ attribute.name }}</td>
+                        {% if attribute.averageRating > 7 %}
+                        {% set label = 'label-success' %}
+                        {% elseif attribute.averageRating < 4 %}
+                        {% set label = 'label-important' %}    
+                        {% else %}
+                        {% set label = 'label-warning' %}    
+                        {% endif %}    
+                        
+                        <td><span class="label {{label}} label-average"> {{attribute.averageRating}}</span> {{ attribute.name }}</td>
                     </tr>
                     {% endfor %}
                 </table>     
@@ -333,8 +349,16 @@
         <table class="table table-condensed table-striped">
             {% for teammember in teammembers %}
                 {% if loop.index0 < 5 %}
+                
+                {% if teammember.ratingAverage > 7 %}
+                {% set label = 'label-success' %}
+                {% elseif teammember.ratingAverage < 4 %}
+                {% set label = 'label-important' %}    
+                {% else %}
+                {% set label = 'label-warning' %}    
+                {% endif %}                 
             <tr>
-                <td><span class="label label-success label-average"> {{teammember.ratingAverage}}</span> <a href="{{ path('player_show', { 'id': teammember.slug }) }}">{{ teammember.fullname }}</a> | {{teammember.likes|length}} {{ teammember.likes|length == 1 ? 'fan' : 'fans' }}</td>
+                <td><span class="label {{label}} label-average"> {{teammember.ratingAverage}}</span> <a href="{{ path('player_show', { 'id': teammember.slug }) }}">{{ teammember.fullname }}</a> | {{teammember.likes|length}} {{ teammember.likes|length == 1 ? 'fan' : 'fans' }}</td>
             </tr>
                 {% endif %}
             {% endfor %}
