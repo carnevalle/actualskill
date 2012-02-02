@@ -56,13 +56,120 @@ class PlayerController extends Controller
         
         $ratingService->addUserRatingsToBaseEntity($player, $this->get('security.context')->getToken()->getUser());
         
-        return array(
-            'player'      => $player,
-            'randomplayer'=> $randomplayer,
-            'categories'  => $player->getRatingschema()->getCategories(),
-            'likes'       => $likes,
-            'positions'   => $positions,
+        // This sorts attributes be average rating (descending)
+        $categories = $player->getRatingschema()->getCategories();
+        $topattributes = array();
+        foreach ($categories as $category) {
+            $attributes = $category->getAttributes();
+            foreach ($attributes as $attribute) {
+                $topattributes[] = $attribute;
+                
+            }
+            
+            $this->sortAttributesByAverage($topattributes);
+            $topattributes = array_slice($topattributes, 0, 5);
+        }
+        
+        return array(  
+            'player'        => $player,
+            'randomplayer'  => $randomplayer,
+            'categories'    => $player->getRatingschema()->getCategories(),
+            'likes'         => $likes,
+            'positions'     => $positions,
+            'topattributes' => $topattributes,
             //'categories'  => $categories,
         );
+    }
+    
+    private function sortAttributesByAverage(&$array){
+        $cur = 1;
+        $stack[1]['l'] = 0;
+        $stack[1]['r'] = count($array) - 1;
+
+        do {
+            $l = $stack[$cur]['l'];
+            $r = $stack[$cur]['r'];
+            $cur--;
+
+            do {
+                $i = $l;
+                $j = $r;
+                $tmp = $array[(int) ( ($l + $r) / 2 )];
+
+                // partion the array in two parts.
+                // left from $tmp are with smaller values,
+                // right from $tmp are with bigger ones
+                do {
+                    while ($array[$i]->getAverageRating() > $tmp->getAverageRating())
+                        $i++;
+
+                    while ($tmp->getAverageRating() > $array[$j]->getAverageRating())
+                        $j--;
+
+                    // swap elements from the two sides
+                    if ($i <= $j) {
+                        $w = $array[$i];
+                        $array[$i] = $array[$j];
+                        $array[$j] = $w;
+
+                        $i++;
+                        $j--;
+                    }
+                } while ($i <= $j);
+
+                if ($i < $r) {
+                    $cur++;
+                    $stack[$cur]['l'] = $i;
+                    $stack[$cur]['r'] = $r;
+                }
+                $r = $j;
+            } while ($l < $r);
+        } while ($cur != 0);
+    }    
+    
+    private function sortPlayersByAverage(&$array){
+        $cur = 1;
+        $stack[1]['l'] = 0;
+        $stack[1]['r'] = count($array) - 1;
+
+        do {
+            $l = $stack[$cur]['l'];
+            $r = $stack[$cur]['r'];
+            $cur--;
+
+            do {
+                $i = $l;
+                $j = $r;
+                $tmp = $array[(int) ( ($l + $r) / 2 )];
+
+                // partion the array in two parts.
+                // left from $tmp are with smaller values,
+                // right from $tmp are with bigger ones
+                do {
+                    while ($array[$i]->getRatingAverage() < $tmp->getRatingAverage())
+                        $i++;
+
+                    while ($tmp->getRatingAverage() < $array[$j]->getRatingAverage())
+                        $j--;
+
+                    // swap elements from the two sides
+                    if ($i <= $j) {
+                        $w = $array[$i];
+                        $array[$i] = $array[$j];
+                        $array[$j] = $w;
+
+                        $i++;
+                        $j--;
+                    }
+                } while ($i <= $j);
+
+                if ($i < $r) {
+                    $cur++;
+                    $stack[$cur]['l'] = $i;
+                    $stack[$cur]['r'] = $r;
+                }
+                $r = $j;
+            } while ($l < $r);
+        } while ($cur != 0);
     }
 }

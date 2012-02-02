@@ -306,6 +306,15 @@
         </div>        
         -->
         
+        <h4>Top attributes</h4>
+        <table class="table table-condensed table-striped">
+            {% for attribute in topattributes %}
+            <tr>
+                <td><span class="label label-success"> {{attribute.averageRating}}</span> {{ attribute.name }}</td>
+            </tr>
+            {% endfor %}
+        </table>        
+        
         <h4>Team members in {{ player.club }}</h4>
         <table class="table table-condensed table-striped">
             {% for teammember in player.club.players %}
