@@ -74,6 +74,9 @@ class PlayerController extends Controller
             $this->sortAttributesByAverage($bottomattributes);
         }
         
+        $teammembers = $player->getClub()->getPlayers();
+        $this->sortPlayersByAverage($teammembers, "DESC");
+        
         return array(  
             'player'        => $player,
             'randomplayer'  => $randomplayer,
@@ -82,6 +85,7 @@ class PlayerController extends Controller
             'positions'     => $positions,
             'topattributes' => $topattributes,
             'bottomattributes' => $bottomattributes,
+            'teammembers'   => $teammembers,
             //'categories'  => $categories,
         );
     }
@@ -143,7 +147,7 @@ class PlayerController extends Controller
         } while ($cur != 0);
     }    
     
-    private function sortPlayersByAverage(&$array){
+    private function sortPlayersByAverage(&$array, $type = "ASC"){
         $cur = 1;
         $stack[1]['l'] = 0;
         $stack[1]['r'] = count($array) - 1;
@@ -162,11 +166,22 @@ class PlayerController extends Controller
                 // left from $tmp are with smaller values,
                 // right from $tmp are with bigger ones
                 do {
-                    while ($array[$i]->getRatingAverage() < $tmp->getRatingAverage())
-                        $i++;
+                    
+                    if($type == "ASC"){
+                    
+                        while ($array[$i]->getRatingAverage() < $tmp->getRatingAverage())
+                            $i++;
 
-                    while ($tmp->getRatingAverage() < $array[$j]->getRatingAverage())
-                        $j--;
+                        while ($tmp->getRatingAverage() < $array[$j]->getRatingAverage())
+                            $j--;
+                    }else{
+                        
+                        while ($array[$i]->getRatingAverage() > $tmp->getRatingAverage())
+                            $i++;
+
+                        while ($tmp->getRatingAverage() > $array[$j]->getRatingAverage())
+                            $j--;                      
+                    }                    
 
                     // swap elements from the two sides
                     if ($i <= $j) {
