@@ -32,7 +32,7 @@ class Rating
     /**
      *
      * @ORM\ManyToOne(targetEntity="Attribute", inversedBy="ratings")
-     * @ORM\JoinColumn(name="attribute_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="attribute_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $attribute;
 

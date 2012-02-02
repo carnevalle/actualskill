@@ -45,13 +45,13 @@ class Attribute
 
     /**
      *
-     * @ORM\OneToMany(targetEntity="Rating", mappedBy="attribute")
+     * @ORM\OneToMany(targetEntity="Rating", mappedBy="attribute", cascade={"persist"})
      */    
     protected $ratings;
 
     /**
      *
-     * @ORM\OneToMany(targetEntity="CalculatedRating", mappedBy="attribute")
+     * @ORM\OneToMany(targetEntity="CalculatedRating", mappedBy="attribute", cascade={"persist"})
      */   
     private $calculatedRatings;
     
