@@ -31,7 +31,7 @@ class Player extends BaseEntity
     private $lastname;
     
     /**
-     * @var string $nickmane
+     * @var string $nickname
      *
      * @ORM\Column(name="nickname", type="string", length=255, nullable=true)
      */

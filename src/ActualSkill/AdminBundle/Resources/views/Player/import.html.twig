@@ -14,18 +14,17 @@
         {% else %}
 
         <form action="{{ path('admin_players_import') }}" method="post">
-
-            <table>
             
-                <tr>
-                    <td></td>
-                {% for row in data[0] %}
-                    <td><input type="checkbox" name="col[]" /></td>
+            <select name="club">
+                {% for club in clubs %}
+                    <option value="{{club.id}}">{{club.name}}</option>
                 {% endfor %}
-                </tr>
+            </select>
+            
+            <table>
             {% for row in data %}
                 <tr>
-                    <td><input type="checkbox" checked="checked" name="row[]"/></td>
+                    <td><input type="checkbox" checked="checked" name="row[]" value="{{loop.index0}}" /></td>
                 {% for column in row %}
                     <td><input type="input" value="{{ column }}" class="span2" name="col_data_{{loop.index0}}[]"/></td>
                 {% endfor %}

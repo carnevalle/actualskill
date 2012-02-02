@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use ActualSkill\CoreBundle\Entity\Player;
 use ActualSkill\CoreBundle\Form\PlayerType;
+use Symfony\Component\HttpFoundation\Response;
 
 class PlayerController extends Controller
 {
@@ -104,13 +105,70 @@ class PlayerController extends Controller
         
         $request = $this->getRequest();
         
-        
-        if($request->get("comment") != null && strlen( trim($request->get("comment")) ) > 0 ){
+        if($request->get("club") != null){
+            
+            $em = $this->getDoctrine()->getEntityManager();
+            $club = $em->getRepository('ActualSkillCoreBundle:Club')->find($request->get("club"));            
+            
+            $output = "";
+            
+            $rows = $request->get("row");
+            
+            $names          = $request->get("col_data_0");
+            $birthdays      = $request->get("col_data_1");
+            $nationalities  = $request->get("col_data_2");
+            $heights        = $request->get("col_data_3");
+            
+            $players = array();
+            
+            //return new Response(var_dump($names));
+            
+            foreach ($rows as $row) {
+                
+                $firstname = "";
+                $lastname = "";
+                
+                $namesplit = explode(' ', $names[$row], 2);
+                if(count($namesplit) > 0){
+                    $firstname = $namesplit[0];
+                }
+                if(count($namesplit) > 1){
+                    $lastname = $namesplit[1];
+                }
+                
+                $country = $em->getRepository('ActualSkillCoreBundle:Country')->findOneByIso3($nationalities[$row]);            
+                
+                if($country == null){
+                    return new \Symfony\Component\HttpFoundation\Response("country is null: ".$nationalities[$row]);
+                }
+                
+                $player = new Player();
+                $player->setName($firstname." ".$lastname);
+                $player->setFirstname($firstname);
+                $player->setLastname($lastname);
+                $player->setBirthday(new \DateTime($birthdays[$row]));
+                $player->setClub($club);
+                $player->setCountry($country);
+                $em->persist($player);
+                
+                $output .= $firstname." ".$lastname." ".$birthdays[$row]." ".$country." ".$heights[$row]."\n";
+            }        
+            
+            $em->flush();
+            
+            return new \Symfony\Component\HttpFoundation\Response(var_dump($output)); 
+
+            
+        }else if($request->get("comment") != null && strlen( trim($request->get("comment")) ) > 0 ){
+
+            $em = $this->getDoctrine()->getEntityManager();
+            $clubs = $em->getRepository('ActualSkillCoreBundle:Club')->findAll();                   
             
             $data = $this->parse_csv($request->get("comment"));
             
             return array(
-                'data' => $data
+                'data' => $data,
+                'clubs' => $clubs
             );
         }else{
             return array(

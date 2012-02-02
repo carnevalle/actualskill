@@ -259,7 +259,7 @@
                 <table class="table table-condensed table-striped">
                     {% for attribute in topattributes %}
                     <tr>
-                        <td><span class="label label-success"> {{attribute.averageRating}}</span> {{ attribute.name }}</td>
+                        <td><span class="label label-success label-average"> {{attribute.averageRating}}</span> {{ attribute.name }}</td>
                     </tr>
                     {% endfor %}
                 </table>     
@@ -269,7 +269,7 @@
                 <table class="table table-condensed table-striped">
                     {% for attribute in bottomattributes %}
                     <tr>
-                        <td><span class="label label-success"> {{attribute.averageRating}}</span> {{ attribute.name }}</td>
+                        <td><span class="label label-important label-average"> {{attribute.averageRating}}</span> {{ attribute.name }}</td>
                     </tr>
                     {% endfor %}
                 </table>     
@@ -329,12 +329,12 @@
         </div>        
         -->    
         
-        <h4>Team members in {{ player.club }}</h4>
+        <h4>Top 5 team members</h4>
         <table class="table table-condensed table-striped">
             {% for teammember in teammembers %}
-                {% if teammember.id != player.id %}
+                {% if loop.index0 < 5 %}
             <tr>
-                <td><span class="label label-success"> {{teammember.ratingAverage}}</span> <a href="{{ path('player_show', { 'id': teammember.slug }) }}">{{ teammember.fullname }}</a> | {{teammember.likes|length}} {{ teammember.likes|length == 1 ? 'fan' : 'fans' }}</td>
+                <td><span class="label label-success label-average"> {{teammember.ratingAverage}}</span> <a href="{{ path('player_show', { 'id': teammember.slug }) }}">{{ teammember.fullname }}</a> | {{teammember.likes|length}} {{ teammember.likes|length == 1 ? 'fan' : 'fans' }}</td>
             </tr>
                 {% endif %}
             {% endfor %}
