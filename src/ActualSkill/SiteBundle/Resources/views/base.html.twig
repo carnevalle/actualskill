@@ -39,6 +39,7 @@
             {% javascripts
                 '@ActualSkillCoreBundle/Resources/public/bootstrap/js/bootstrap.min.js'
                 '@ActualSkillSiteBundle/Resources/public/js/libs/jgrowl/jquery.jgrowl_minimized.js'
+                '@ActualSkillSiteBundle/Resources/public/js/libs/jquery.hoverIntent.minified.js'
                 output='css/site.js'
             %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
@@ -56,11 +57,11 @@
                         <span class="i-bar"></span>
                         <span class="i-bar"></span>
                     </a>
-                        <a class="brand" href="#">ActualSkill <small>beta</small></a>
+                        <a class="brand" href="{{ path('_welcome') }}">ActualSkill <small>beta</small></a>
                     <div class="nav-collapse">
                         <ul class="nav">
                             {% block navigation %}
-                                <li class="active"><a href="#">Home</a></li>
+                                <li class="active"><a href="{{ path('_welcome') }}">Home</a></li>
                                 <li><a href="{{ path('site_clubs') }}">Clubs</a></li>
                                 <li><a href="{{ path('site_players') }}">Players</a></li>
                                 <li><a href="{{ path('_admin') }}">Admin</a></li>                        
@@ -72,7 +73,7 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{app.user.firstname}} {{app.user.lastname}} <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">Action</a></li>
+                                    <li><a href="{{ path('fos_user_profile_show') }}">Show profile</a></li>
                                     <li><a href="#">Another action</a></li>
                                     <li><a href="#">Something else here</a></li>
                                     <li class="divider"></li>

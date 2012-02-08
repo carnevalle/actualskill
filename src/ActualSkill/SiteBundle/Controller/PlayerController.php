@@ -54,7 +54,7 @@ class PlayerController extends Controller
         $ratingService = $this->get('actual_skill_core.rating_service');
         $likes = $ratingService->doesUserLikeEntity($player, $user);
         
-        $ratingService->addUserRatingsToBaseEntity($player, $this->get('security.context')->getToken()->getUser());
+        $ratingService->addUserRatingsToBaseEntity($player, $user);
         
         // This sorts attributes be average rating (descending)
         $categories = $player->getRatingschema()->getCategories();
@@ -63,24 +63,31 @@ class PlayerController extends Controller
         $bottomattributes = array();
         foreach ($categories as $category) {
             $attributes = $category->getAttributes();
-            foreach ($attributes as $attribute) {
-                $attributesSorted[] = $attribute;
-                
-            }
             
-            $this->sortAttributesByAverage($attributesSorted, "DESC");
-            $topattributes = array_slice($attributesSorted, 0, 5);
-            $bottomattributes = array_slice($attributesSorted, count($attributesSorted)-5, 5);
-            $this->sortAttributesByAverage($bottomattributes);
+            foreach ($attributes as $attribute) {
+                $attributesSorted[] = $attribute;    
+            }
         }
+        
+        $this->sortAttributesByAverage($attributesSorted, "DESC");
+        $topattributes = array_slice($attributesSorted, 0, 5);
+        $bottomattributes = array_slice($attributesSorted, count($attributesSorted)-5, 5);
+        $this->sortAttributesByAverage($bottomattributes);        
         
         $teammembers = $player->getClub()->getPlayers();
         $this->sortPlayersByAverage($teammembers, "DESC");
         
+        $categories = $player->getRatingschema()->getCategories();
+        /*foreach ($categories as $category) {
+            foreach ($category->getAttributes() as $attribute) {
+                $attribute->setCategoryName($category->getName());
+            }
+        }*/
+        
         return array(  
             'player'        => $player,
             'randomplayer'  => $randomplayer,
-            'categories'    => $player->getRatingschema()->getCategories(),
+            'categories'    => $categories,
             'likes'         => $likes,
             'positions'     => $positions,
             'topattributes' => $topattributes,

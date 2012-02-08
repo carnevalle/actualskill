@@ -36,7 +36,7 @@ class CategoryRepository extends EntityRepository
             foreach ($categories as $category) {
                 
                 $i = 0;
-                
+
                 foreach($category->getAttributes() as $attribute){
                     foreach($ratings as $rating){
                         if($attribute->getId() == $rating[0]->getId()){

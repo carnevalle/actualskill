@@ -58,6 +58,7 @@ class Attribute
     private $average;
     private $userRating;
     private $numberOfRatings;
+    private $categoryName;
     
     public function __construct() {
         $this->ratings = new ArrayCollection();
@@ -179,5 +180,13 @@ class Attribute
     public function getRatings()
     {
         return $this->ratings;
+    }
+    
+    public function setCategoryName($categoryName){
+        $this->categoryName = $categoryName;
+    }    
+    
+    public function getCategoryName(){
+        return $this->categoryName;
     }
 }

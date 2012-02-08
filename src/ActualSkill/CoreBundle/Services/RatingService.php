@@ -189,6 +189,7 @@ class RatingService {
                             $attribute->setAverageRating($rating['average']);
                             $attribute->setUserRating($rating['userrating']);
                             $attribute->setNumberOfRatings($rating['total']);
+                            $attribute->setCategoryName($category->getName());
                         }
                     }
                 }

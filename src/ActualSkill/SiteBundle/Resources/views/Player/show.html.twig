@@ -16,9 +16,20 @@
 {% block header %}
 <script language="javascript"> 
     
-    
     var chart;
     $(document).ready(function() {     
+        
+        $('.rating-box').click(function() {
+            $(this).find(".rating-button-row").toggle();
+    
+        });        
+        
+        $('.rating-box').tooltip({
+            placement: "left"
+    
+        });
+        
+        $('.nav-pills a:first').tab('show')        
         
         $(".autogrow").autogrow({
             
@@ -83,7 +94,7 @@
             var id = this.id.split("_")[1];
             var value = $(this).html();
             
-            $(this).parent().find('.rateclick').removeClass('active');
+            $(this).parent().parent().find('.rateclick').removeClass('active');
 
             $.post("/rate/{{player.slug}}/"+attribute+"/"+value, function(data) {
                // first success
@@ -251,7 +262,7 @@
 
         
     <div class="span8">
-        <div id="chart" style="height:200px; width: 100%"></div>
+        <div id="chart" style="height:200px; width: 100%"></div>         
         
         <div class="row">
             <div class="span4">
@@ -259,7 +270,7 @@
                 <table class="table table-condensed table-striped">
                     {% for attribute in topattributes %}
                     <tr>
-                        {% if attribute.averageRating > 7 %}
+                        {% if attribute.averageRating >= 7 %}
                         {% set label = 'label-success' %}
                         {% elseif attribute.averageRating < 4 %}
                         {% set label = 'label-important' %}    
@@ -267,7 +278,7 @@
                         {% set label = 'label-warning' %}    
                         {% endif %}    
                         
-                        <td><span class="label {{label}} label-average"> {{attribute.averageRating}}</span> {{ attribute.name }}</td>
+                        <td><span class="label {{label}} label-average"> {{attribute.averageRating}}</span> {{ attribute.name }} ({{attribute.categoryName}})</td>
                     </tr>
                     {% endfor %}
                 </table>     
@@ -277,7 +288,7 @@
                 <table class="table table-condensed table-striped">
                     {% for attribute in bottomattributes %}
                     <tr>
-                        {% if attribute.averageRating > 7 %}
+                        {% if attribute.averageRating >= 7 %}
                         {% set label = 'label-success' %}
                         {% elseif attribute.averageRating < 4 %}
                         {% set label = 'label-important' %}    
@@ -285,42 +296,12 @@
                         {% set label = 'label-warning' %}    
                         {% endif %}    
                         
-                        <td><span class="label {{label}} label-average"> {{attribute.averageRating}}</span> {{ attribute.name }}</td>
+                        <td><span class="label {{label}} label-average"> {{attribute.averageRating}}</span> {{ attribute.name }} ({{attribute.categoryName}})</td>
                     </tr>
                     {% endfor %}
                 </table>     
             </div>
-        </div>        
-        
-        <div class="row">
-            {% for category in categories %}
-
-                    <div id="{{category.slug}}" class="span2">
-                        <h3>{{category.name}}</h3>
-                    {% for attribute in category.attributes %}
-
-                        <div title="{{ attribute.description }}" class="ratingbox">
-                            <div class="description">
-                                {{ attribute.name }}                             
-                            </div>
-
-                            <div class="ratingbuttons">                            
-                                {% for i in 1..10 %}
-                                    {% if attribute.userRating == i %}
-                                    <div id="{{attribute.slug}}_{{attribute.id}}" class="active rateclick ratingbutton">{{i}}</div>
-                                    {% else %}
-                                    <div id="{{attribute.slug}}_{{attribute.id}}" class="rateclick ratingbutton">{{i}}</div>
-                                    {% endif %}
-                                {% endfor %}                                                             
-                            </div>    
-                            <div class="progress">
-                                <div class="bar" style="width:{{(attribute.averageRating/10)*100}}%;"></div>
-                            </div>                             
-                        </div>    
-                    {% endfor %} 
-                </div>
-            {% endfor %}                         
-        </div>        
+        </div>                
         
     </div>                
         
@@ -345,15 +326,62 @@
         </div>        
         -->    
         
+        <!--
+        <ul class="stats-tabs">
+            <li>{{ player.ratingAverage }} <span>ActualSkill</span></li>
+            <li>{{player.likes|length}} <span>{{ player.likes|length == 1 ? 'fan' : 'fans' }}</span></li>
+            <li>{{player.ratings|length}} <span>{{ player.ratings|length == 1 ? 'rating' : 'ratings' }}</span></li>
+            <li>{{player.comments|length}} <span>{{ player.comments|length == 1 ? 'comment' : 'comments' }}</span></li>
+        </ul>        
+	-->            
+        
+        <h4>Rate player</h4>
+        <ul class="nav nav-pills nav-stacked">
+            {% for category in categories %}
+                <li><a href="#{{category.slug}}" data-toggle="pill">{{category.name}}</a></li>
+            {% endfor %}
+            </li>
+        </ul>        
+        
+        <div class="pill-content">
+            {% for category in categories %}
+
+                <div class="pill-pane rating-pane" id="{{category.slug}}">
+                    <h4>{{category.name}}</h4>
+                    {% for attribute in category.attributes %}
+                    
+                        <div rel="tooltip" data-original-title="{{ attribute.description }}" class="rating-box">
+                            <div class="progress progress-attribute">
+                                <div class="text name">{{ attribute.name }}</div>
+                                <div class="bar" style="width:{{(attribute.averageRating/10)*100}}%;"></div>
+                            </div>                                                                     
+                            <div class="rating-button-row hide">                             
+                                {% for i in 1..10 %}
+                                    <div class="rating-button-container condensed">
+                                        
+                                        {% if attribute.userRating == i %}
+                                        <div id="{{attribute.slug}}_{{attribute.id}}" class="active rateclick rating-button">{{i}}</div>
+                                        {% else %}
+                                        <div id="{{attribute.slug}}_{{attribute.id}}" class="rateclick rating-button">{{i}}</div>
+                                        {% endif %}                                                               
+                                    </div>
+                                {% endfor %}  
+                            </div>                         
+                        </div>    
+                    {% endfor %} 
+                </div>
+            {% endfor %}
+        </div>        
+        
         <h4>Top 5 team members</h4>
         <table class="table table-condensed table-striped">
             {% for teammember in teammembers %}
                 {% if loop.index0 < 5 %}
                 
-                {% if teammember.ratingAverage > 7 %}
+                {% if teammember.ratingAverage >= 7 %}
                 {% set label = 'label-success' %}
                 {% elseif teammember.ratingAverage < 4 %}
-                {% set label = 'label-important' %}    
+                {% set label = 'label-important' %}
                 {% else %}
                 {% set label = 'label-warning' %}    
                 {% endif %}                 
@@ -362,6 +390,9 @@
             </tr>
                 {% endif %}
             {% endfor %}
+            <tr>
+                <td><a href="{{ path('site_club_show', { 'id': player.club.slug }) }}">See all team members</a></td>
+            </tr>
         </table>
     </div>        
 </div>
@@ -401,23 +432,25 @@
     
 </div>
 <div id="myModal" class="modal hide" style="display: none; ">
-            <div class="modal-header">
-              <a class="close" data-dismiss="modal">×</a>
-              <h3>Modal Heading</h3>
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3>Modal Heading</h3>
+    </div>
+    <div class="modal-body">
+        
+        <div class="rating-button-row">
+        {% for i in 1..10 %}
+            <div class="rating-button-container">
+                <div class="rating-button">
+                {{i}}
+                </div>                        
             </div>
-            <div class="modal-body">
-              <h4>Text in a modal</h4>
-              <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem.</p>
-
-              <h4>Popover in a modal</h4>
-              <p>This <a href="#" class="btn popover-test" data-content="And here's some amazing content. It's very engaging. right?" data-original-title="A Title">button</a> should trigger a popover on hover.</p>
-
-              <h4>Tooltips in a modal</h4>
-              <p><a href="#" class="tooltip-test" data-original-title="Tooltip">This link</a> and <a href="#" class="tooltip-test" data-original-title="Tooltip">that link</a> should have tooltips on hover.</p>
-            </div>
-            <div class="modal-footer">
-              <a href="#" class="btn btn-primary">Save changes</a>
-              <a href="#" class="btn" data-dismiss="modal">Close</a>
-            </div>
+        {% endfor %}  
+        </div>    
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-primary">Save changes</a>
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+    </div>
 </div>
 {% endblock %}
