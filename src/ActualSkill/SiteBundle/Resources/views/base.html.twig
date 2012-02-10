@@ -66,28 +66,29 @@
                                 <li><a href="{{ path('site_players') }}">Players</a></li>
                                 <li><a href="{{ path('_admin') }}">Admin</a></li>                        
                             {% endblock %}
-                        </ul>                         
-                        <ul class="nav pull-right">                            
-                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                        
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{app.user.firstname}} {{app.user.lastname}} <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="{{ path('fos_user_profile_show') }}">Show profile</a></li>
-                                    <li><a href="#">Another action</a></li>
-                                    <li><a href="#">Something else here</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
-                                </ul>
-                            </li>
-                                                    
-                        {% else %}
-                            <li>
-                                <a href="{{ path('fos_user_security_login') }}">Login</a>
-                            </li>
-                        {% endif %}
-                        </ul>  
+                        </ul>                          
                     </div><!--/.nav-collapse -->
+                    
+                    <ul class="nav pull-right">                            
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{app.user.firstname}} {{app.user.lastname}} <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path('fos_user_profile_show') }}">Show profile</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
+                            </ul>
+                        </li>
+
+                    {% else %}
+                        <li>
+                            <a href="{{ path('fos_user_security_login') }}">Login</a>
+                        </li>
+                    {% endif %}
+                    </ul>                     
                 </div>
             </div>
         </div>        
