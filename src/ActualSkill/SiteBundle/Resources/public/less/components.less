@@ -257,46 +257,95 @@ ul.stats-tabs{
 .rating-box{
     cursor: pointer;
     border-bottom: 1px solid @grayLighter;
+    
+
+    .clearfix();
+
+    .attribute-name,.attribute-rating, .attribute-progress{
+        float: left;
+        margin-bottom: 5px;
+        margin-top: 5px;
+    }
+
+    .attribute-name,.attribute-rating{
+        line-height: 21px;
+    }
+
+    .attribute-name{
+        width: 60%;
+    }
+    
+    .attribute-rating{
+        width: 10%;
+        display: none;
+    }
+    .attribute-progress{
+        width: 40%;
+    }
+
+    .attribute-description{
+        text-align: center;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
 
     .progress{
+        text-align: center;
         position: relative;
-        margin-bottom: 5px;
+
         .text{
-            position: absolute; 
-            color: @primaryDarker;
-            //text-shadow: 0 -1px 0 rgba(0,0,0,.75);
-            .transition(width .6s ease);
-        } 
-        .name{
-            left: 5px;
+            line-height: 21px;    
+            font-weight: bold;
+            display: none;
+            text-align: center;
         }
 
-        .average{
-            right: 5px;
+        .bar{
+            height: 21px;
         }
+        
+        height: 21px;
+        margin-bottom: 0;
     }
 
-    .progress-attribute .bar{
-        #gradient > .vertical(@primaryLight, @primaryDark);
-    }
+
 
     &:hover{
-        .text{
+        .attribute-name{
             font-weight: bold;
         }
 
-        .rating-button-row{
-            //display: block;
+        .progress .text{
+            display: block;
+            position: absolute;
+            left: 10px;
         }
-        
+
+        .progress .bar{
+            .opacity(20);
+        }
     }
+
+    .rating-button-row{
+        margin-top: 5px;
+    }
+}
+
+.progress-high .bar{
+    #gradient > .vertical(@primaryColor, darken(@successText,1%));
+}
+
+.progress-medium .bar{
+    #gradient > .vertical(@orange, darken(@orange,1%));
+}
+
+.progress-low .bar{
+    #gradient > .vertical(@errorText, darken(@errorText,1%));
 }
 
 // Rating Model Row
 .rating-button-row{
     .clearfix();
-
-    margin-bottom: 10px;
 
     .rating-button-container{
         width: 10%; 

@@ -20,13 +20,13 @@
     $(document).ready(function() {     
         
         $('.rating-box').click(function() {
-            $(this).find(".rating-button-row").toggle();
+            $(this).find(".rating-toggle ").toggle();
     
         });        
         
         $('.rating-box').tooltip({
-            placement: "left"
-    
+            placement: "left",
+            title: "Click to rate"
         });
         
         $('.nav-pills a:first').tab('show')        
@@ -47,7 +47,7 @@
                 
                 if(data.like){
                     $('#likebutton a').html("unlike");
-                    $.jGrowl("You like {{player.name}}", { life: 1000 });
+                    //$.jGrowl("You like {{player.name}}", { life: 1000 });
                 }else{
                     $('#likebutton a').html("like");
                 }
@@ -112,7 +112,7 @@
                     $(this).fadeIn('fast');
                 });
                 */
-                $.jGrowl("You rated "+data.name, { life: 1000 });
+                //$.jGrowl("You rated "+data.name, { life: 1000 });
 
                 //$("#"+data.slug+"_"+data.id).parent().find(".totalrating span").html(data.average)
             })
@@ -350,28 +350,54 @@
                     <h4>{{category.name}}</h4>
                     {% for attribute in category.attributes %}
                     
-                        <div rel="tooltip" data-original-title="{{ attribute.description }}" class="rating-box">
-                            <div class="progress progress-attribute">
-                                <div class="text name">{{ attribute.name }}</div>
-                                <div class="bar" style="width:{{(attribute.averageRating/10)*100}}%;"></div>
-                            </div>                                                                     
-                            <div class="rating-button-row hide">                             
-                                {% for i in 1..10 %}
-                                    <div class="rating-button-container condensed">
-                                        
-                                        {% if attribute.userRating == i %}
-                                        <div id="{{attribute.slug}}_{{attribute.id}}" class="active rateclick rating-button">{{i}}</div>
-                                        {% else %}
-                                        <div id="{{attribute.slug}}_{{attribute.id}}" class="rateclick rating-button">{{i}}</div>
-                                        {% endif %}                                                               
-                                    </div>
-                                {% endfor %}  
-                            </div>                         
+                        {% if attribute.averageRating >= 7 %}
+                        {% set label = 'label-success' %}
+                        {% set progress = 'progress-high' %}                        
+                        {% elseif attribute.averageRating < 4 %}
+                        {% set label = 'label-error' %}
+                        {% set progress = 'progress-low' %}
+                        {% else %}
+                        {% set label = 'label-warning' %}
+                        {% set progress = 'progress-medium' %}                    
+                        {% endif %}                     
+                                      
+                    
+                        <div rel="tooltip" class="rating-box">
+                            <div class="attribute-name">
+                                {{ attribute.name }}
+                            </div>
+                            <div class="attribute-rating">
+                                {{attribute.averageRating}}
+                            </div>                                
+                            <div class="attribute-progress">                             
+                                <div class="progress {{progress}}">
+                                    <div class="text">{{attribute.averageRating}}</div>
+                                    <div class="bar" style="width:{{(attribute.averageRating/10)*100}}%;"></div>
+                                </div>   
+                            </div>                       
+                                
+                            <div class="rating-toggle hide">
+                                <div class="rating-button-row">                             
+                                    {% for i in 1..10 %}
+                                        <div class="rating-button-container condensed">
+
+                                            {% if attribute.userRating == i %}
+                                            <div id="{{attribute.slug}}_{{attribute.id}}" class="active rateclick rating-button">{{i}}</div>
+                                            {% else %}
+                                            <div id="{{attribute.slug}}_{{attribute.id}}" class="rateclick rating-button">{{i}}</div>
+                                            {% endif %}                                                               
+                                        </div>
+                                    {% endfor %}  
+                                </div>            
+                                <div class="attribute-description">{{ attribute.description}}</div>    
+                            </div>    
                         </div>    
                     {% endfor %} 
                 </div>
             {% endfor %}
         </div>        
+        
+        <br>
         
         <h4>Top 5 team members</h4>
         <table class="table table-condensed table-striped">
