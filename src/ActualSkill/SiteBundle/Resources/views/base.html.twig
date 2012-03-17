@@ -14,10 +14,10 @@
 
         {% block stylesheets %}
             {% stylesheets 
-                '@ActualSkillCoreBundle/Resources/public/bootstrap/css/bootstrap.min.css'
-                '@ActualSkillCoreBundle/Resources/public/bootstrap/css/bootstrap.min.responsive.css'
+                'bundles/actualskillcore/bootstrap/css/bootstrap.min.css'
+                'bundles/actualskillcore/bootstrap/css/bootstrap.min.responsive.css'
                 '@ActualSkillSiteBundle/Resources/public/css/actualskill.css'
-                '@ActualSkillSiteBundle/Resources/public/js/libs/jgrowl/jquery.jgrowl.css'
+                filter='cssrewrite'
                 output='css/site.css'
             %}
 
@@ -38,8 +38,7 @@
 
             {% javascripts
                 '@ActualSkillCoreBundle/Resources/public/bootstrap/js/bootstrap.min.js'
-                '@ActualSkillSiteBundle/Resources/public/js/libs/jgrowl/jquery.jgrowl_minimized.js'
-                '@ActualSkillSiteBundle/Resources/public/js/libs/jquery.hoverIntent.minified.js'
+                '@ActualSkillCoreBundle/Resources/public/js/highcharts.js'
                 output='css/site.js'
             %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
