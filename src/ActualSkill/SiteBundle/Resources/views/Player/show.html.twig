@@ -2,49 +2,62 @@
 
 {% block javascripts %}
     {{ parent() }}
-    
+
     {% javascripts
         '@ActualSkillCoreBundle/Resources/public/js/jquery.autogrowtextarea.js'
         '@ActualSkillCoreBundle/Resources/public/js/highcharts.js'
-    %}    
+    %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
-    
+
 
 {% endblock %}
 
 {% block header %}
-<script language="javascript"> 
-    
+<script language="javascript">
+
     var chart;
-    $(document).ready(function() {     
-        
+    $(document).ready(function() {
+
         $('.rating-box').click(function() {
             $(this).find(".rating-toggle ").toggle();
-    
-        });        
-        
+
+        });
+
         $('.rating-box').tooltip({
             placement: "left",
             title: "Click to rate"
         });
-        
-        $('.nav-pills a:first').tab('show')        
-        
+
+        $('.nav-pills a:first').tab('show')
+
         $(".autogrow").autogrow({
-            
+
         });
-           
-        $('#likebutton').click(function() {   
-            
+
+        $('#toggle_ratings_button').click(function(){
+            $(this).toggleClass("active");
+
+            if( !$('#ratings').is(':visible') ) {
+                $(this).html("Hide ratings");
+            }else {
+                $(this).html("See all ratings");
+            }
+
+
+            $('#ratings').slideToggle("fast");
+        });
+
+        $('#likebutton').click(function() {
+
             console.log("like button!");
-            
+
             $.post("/like/{{player.slug}}", function(data) {
                // first success
             })
             .success(function(data) {
                 data = jQuery.parseJSON(data);
-                
+
                 if(data.like){
                     $('#likebutton a').html("unlike");
                     //$.jGrowl("You like {{player.name}}", { life: 1000 });
@@ -56,9 +69,9 @@
             .complete(function() {});
 
             return false;
-        });        
-        
-        $('.btncomment').click(function() {  
+        });
+
+        $('.btncomment').click(function() {
             var textarea = $(this).siblings('textarea');
             var comment = textarea.val();
 
@@ -67,7 +80,7 @@
                 return;
             }
 
-            var dataString = 'comment='+comment;  
+            var dataString = 'comment='+comment;
             $.post("/comment/create/{{player.slug}}", dataString, function(data) {
                // first success
             })
@@ -86,14 +99,14 @@
 
         $('.ratingbox').bind('click', function() {
             $('#myModal').modal();
-        }); 
+        });
 
         $('.rateclick').bind('click', function() {
-            
+
             var attribute = this.id.split("_")[0];
             var id = this.id.split("_")[1];
             var value = $(this).html();
-            
+
             $(this).parent().parent().find('.rateclick').removeClass('active');
 
             $.post("/rate/{{player.slug}}/"+attribute+"/"+value, function(data) {
@@ -105,7 +118,7 @@
 
                 /*
                 var el = $("#"+data.slug+"_"+data.id).parent().find(".totalrating span");
-                
+
                 el.fadeOut('fast', function() {
                     $(this).parent().removeClass('secret');
                     $(this).html(data.average);
@@ -118,28 +131,30 @@
             })
             .error(function() {})
             .complete(function() {
-               
+
             });
 
-            
+
             $(this).addClass('active');
 
             return false;
-        });  
-        
+        });
+
         var data = [];
         var categories = [];
-        
+
         {% for statsheet in player.statsheets %}
             data.push({{statsheet.attributeRatingWeighted}})
             categories.push("{{statsheet.createdAt|date("d. M", "Europe/Copenhagen")}}");
         {% endfor %}
-        
+
         chart1 = new Highcharts.Chart({
             chart: {
                 renderTo: 'chart',
                 type: 'line',
                 marginTop: 0,
+                marginBottom: 18,
+                spacingBottom: 5,
                 spacingTop: 0,
                 spacingLeft: 0,
                 spacingRight: 0,
@@ -150,12 +165,17 @@
                 y: 0,
                 floating: false,
                 borderWidth: 0
-            },         
+            },
             title: {
                 text: ''
             },
             credits: {
                 enabled: false
+            },
+            plotOptions: {
+                series: {
+                    color: '#468847'
+                }
             },
             xAxis: {
                 tickInterval: categories.length-1,
@@ -166,6 +186,7 @@
                 min: 0,
                 tickInterval: 2,
                 gridLineWidth: 1,
+                gridLineColor: "#75CC55",
                 gridLineDashStyle: "dot",
                 title: {
                     text: ''
@@ -173,68 +194,70 @@
                 labels:
                 {
                   enabled: false
-                },                
+                },
                 plotBands: [{
                     from: 0,
                     to: 2,
-                    color: 'rgba(68, 170, 213, 0.1)',
+                    //color: 'rgba(68, 170, 213, 0.1)',
+                    color: 'rgba(255, 255, 255, 1)',
                     label: {
                         text: 'Amateur Class',
                         style: {
-                            color: 'rgba(68, 170, 213, 0.3)',
+                            //color: 'rgba(68, 170, 213, 0.3)',
+                            color: 'rgba(70, 136, 71, 0.5)',
                             fontWeight: 'bold',
                             fontSize: "8px"
-                        } 
+                        }
                     },
-                },{    
+                },{
                     from: 2,
                     to: 4,
-                    color: 'rgba(68, 170, 213, 0.1)',
+                    color: 'rgba(255, 255, 255, 1)',
                     label: {
                         text: 'Local Class',
                         style: {
-                            color: 'rgba(68, 170, 213, 0.3)',
+                            color: 'rgba(70, 136, 71, 0.5)',
                             fontWeight: 'bold',
                             fontSize: "8px"
-                        } 
-                    }                    
-                },{    
+                        }
+                    }
+                },{
                     from: 4,
                     to: 6,
-                    color: 'rgba(68, 170, 213, 0.1)',
+                    color: 'rgba(255, 255, 255, 1)',
                     label: {
                         text: 'National Class',
                         style: {
-                            color: 'rgba(68, 170, 213, 0.3)',
+                            color: 'rgba(70, 136, 71, 0.5)',
                             fontWeight: 'bold',
                             fontSize: "8px"
-                        } 
-                    }                    
-                },{    
+                        }
+                    }
+                },{
                     from: 6,
                     to: 8,
-                    color: 'rgba(68, 170, 213, 0.1)',
+                    color: 'rgba(255, 255, 255, 1)',
                     label: {
                         text: 'Regional Class',
                         style: {
-                            color: 'rgba(68, 170, 213, 0.3)',
+                            color: 'rgba(70, 136, 71, 0.5)',
                             fontWeight: 'bold',
                             fontSize: "8px"
-                        } 
-                    }                    
-                },{    
+                        }
+                    }
+                },{
                     from: 8,
                     to: 10,
-                    color: 'rgba(68, 170, 213, 0.1)',
+                    color: 'rgba(255, 255, 255, 1)',
                     label: {
                         text: 'World Class',
                         style: {
-                            color: 'rgba(68, 170, 213, 0.3)',
+                            color: 'rgba(70, 136, 71, 0.5)',
                             fontWeight: 'bold',
                             fontSize: "8px"
-                        }                        
-                    }                    
-                }]                
+                        }
+                    }
+                }]
             },
             tooltip: {
                 shared: true
@@ -243,69 +266,151 @@
                 name: 'Skills',
                 type: 'spline',
                 data: data
-            }]       
-        });        
-        
+            }]
+        });
+
     });
 
-</script> 
+</script>
 {% endblock %}
 
 {% block body %}
 
-
-<div class="page-header">
-    <h1>{{ player.fullname }} <img src="{{ asset('bundles/actualskillsite/img/flags/') }}{{player.country.iso2|lower}}.png"/> <small><span id="likebutton"><a href="#">{% if likes == true %} Unlike {% else %} Like {% endif %}</a></span></small></h1>
-    <h2><a href="{{ path('site_club_show', { 'id': player.club.slug }) }}">{{ player.club.name }}</a> <small>Age: {{player.age}}, Height: {{player.height}}cm, Weight: {{player.weight}}kg</small></h2>				        
-</div>
 <div class="row">
 
-        
+
     <div class="span8">
-        <div id="chart" style="height:200px; width: 100%"></div>         
-        
+
+        <div class="factsheet">
+            <h1>{{ player.fullname }} <small><span id="likebutton"><a href="#">{% if likes == true %} Unlike {% else %} Like {% endif %}</a></span></small></h1>
+
+            <div class="factbox">
+                <table>
+                    <tr>
+                        <th>Height</th>
+                        <td>{{player.height}} cm</td>
+                        <th>Club</th>
+                        <td><a href="{{ path('site_club_show', { 'id': player.club.slug }) }}">{{player.club}}</a></td>
+                    </tr>
+
+                    <tr>
+                        <th>Weight</th>
+                        <td>{{player.weight}} kg</td>
+                        <th>Nationality</th>
+                        <td><img src="{{ asset('bundles/actualskillsite/img/flags/') }}{{player.country.iso2|lower}}.png"/> {{player.country}}</td>
+                    </tr>
+                    <tr>
+                        <th>Age</th>
+                        <td>{{player.age}}</td>
+                        <th>Fans</th>
+                        <td>{{player.likes|length}} {{ player.likes|length == 1 ? 'fan' : 'fans' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Birthday</th>
+                        <td>{{player.birthday|date("j. F Y")}}</td>
+                        <th>Average skill</th>
+                        <td>{{ player.ratingAverage }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
         <div class="row">
             <div class="span4">
-                <h4>Top 5 attributes</h4>
-                <table class="table table-condensed table-striped">
+                <h5>Strengths</h5>
+                <table class="table table-condensed">
                     {% for attribute in topattributes %}
                     <tr>
                         {% if attribute.averageRating >= 7 %}
                         {% set label = 'label-success' %}
                         {% elseif attribute.averageRating < 4 %}
-                        {% set label = 'label-important' %}    
+                        {% set label = 'label-important' %}
                         {% else %}
-                        {% set label = 'label-warning' %}    
-                        {% endif %}    
-                        
+                        {% set label = 'label-warning' %}
+                        {% endif %}
+
                         <td><span class="label {{label}} label-average"> {{attribute.averageRating}}</span> {{ attribute.name }} ({{attribute.categoryName}})</td>
                     </tr>
                     {% endfor %}
-                </table>     
+                </table>
             </div>
             <div class="span4">
-                <h4>Bottom 5 attributes</h4>
-                <table class="table table-condensed table-striped">
+                <h5>Weaknesses</h5>
+                <table class="table table-condensed">
                     {% for attribute in bottomattributes %}
                     <tr>
                         {% if attribute.averageRating >= 7 %}
                         {% set label = 'label-success' %}
                         {% elseif attribute.averageRating < 4 %}
-                        {% set label = 'label-important' %}    
+                        {% set label = 'label-important' %}
                         {% else %}
-                        {% set label = 'label-warning' %}    
-                        {% endif %}    
-                        
+                        {% set label = 'label-warning' %}
+                        {% endif %}
+
                         <td><span class="label {{label}} label-average"> {{attribute.averageRating}}</span> {{ attribute.name }} ({{attribute.categoryName}})</td>
                     </tr>
                     {% endfor %}
-                </table>     
+                </table>
             </div>
-        </div>                
-        
-    </div>                
-        
-        
+        </div>
+
+        <a class="popbutton" id="toggle_ratings_button">See all ratings</a>
+
+        <div id="ratings" class="hide row">
+            {% set index = 0 %}
+            {% for category in categories %}
+                <div id="{{category.slug}}" class="span4">
+                    <h5>{{category.name}}</h5>
+                    <table class="table table-condensed">
+                    {% for attribute in category.attributes %}
+
+                        <tr>
+                            {% if attribute.averageRating >= 7 %}
+                            {% set label = 'label-success' %}
+                            {% elseif attribute.averageRating < 4 %}
+                            {% set label = 'label-important' %}
+                            {% else %}
+                            {% set label = 'label-warning' %}
+                            {% endif %}
+
+                            <td>{{index}}<span class="label {{label}} label-average"> {{attribute.averageRating}}</span> {{ attribute.name }}</td>
+                        </tr>
+                        {% set index = index+1 %}
+                    {% endfor %}
+                    </table>
+                </div>
+            {% endfor %}
+        </div>
+
+        <hr>
+
+        <h3>Comments</h3>
+        <div class="fb-comments" data-href="{{facebook_comments_base_href}}{{ path('player_show', { 'id': player.slug }) }}" data-num-posts="2" data-width="470"></div>
+
+        <!--
+        <div class="row">
+            <div class="span8">
+                <h2>Comments</h2>
+                <textarea class="xxlarge span8 autogrow" name="comment" rows="1"></textarea>
+                <input type="submit" class="btn primary btncomment" value="Submit"/>
+                <hr>
+
+                <div id="comments">
+                {% for comment in player.comments %}
+                    <div>
+                        <span><strong>{{comment.user.fullname}}</strong></span><br/>
+                        <span>{{comment.comment}}</span><br/>
+                        <span><small>{{comment.createdAt|date("m/d/Y")}}</small></span>
+                    </div>
+                    <hr>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+        -->
+    </div>
+
+
     <div class="span4">
         <!--
         <div class="five columns statcontainer">
@@ -313,7 +418,7 @@
                 <span class="statbox">
                     ActualSkill
                     <span class="number">{{ player.ratingAverage }}</span>
-                </span>						
+                </span>
                 <span class="statbox">
                     Skills
                     <span class="number">{{ player.ratingAverage }}</span>
@@ -322,62 +427,70 @@
                     Form
                     <span class="number">0</span>
                 </span>
-            </div>					
-        </div>        
-        -->    
-        
+            </div>
+        </div>
+        -->
+
         <!--
         <ul class="stats-tabs">
             <li>{{ player.ratingAverage }} <span>ActualSkill</span></li>
             <li>{{player.likes|length}} <span>{{ player.likes|length == 1 ? 'fan' : 'fans' }}</span></li>
             <li>{{player.ratings|length}} <span>{{ player.ratings|length == 1 ? 'rating' : 'ratings' }}</span></li>
             <li>{{player.comments|length}} <span>{{ player.comments|length == 1 ? 'comment' : 'comments' }}</span></li>
-        </ul>        
-	-->            
-        
+        </ul>
+	-->
+
+        <div class="bannerad column top">
+            <img src="http://lorempixel.com/300/250/technics/" />
+        </div>
+
+        <h4>Player Development</h4>
+        <div id="chart" style="height:150px; width: 100%; margin-bottom: 15px;"></div>
+
+        <!--
         <h4>Rate player</h4>
         <ul class="nav nav-pills nav-stacked">
             {% for category in categories %}
                 <li><a href="#{{category.slug}}" data-toggle="pill">{{category.name}}</a></li>
             {% endfor %}
             </li>
-        </ul>        
-        
+        </ul>
+
         <div class="pill-content">
             {% for category in categories %}
 
                 <div class="pill-pane rating-pane" id="{{category.slug}}">
                     <h4>{{category.name}}</h4>
                     {% for attribute in category.attributes %}
-                    
+
                         {% if attribute.averageRating >= 7 %}
                         {% set label = 'label-success' %}
-                        {% set progress = 'progress-high' %}                        
+                        {% set progress = 'progress-high' %}
                         {% elseif attribute.averageRating < 4 %}
                         {% set label = 'label-error' %}
                         {% set progress = 'progress-low' %}
                         {% else %}
                         {% set label = 'label-warning' %}
-                        {% set progress = 'progress-medium' %}                    
-                        {% endif %}                     
-                                      
-                    
+                        {% set progress = 'progress-medium' %}
+                        {% endif %}
+
+
                         <div rel="tooltip" class="rating-box">
                             <div class="attribute-name">
                                 {{ attribute.name }}
                             </div>
                             <div class="attribute-rating">
                                 {{attribute.averageRating}}
-                            </div>                                
-                            <div class="attribute-progress">                             
+                            </div>
+                            <div class="attribute-progress">
                                 <div class="progress {{progress}}">
                                     <div class="text">{{attribute.averageRating}}</div>
                                     <div class="bar" style="width:{{(attribute.averageRating/10)*100}}%;"></div>
-                                </div>   
-                            </div>                       
-                                
+                                </div>
+                            </div>
+
                             <div class="rating-toggle hide">
-                                <div class="rating-button-row">                             
+                                <div class="rating-button-row">
                                     {% for i in 1..10 %}
                                         <div class="rating-button-container condensed">
 
@@ -385,32 +498,31 @@
                                             <div id="{{attribute.slug}}_{{attribute.id}}" class="active rateclick rating-button">{{i}}</div>
                                             {% else %}
                                             <div id="{{attribute.slug}}_{{attribute.id}}" class="rateclick rating-button">{{i}}</div>
-                                            {% endif %}                                                               
+                                            {% endif %}
                                         </div>
-                                    {% endfor %}  
-                                </div>            
-                                <div class="attribute-description">{{ attribute.description}}</div>    
-                            </div>    
-                        </div>    
-                    {% endfor %} 
+                                    {% endfor %}
+                                </div>
+                                <div class="attribute-description">{{ attribute.description}}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
             {% endfor %}
-        </div>        
-        
-        <br>
-        
-        <h4>Top 5 team members</h4>
-        <table class="table table-condensed table-striped">
+        </div>
+        -->
+
+        <h4>Top 10 team members</h4>
+        <table class="table table-condensed">
             {% for teammember in teammembers %}
-                {% if loop.index0 < 5 %}
-                
+                {% if loop.index0 < 10 %}
+
                 {% if teammember.ratingAverage >= 7 %}
                 {% set label = 'label-success' %}
                 {% elseif teammember.ratingAverage < 4 %}
                 {% set label = 'label-important' %}
                 {% else %}
-                {% set label = 'label-warning' %}    
-                {% endif %}                 
+                {% set label = 'label-warning' %}
+                {% endif %}
             <tr>
                 <td><span class="label {{label}} label-average"> {{teammember.ratingAverage}}</span> <a href="{{ path('player_show', { 'id': teammember.slug }) }}">{{ teammember.fullname }}</a> | {{teammember.likes|length}} {{ teammember.likes|length == 1 ? 'fan' : 'fans' }}</td>
             </tr>
@@ -420,13 +532,14 @@
                 <td><a href="{{ path('site_club_show', { 'id': player.club.slug }) }}">See all team members</a></td>
             </tr>
         </table>
-    </div>        
+    </div>
 </div>
-        
+
+<!--
 <div class="row">
     <div class="span12">
         {% for position in positions %}
-            
+
             {% if position.category == "defence" %}
             <span style="color:red">{{position.name}} ({{position.shortname}})</span>
             {% elseif position.category == "midfield" %}
@@ -435,44 +548,27 @@
             <span style="color:green">{{position.name}} ({{position.shortname}})</span>
             {% endif %}
             <br />
-        {% endfor %}   
-    </div>
-</div>        
-
-<div class="row">
-    <div class="span12">
-        <h2>Comments</h2>
-        <textarea class="xxlarge span16 autogrow" name="comment" rows="1"></textarea>
-        <input type="submit" class="btn primary btncomment" value="Submit"/>    
-        
-        <div id="comments">
-        {% for comment in player.comments %}
-            <div>
-                <span><strong>{{comment.user.fullname}}</strong></span><br/>
-                <span>{{comment.comment}}</span><br/>
-                <span><small>{{comment.createdAt|date("m/d/Y")}}</small></span>
-            </div>
         {% endfor %}
-        </div>        
     </div>
-    
 </div>
+-->
+
 <div id="myModal" class="modal hide" style="display: none; ">
     <div class="modal-header">
         <a class="close" data-dismiss="modal">×</a>
         <h3>Modal Heading</h3>
     </div>
     <div class="modal-body">
-        
+
         <div class="rating-button-row">
         {% for i in 1..10 %}
             <div class="rating-button-container">
                 <div class="rating-button">
                 {{i}}
-                </div>                        
+                </div>
             </div>
-        {% endfor %}  
-        </div>    
+        {% endfor %}
+        </div>
     </div>
     <div class="modal-footer">
         <a href="#" class="btn btn-primary">Save changes</a>

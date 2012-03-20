@@ -12,14 +12,78 @@
 
 
 a{
-    color: @primaryDarker;
+    color: @primaryDark;
     &:hover{
-        color: @primaryDarkest;
+        color: @primaryDarker;
     }
 }
 
 .nav-pills{
     li.active a, li.active a:hover{
-        background-color: @primaryColor;
+        background-color: @primaryDark;
     }
+}
+
+.bannerad{
+
+    &.comments{
+        &.top{
+            margin-top: 15px;
+            margin-bottom: 15px;
+
+            text-align: center;
+        }
+    }
+
+    &.column{
+        &.top{
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
+        }
+    }
+}
+
+.table th, .table td {
+    border-top: 0;
+}
+
+.factsheet{
+
+    margin-bottom: 15px;
+
+    h1{
+        margin-bottom: 10px;
+    }
+
+    table{
+        width: 100%;
+
+        th, td{
+            line-height: 18px;
+            padding: 4px 5px;
+        }
+
+        th{
+            width: 20%;
+            text-align: left;
+        }
+    }
+
+    .table th{
+        width: 40%;
+    }
+
+    .factbox{
+
+        padding: 10px;
+        .border-radius(7px);
+        background-color: #FBFBFB;
+        border: 1px solid #AEAEAE;
+    }
+}
+
+// This makes Facebook comments adapt to full width (Responsive Hooray!)
+#fbcomments, .fb_iframe_widget, .fb_iframe_widget[style], .fb_iframe_widget iframe[style], #fbcomments iframe[style] {
+    width: 100% !important;
 }

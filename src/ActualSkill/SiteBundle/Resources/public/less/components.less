@@ -6,7 +6,7 @@
     min-width: 20px;
     display: inline-block;
     text-align: center;
-    
+
 }
 
 
@@ -24,17 +24,17 @@
 	background-color: @primaryDark;
 	.border-radius(3px);
 	text-shadow: 0 1px 0 rgba(0,0,0,.5);
-	
+
 	@shadow: 0 1px 2px rgba(0,0,0,1), inset 0 -1px 0 rgba(0,0,0,.1);
-	.box-shadow(@shadow);		
-	
+	.box-shadow(@shadow);
+
 	.number{
             text-shadow: 0 1px 0 rgba(0,0,0,.5);
             padding: 0 10px 5px 10px;
             font-weight: bold;
             display: block;
             font-size: @baseFontSize * 1.40;
-	}	
+	}
 }
 
 .ratingbox{
@@ -55,7 +55,7 @@
     }
 
     .description{
-        
+
         padding: 5px 0 0 0;
     }
 
@@ -137,7 +137,7 @@
    border-radius: 3px;
    text-shadow: 0 1px 1px white;
    box-shadow: 0 1px 1px #fff;
-   font: bold 11px Sans-Serif;
+   font: bold 14px "Helvetica Neue",Helvetica,Arial,sans-serif;
    padding: 6px 10px;
    white-space: nowrap;
    vertical-align: middle;
@@ -149,6 +149,8 @@
    -ms-transition: all 0.2s ease-in-out;
    -o-transition: all 0.2s ease-in-out;
    transition: all 0.2s ease-in-out;
+
+    margin-bottom: 5px;
 }
 .popbutton:hover {
    border-color: #999;
@@ -174,28 +176,39 @@
    position: relative;
    top: -1px;
 }
+
+.popbutton{
+    &.active{
+        &:after{
+            border-top: 0px;
+            border-bottom: 4px solid #999;
+        }
+    }
+}
+
 .popbutton:hover:after {
    border-top-color: black;
+   border-bottom-color: black;
 }
 
 // Stat tabs
 // http://pea.rs
 
 ul.stats-tabs{
-    
+
     .clearfix();
-    
+
     list-style: none;
     margin: 10px 0;
-    
+
     li{
         float: left;
         margin: 0 10px 0 0;
         padding: 0 10px 0 0;
-        border-right: 1px solid #ccc;  
+        border-right: 1px solid #ccc;
         font-size: 18px;
-        font-weight: bold; 
-        text-align: center;       
+        font-weight: bold;
+        text-align: center;
 
         span {
             display: block;
@@ -204,13 +217,13 @@ ul.stats-tabs{
             font-weight: normal;
         }
     }
-    
+
     li:last-child {
         margin: 0;
         padding: 0;
         border: none;
     }
-    
+
 }
 
 .rating-button {
@@ -257,7 +270,7 @@ ul.stats-tabs{
 .rating-box{
     cursor: pointer;
     border-bottom: 1px solid @grayLighter;
-    
+
 
     .clearfix();
 
@@ -274,7 +287,7 @@ ul.stats-tabs{
     .attribute-name{
         width: 60%;
     }
-    
+
     .attribute-rating{
         width: 10%;
         display: none;
@@ -294,7 +307,7 @@ ul.stats-tabs{
         position: relative;
 
         .text{
-            line-height: 21px;    
+            line-height: 21px;
             font-weight: bold;
             display: none;
             text-align: center;
@@ -303,7 +316,7 @@ ul.stats-tabs{
         .bar{
             height: 21px;
         }
-        
+
         height: 21px;
         margin-bottom: 0;
     }
@@ -348,9 +361,9 @@ ul.stats-tabs{
     .clearfix();
 
     .rating-button-container{
-        width: 10%; 
-        padding: 0; 
-        float: left; 
+        width: 10%;
+        padding: 0;
+        float: left;
         text-align: center;
 
         &.condensed{
