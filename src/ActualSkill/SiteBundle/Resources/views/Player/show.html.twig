@@ -126,6 +126,7 @@
                 },
                 {
                     duration: 1000, // how fast we are animating
+                    easing: 'easeOutQuad',
                     complete: function() {
                         $(this).remove();
                     }
@@ -313,46 +314,6 @@
                 </table>
             </div>
         </div>
-
-        <div class="row">
-            <div class="span4">
-                <h5>Strengths</h5>
-                <table class="table table-condensed">
-                    {% for attribute in topattributes %}
-                    <tr>
-                        {% if attribute.averageRating >= 7 %}
-                        {% set label = 'high' %}
-                        {% elseif attribute.averageRating < 4 %}
-                        {% set label = 'low' %}
-                        {% else %}
-                        {% set label = 'medium' %}
-                        {% endif %}
-
-                        <td><span class="label {{label}} label-average"> {{attribute.averageRating}}</span> {{ attribute.name }} <span style="color: #ddd; font-size: 11px; vertical-align: top">{{attribute.categoryName}}</span></td>
-                    </tr>
-                    {% endfor %}
-                </table>
-            </div>
-            <div class="span4">
-                <h5>Weaknesses</h5>
-                <table class="table table-condensed">
-                    {% for attribute in bottomattributes %}
-                    <tr>
-                        {% if attribute.averageRating >= 7 %}
-                        {% set label = 'high' %}
-                        {% elseif attribute.averageRating < 4 %}
-                        {% set label = 'low' %}
-                        {% else %}
-                        {% set label = 'medium' %}
-                        {% endif %}
-
-                            <td><span class="label {{label}} label-average"> {{attribute.averageRating}}</span> {{ attribute.name }} <span style="color: #ddd; font-size: 11px; vertical-align: top">{{attribute.categoryName}}</span></td>
-                        <td></td>
-                    </tr>
-                    {% endfor %}
-                </table>
-            </div>
-        </div>
         
         <div class="row">
             <div class="span2">
@@ -414,6 +375,48 @@
                 </div>        
             </div>                
         </div>
+        
+
+        <div class="row">
+            <div class="span4">
+                <h5>Strengths</h5>
+                <table class="table table-condensed">
+                    {% for attribute in topattributes %}
+                    <tr>
+                        {% if attribute.averageRating >= 7 %}
+                        {% set label = 'high' %}
+                        {% elseif attribute.averageRating < 4 %}
+                        {% set label = 'low' %}
+                        {% else %}
+                        {% set label = 'medium' %}
+                        {% endif %}
+
+                        <td><span class="label {{label}} label-average"> {{attribute.averageRating}}</span> {{ attribute.name }} <span style="color: #ddd; font-size: 11px; vertical-align: top">{{attribute.categoryName}}</span></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="span4">
+                <h5>Weaknesses</h5>
+                <table class="table table-condensed">
+                    {% for attribute in bottomattributes %}
+                    <tr>
+                        {% if attribute.averageRating >= 7 %}
+                        {% set label = 'high' %}
+                        {% elseif attribute.averageRating < 4 %}
+                        {% set label = 'low' %}
+                        {% else %}
+                        {% set label = 'medium' %}
+                        {% endif %}
+
+                            <td><span class="label {{label}} label-average"> {{attribute.averageRating}}</span> {{ attribute.name }} <span style="color: #ddd; font-size: 11px; vertical-align: top">{{attribute.categoryName}}</span></td>
+                        <td></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>        
+        
         <hr>
 
         <h3>Comments</h3>
