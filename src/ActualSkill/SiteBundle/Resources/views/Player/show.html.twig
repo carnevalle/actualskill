@@ -107,10 +107,12 @@
                 el.spin(false);
                 el.html(content);
                 
+                var feedbackText = ["Thank you!", "Very good!", "Good job!", "Awesome!"]
+                
                 var offset = el.offset();
                 var feedback = $(document.createElement('span'));
                 feedback.css("display", "none");
-                feedback.html("Rating saved!");
+                feedback.html(feedbackText[Math.floor(Math.random()*feedbackText.length)]);
                 $('body').append(feedback);
                 
                 feedback.css("top", offset.top-feedback.height());
