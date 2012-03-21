@@ -90,11 +90,11 @@
             var id = this.id.split("_")[1];
             var value = $(this).html();
             var el = $(this);
-            
+
             var content = el.html();
             el.html("&nbsp;");
             el.spin("tiny");
-            
+
             $(this).parent().parent().find('.rateclick').removeClass('active');
 
             $.post("/rate/{{player.slug}}/"+attribute+"/"+value, function(data) {
@@ -103,27 +103,27 @@
             })
             .success(function(data) {
                 data = jQuery.parseJSON(data);
-                
+
                 el.spin(false);
                 el.html(content);
-                
+
                 var feedbackText = ["Thank you!", "Very good!", "Good job!", "Awesome!"]
-                
+
                 var offset = el.offset();
                 var feedback = $(document.createElement('span'));
                 feedback.css("display", "none");
                 feedback.html(feedbackText[Math.floor(Math.random()*feedbackText.length)]);
                 $('body').append(feedback);
-                
+
                 feedback.css("top", offset.top-feedback.height());
                 feedback.css("left", (offset.left+el.width()/2)-(feedback.width())/2);
                 feedback.css("position", "absolute");
-                
+
                 el.addClass('active');
                 feedback.show();
                 feedback.animate(
                 {
-                    top: '-=20', 
+                    top: '-=20',
                     opacity:0
                 },
                 {
@@ -150,6 +150,70 @@
             categories.push("{{statsheet.createdAt|date("d. M", "Europe/Copenhagen")}}");
         {% endfor %}
 
+        /*
+        devchart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'chart',
+                alignTicks: false,
+            },
+            title: {
+                text: false,
+            },
+            xAxis: [{
+                tickInterval: categories.length-1,
+                categories: categories,
+                title: {
+                    text: 'Last 5 Games'
+            },
+            }],
+            yAxis: [{ // Primary yAxis
+                reversed: true,
+                labels: {
+                    style: {
+                        color: '#D9E021'
+                    }
+                },
+                startOnTick: false,
+                endOnTick: false,
+                maxPadding: 0.5,
+                minPadding: 0.5,
+                gridLineWidth: 0,
+                categories: categories,
+                title: {
+                    text: 'Player Development',
+                    style: {
+                        color: '#D9E021',
+                        fontSize: '0.9em'
+                    }
+                }
+            }],
+            tooltip: {
+                formatter: function() {
+                    return 'Game '+
+                        this.x +': '+ this.y +
+                        (this.series.name == 'Fan Support' ? '%' : '');
+                }
+            },
+            credits: {
+                enabled: false
+            },
+            legend: false,
+            series: [{
+                name: 'Fan Support',
+                color: '#29ABE2',
+                type: 'spline',
+                yAxis: 1,
+                data: data
+
+            }, {
+                name: 'League Pos',
+                color: '#D9E021',
+                type: 'spline',
+                data: data
+            }]
+        });
+        */
+
         chart1 = new Highcharts.Chart({
             chart: {
                 renderTo: 'chart',
@@ -160,6 +224,7 @@
                 spacingTop: 0,
                 spacingLeft: 0,
                 spacingRight: 0,
+                backgroundColor: "#FBFBFB"
             },
             legend: {
                 align: 'center',
@@ -169,7 +234,7 @@
                 borderWidth: 0
             },
             title: {
-                text: ''
+                text: 'Player Development'
             },
             credits: {
                 enabled: false
@@ -181,13 +246,14 @@
             },
             xAxis: {
                 tickInterval: categories.length-1,
-                categories: categories
+                categories: categories,
+                gridLineColor: "#E5E5E5"
             },
             yAxis: {
                 max: 10,
                 min: 0,
                 tickInterval: 2,
-                gridLineWidth: 1,
+                gridLineWidth: 0,
                 gridLineColor: "#75CC55",
                 gridLineDashStyle: "dot",
                 title: {
@@ -196,70 +262,7 @@
                 labels:
                 {
                   enabled: false
-                },
-                plotBands: [{
-                    from: 0,
-                    to: 2,
-                    //color: 'rgba(68, 170, 213, 0.1)',
-                    color: 'rgba(255, 255, 255, 1)',
-                    label: {
-                        text: 'Amateur Class',
-                        style: {
-                            //color: 'rgba(68, 170, 213, 0.3)',
-                            color: 'rgba(70, 136, 71, 0.5)',
-                            fontWeight: 'bold',
-                            fontSize: "8px"
-                        }
-                    },
-                },{
-                    from: 2,
-                    to: 4,
-                    color: 'rgba(255, 255, 255, 1)',
-                    label: {
-                        text: 'Local Class',
-                        style: {
-                            color: 'rgba(70, 136, 71, 0.5)',
-                            fontWeight: 'bold',
-                            fontSize: "8px"
-                        }
-                    }
-                },{
-                    from: 4,
-                    to: 6,
-                    color: 'rgba(255, 255, 255, 1)',
-                    label: {
-                        text: 'National Class',
-                        style: {
-                            color: 'rgba(70, 136, 71, 0.5)',
-                            fontWeight: 'bold',
-                            fontSize: "8px"
-                        }
-                    }
-                },{
-                    from: 6,
-                    to: 8,
-                    color: 'rgba(255, 255, 255, 1)',
-                    label: {
-                        text: 'Regional Class',
-                        style: {
-                            color: 'rgba(70, 136, 71, 0.5)',
-                            fontWeight: 'bold',
-                            fontSize: "8px"
-                        }
-                    }
-                },{
-                    from: 8,
-                    to: 10,
-                    color: 'rgba(255, 255, 255, 1)',
-                    label: {
-                        text: 'World Class',
-                        style: {
-                            color: 'rgba(70, 136, 71, 0.5)',
-                            fontWeight: 'bold',
-                            fontSize: "8px"
-                        }
-                    }
-                }]
+                }
             },
             tooltip: {
                 shared: true
@@ -270,7 +273,6 @@
                 data: data
             }]
         });
-
     });
 
 </script>
@@ -316,9 +318,9 @@
                 </table>
             </div>
         </div>
-        
+
         <hr/>
-        
+
         <div class="row">
             <div class="span2">
                 <h4>Rate player</h4>
@@ -326,7 +328,6 @@
                     {% for category in categories %}
                         <li><a href="#{{category.slug}}" data-toggle="pill">{{category.name}}</a></li>
                     {% endfor %}
-                    </li>
                 </ul>
             </div>
             <div class="span6">
@@ -358,7 +359,7 @@
                                                 {% set label = 'low' %}
                                                 {% else %}
                                                 {% set label = 'medium' %}
-                                                {% endif %}                                        
+                                                {% endif %}
 
                                                 <div class="rating-button-container condensed">
 
@@ -369,89 +370,69 @@
                                                     {% endif %}
                                                 </div>
                                             {% endfor %}
-                                        </div>                                    
+                                        </div>
                                     </div>
-                                    <span class="attribute-description">{{ attribute.description}}</span>                                
-                                </div>                    
+                                    <span class="attribute-description">{{ attribute.description}}</span>
+                                </div>
                             {% endfor %}
                         </div>
                     {% endfor %}
-                </div>        
-            </div>                
+                </div>
+            </div>
         </div>
-        
-        <hr/>
-        
-        <div class="row">
-            <div class="span4">
-                <h5>Strengths</h5>
-                <table class="table table-condensed">
-                    {% for attribute in topattributes %}
-                    <tr>
-                        {% if attribute.averageRating >= 7 %}
-                        {% set label = 'high' %}
-                        {% elseif attribute.averageRating < 4 %}
-                        {% set label = 'low' %}
-                        {% else %}
-                        {% set label = 'medium' %}
-                        {% endif %}
 
-                        <td><span class="label {{label}} label-average"> {{attribute.averageRating}}</span> {{ attribute.name }} <span style="color: #ddd; font-size: 11px; vertical-align: top">{{attribute.categoryName}}</span></td>
-                    </tr>
-                    {% endfor %}
-                </table>
-            </div>
-            <div class="span4">
-                <h5>Weaknesses</h5>
-                <table class="table table-condensed">
-                    {% for attribute in bottomattributes %}
-                    <tr>
-                        {% if attribute.averageRating >= 7 %}
-                        {% set label = 'high' %}
-                        {% elseif attribute.averageRating < 4 %}
-                        {% set label = 'low' %}
-                        {% else %}
-                        {% set label = 'medium' %}
-                        {% endif %}
+        <div style="background-color: #FBFBFB; padding-top: 5px; margin-top: 10px; margin-bottom: 10px; border-top: 1px solid #E5E5E5; border-bottom: 1px solid #E5E5E5">
+            <div id="chart" style="height: 200px; width: 100%; margin-bottom: 15px;"></div>
 
-                            <td><span class="label {{label}} label-average"> {{attribute.averageRating}}</span> {{ attribute.name }} <span style="color: #ddd; font-size: 11px; vertical-align: top">{{attribute.categoryName}}</span></td>
-                        <td></td>
-                    </tr>
-                    {% endfor %}
-                </table>
+            <div class="row">
+                <div class="span4">
+                    <h5>Strengths</h5>
+                    <table class="table table-condensed">
+                        {% for attribute in topattributes %}
+                        <tr>
+                            {% if attribute.averageRating >= 7 %}
+                            {% set label = 'high' %}
+                            {% elseif attribute.averageRating < 4 %}
+                            {% set label = 'low' %}
+                            {% else %}
+                            {% set label = 'medium' %}
+                            {% endif %}
+
+                            <td><span class="label {{label}} label-average"> {{attribute.averageRating}}</span> {{ attribute.name }} <span style="color: #ddd; font-size: 11px">{{attribute.categoryName}}</span></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div class="span4">
+                    <h5>Weaknesses</h5>
+                    <table class="table table-condensed">
+                        {% for attribute in bottomattributes %}
+                        <tr>
+                            {% if attribute.averageRating >= 7 %}
+                            {% set label = 'high' %}
+                            {% elseif attribute.averageRating < 4 %}
+                            {% set label = 'low' %}
+                            {% else %}
+                            {% set label = 'medium' %}
+                            {% endif %}
+
+                                <td><span class="label {{label}} label-average"> {{attribute.averageRating}}</span> {{ attribute.name }} <span style="color: #ddd; font-size: 11px;">{{attribute.categoryName}}</span></td>
+                            <td></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
             </div>
-        </div>        
-        
-        <hr>
+        </div>
 
         <h3>Comments</h3>
         <div class="fb-comments" data-href="{{facebook_comments_base_href}}{{ path('player_show', { 'id': player.slug }) }}" data-num-posts="2" data-width="470"></div>
 
-        <!--
-        <div class="row">
-            <div class="span8">
-                <h2>Comments</h2>
-                <textarea class="xxlarge span8 autogrow" name="comment" rows="1"></textarea>
-                <input type="submit" class="btn primary btncomment" value="Submit"/>
-                <hr>
-
-                <div id="comments">
-                {% for comment in player.comments %}
-                    <div>
-                        <span><strong>{{comment.user.fullname}}</strong></span><br/>
-                        <span>{{comment.comment}}</span><br/>
-                        <span><small>{{comment.createdAt|date("m/d/Y")}}</small></span>
-                    </div>
-                    <hr>
-                {% endfor %}
-                </div>
-            </div>
-        </div>
-        -->
     </div>
 
 
     <div class="span4">
+
         <!--
         <div class="five columns statcontainer">
             <div class="stats">
@@ -476,80 +457,12 @@
             <li>{{ player.ratingAverage }} <span>ActualSkill</span></li>
             <li>{{player.likes|length}} <span>{{ player.likes|length == 1 ? 'fan' : 'fans' }}</span></li>
             <li>{{player.ratings|length}} <span>{{ player.ratings|length == 1 ? 'rating' : 'ratings' }}</span></li>
-            <li>{{player.comments|length}} <span>{{ player.comments|length == 1 ? 'comment' : 'comments' }}</span></li>
         </ul>
-	-->
+        -->
 
         <div class="bannerad column top">
             <img src="http://lorempixel.com/300/250/technics/" />
         </div>
-
-        <h4>Player Development</h4>
-        <div id="chart" style="height:150px; width: 100%; margin-bottom: 15px;"></div>
-
-        <!--
-        <h4>Rate player</h4>
-        <ul class="nav nav-pills nav-stacked">
-            {% for category in categories %}
-                <li><a href="#{{category.slug}}" data-toggle="pill">{{category.name}}</a></li>
-            {% endfor %}
-            </li>
-        </ul>
-
-        <div class="pill-content">
-            {% for category in categories %}
-
-                <div class="pill-pane rating-pane" id="{{category.slug}}">
-                    <h4>{{category.name}}</h4>
-                    {% for attribute in category.attributes %}
-
-                        {% if attribute.averageRating >= 7 %}
-                        {% set label = 'label-success' %}
-                        {% set progress = 'progress-high' %}
-                        {% elseif attribute.averageRating < 4 %}
-                        {% set label = 'label-error' %}
-                        {% set progress = 'progress-low' %}
-                        {% else %}
-                        {% set label = 'label-warning' %}
-                        {% set progress = 'progress-medium' %}
-                        {% endif %}
-
-
-                        <div rel="tooltip" class="rating-box">
-                            <div class="attribute-name">
-                                {{ attribute.name }}
-                            </div>
-                            <div class="attribute-rating">
-                                {{attribute.averageRating}}
-                            </div>
-                            <div class="attribute-progress">
-                                <div class="progress {{progress}}">
-                                    <div class="text">{{attribute.averageRating}}</div>
-                                    <div class="bar" style="width:{{(attribute.averageRating/10)*100}}%;"></div>
-                                </div>
-                            </div>
-
-                            <div class="rating-toggle hide">
-                                <div class="rating-button-row">
-                                    {% for i in 1..10 %}
-                                        <div class="rating-button-container condensed">
-
-                                            {% if attribute.userRating == i %}
-                                            <div id="{{attribute.slug}}_{{attribute.id}}" class="active rateclick rating-button">{{i}}</div>
-                                            {% else %}
-                                            <div id="{{attribute.slug}}_{{attribute.id}}" class="rateclick rating-button">{{i}}</div>
-                                            {% endif %}
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                                <div class="attribute-description">{{ attribute.description}}</div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endfor %}
-        </div>
-        -->
 
         <h4>Top 10 team members</h4>
         <table class="table table-condensed">
@@ -562,7 +475,7 @@
                 {% set label = 'low' %}
                 {% else %}
                 {% set label = 'medium' %}
-                {% endif %}                
+                {% endif %}
             <tr>
                 <td><span class="label {{label}} label-average"> {{teammember.ratingAverage}}</span> <a href="{{ path('player_show', { 'id': teammember.slug }) }}">{{ teammember.fullname }}</a> | {{teammember.likes|length}} {{ teammember.likes|length == 1 ? 'fan' : 'fans' }}</td>
             </tr>
@@ -575,44 +488,4 @@
     </div>
 </div>
 
-<!--
-<div class="row">
-    <div class="span12">
-        {% for position in positions %}
-
-            {% if position.category == "defence" %}
-            <span style="color:red">{{position.name}} ({{position.shortname}})</span>
-            {% elseif position.category == "midfield" %}
-            <span style="color:blue">{{position.name}} ({{position.shortname}})</span>
-            {% elseif position.category == "attack" %}
-            <span style="color:green">{{position.name}} ({{position.shortname}})</span>
-            {% endif %}
-            <br />
-        {% endfor %}
-    </div>
-</div>
--->
-
-<div id="myModal" class="modal hide" style="display: none; ">
-    <div class="modal-header">
-        <a class="close" data-dismiss="modal">×</a>
-        <h3>Modal Heading</h3>
-    </div>
-    <div class="modal-body">
-
-        <div class="rating-button-row">
-        {% for i in 1..10 %}
-            <div class="rating-button-container">
-                <div class="rating-button">
-                {{i}}
-                </div>
-            </div>
-        {% endfor %}
-        </div>
-    </div>
-    <div class="modal-footer">
-        <a href="#" class="btn btn-primary">Save changes</a>
-        <a href="#" class="btn" data-dismiss="modal">Close</a>
-    </div>
-</div>
 {% endblock %}

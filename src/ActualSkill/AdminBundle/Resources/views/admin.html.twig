@@ -3,7 +3,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>{% block title %}ActualSkill{% endblock %}</title>
-        
+
         <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
         <!--[if lt IE 9]>
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -11,69 +11,65 @@
 
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/jquery-ui.min.js"></script>
-         
+
         {% javascripts
-            
+
         %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
         {% endjavascripts %}
 
-        {% stylesheets 
-            
+        {% stylesheets
+            'bundles/actualskillcore/bootstrap/css/bootstrap.min.css'
             output='css/styles.css'%}
 
             <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
 
         {% endstylesheets %}
-        <style type="text/css">
-          body {
-            padding-top: 60px;
-          }
-        </style>
-    
     </head>
     <body>
 
-        <!-- Topbar
-            ================================================== -->
-        <div class="topbar">
-          <div class="fill">
-            <div class="container">
-              <a class="brand" href="{{ path('_admin') }}"><span style="color: red">Admin </span>ActualSkill</a>
-              <ul class="nav">
-                {% block navigation %}
-                    <li><a href="{{ path('admin_clubs') }}">Clubs</a></li>
-                    <li><a href="{{ path('admin_players') }}">Players</a></li>
-                    <li><a href="{{ path('admin_ratingschema') }}">Rating Schema</a></li>
-                    <li><a href="{{ path('admin_categories') }}">Categories</a></li>
-                    <li><a href="{{ path('admin_attributes') }}">Attributes</a></li>
-                    <li><a href="{{ path('_welcome') }}">Site</a></li>
-                {% endblock %}
-              </ul>
+<div class="navbar">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                        <a class="brand" href="{{ path('_welcome') }}">ActualSkill <small>beta</small></a>
+                    <div class="nav-collapse">
+                        <ul class="nav">
+                        {% block navigation %}
+                            <li><a href="{{ path('admin_clubs') }}">Clubs</a></li>
+                            <li><a href="{{ path('admin_players') }}">Players</a></li>
+                            <li><a href="{{ path('admin_ratingschema') }}">Rating Schema</a></li>
+                            <li><a href="{{ path('admin_categories') }}">Categories</a></li>
+                            <li><a href="{{ path('admin_attributes') }}">Attributes</a></li>
+                            <li><a href="{{ path('_welcome') }}">Site</a></li>
+                        {% endblock %}
+                        </ul>
+                        <ul class="nav pull-right">
+                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
 
-
-                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                    <ul class="nav secondary-nav">
-                        <li class="dropdown" data-dropdown="dropdown">
-                        <a class="dropdown-toggle" href="#">{{app.user.username}}</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Secondary link</a></li>
-                                <li><a href="#">Something else here</a></li>
-                                <li class="divider"></li>
-                                <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                {% else %}
-                    <ul class="nav secondary-nav">
-                        <li>
-                            <a href="{{ path('fos_user_security_login') }}">Login</a>
-                        </li>
-                    </ul>
-                {% endif %}
-
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{app.user.firstname}} {{app.user.lastname}}<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ path('fos_user_profile_show') }}">Show profile</a></li>
+                                    <li><a href="#">Another action</a></li>
+                                    <li><a href="#">Something else here</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="{{ path('fos_user_security_login') }}">Login</a>
+                            </li>
+                        {% endif %}
+                        </ul>
+                    </div><!--/.nav-collapse -->
+                </div>
             </div>
-          </div>
         </div>
 
         <div class="container">
@@ -82,14 +78,14 @@
                 <div class="span-16">
                     <ul class="breadcrumb">
                       <li><a class="active" href="#">Home</a> <span class="divider">/</span></li>
-                    </ul>                    
+                    </ul>
                 </div>
             </div>
 
             <div class="row">
                 <div class="span-16">
                    {% block header %}
-                    
+
                     {% endblock %}
                 </div>
             </div>

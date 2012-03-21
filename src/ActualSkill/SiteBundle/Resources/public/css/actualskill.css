@@ -320,12 +320,15 @@ a:hover {
   padding-bottom: 5px;
   border-bottom: 1px solid #eee;
 }
-.table th,
 .table td {
-  border-top: 0;
+  vertical-align: middle;
 }
 .factsheet {
   margin-bottom: 15px;
+}
+.factsheet .table th,
+.factsheet .table td {
+  border-top: 0;
 }
 .factsheet h1 {
   margin-bottom: 10px;
