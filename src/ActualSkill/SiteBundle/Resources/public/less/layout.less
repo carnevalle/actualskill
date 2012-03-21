@@ -19,8 +19,20 @@ a{
 }
 
 .nav-pills{
+    li a{
+        #gradient .vertical-three-colors(lighten(#FBFBFB,30%), #FBFBFB, 10%, darken(#FBFBFB, 5%));
+        border: 1px solid #AEAEAE;
+        .border-radius(5px);
+    }
+
     li.active a, li.active a:hover{
-        background-color: @primaryDark;
+        #gradient .vertical-three-colors(lighten(@black, 60%), lighten(@black, 30%), 10%, lighten(@black, 10%));
+        border: 1px solid #AEAEAE;
+        color: @white;
+    }
+
+    a{
+        color: @black;
     }
 }
 
