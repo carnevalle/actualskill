@@ -72,6 +72,9 @@ fos_user:
     from_email:
         address: troelsjohnsen@gmail.com
         sender_name: ActualSkill.com
+    registration:
+        form:
+          type: actualskill_user_registration        
         
 stof_doctrine_extensions: 
     orm: 

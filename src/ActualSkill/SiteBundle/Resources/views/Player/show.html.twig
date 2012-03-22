@@ -150,80 +150,11 @@
             categories.push("{{statsheet.createdAt|date("d. M", "Europe/Copenhagen")}}");
         {% endfor %}
 
-        /*
-        devchart = new Highcharts.Chart({
-            chart: {
-                renderTo: 'chart',
-                alignTicks: false,
-            },
-            title: {
-                text: false,
-            },
-            xAxis: [{
-                tickInterval: categories.length-1,
-                categories: categories,
-                title: {
-                    text: 'Last 5 Games'
-            },
-            }],
-            yAxis: [{ // Primary yAxis
-                reversed: true,
-                labels: {
-                    style: {
-                        color: '#D9E021'
-                    }
-                },
-                startOnTick: false,
-                endOnTick: false,
-                maxPadding: 0.5,
-                minPadding: 0.5,
-                gridLineWidth: 0,
-                categories: categories,
-                title: {
-                    text: 'Player Development',
-                    style: {
-                        color: '#D9E021',
-                        fontSize: '0.9em'
-                    }
-                }
-            }],
-            tooltip: {
-                formatter: function() {
-                    return 'Game '+
-                        this.x +': '+ this.y +
-                        (this.series.name == 'Fan Support' ? '%' : '');
-                }
-            },
-            credits: {
-                enabled: false
-            },
-            legend: false,
-            series: [{
-                name: 'Fan Support',
-                color: '#29ABE2',
-                type: 'spline',
-                yAxis: 1,
-                data: data
-
-            }, {
-                name: 'League Pos',
-                color: '#D9E021',
-                type: 'spline',
-                data: data
-            }]
-        });
-        */
-
         chart1 = new Highcharts.Chart({
             chart: {
                 renderTo: 'chart',
                 type: 'line',
-                marginTop: 0,
-                marginBottom: 18,
-                spacingBottom: 5,
-                spacingTop: 0,
-                spacingLeft: 0,
-                spacingRight: 0,
+
                 backgroundColor: "#FBFBFB"
             },
             legend: {
@@ -231,7 +162,9 @@
                 verticalAlign: 'bottom',
                 y: 0,
                 floating: false,
-                borderWidth: 0
+                borderWidth: 0,
+                enabled: false
+                
             },
             title: {
                 text: 'Player Development'
@@ -253,7 +186,7 @@
                 max: 10,
                 min: 0,
                 tickInterval: 2,
-                gridLineWidth: 0,
+                gridLineWidth: 1,
                 gridLineColor: "#75CC55",
                 gridLineDashStyle: "dot",
                 title: {
@@ -261,7 +194,7 @@
                 },
                 labels:
                 {
-                  enabled: false
+                  enabled: true
                 }
             },
             tooltip: {
@@ -288,7 +221,7 @@
         <div class="factsheet">
             <h1>{{ player.fullname }} <small><span id="likebutton"><a href="#">{% if likes == true %} Unlike {% else %} Like {% endif %}</a></span></small></h1>
 
-            <div class="factbox">
+            <div class="contentbox">
                 <table>
                     <tr>
                         <th>Height</th>
@@ -305,7 +238,7 @@
                     </tr>
                     <tr>
                         <th>Age</th>
-                        <td>{{player.age}}</td>
+                        <td>{{player.age}} years</td>
                         <th>Fans</th>
                         <td>{{player.likes|length}} {{ player.likes|length == 1 ? 'fan' : 'fans' }}</td>
                     </tr>
@@ -318,8 +251,6 @@
                 </table>
             </div>
         </div>
-
-        <hr/>
 
         <div class="row">
             <div class="span2">
@@ -381,7 +312,7 @@
             </div>
         </div>
 
-        <div style="background-color: #FBFBFB; padding-top: 5px; margin-top: 10px; margin-bottom: 10px; border-top: 1px solid #E5E5E5; border-bottom: 1px solid #E5E5E5">
+        <div class="contentbox">
             <div id="chart" style="height: 200px; width: 100%; margin-bottom: 15px;"></div>
 
             <div class="row">
@@ -459,10 +390,6 @@
             <li>{{player.ratings|length}} <span>{{ player.ratings|length == 1 ? 'rating' : 'ratings' }}</span></li>
         </ul>
         -->
-
-        <div class="bannerad column top">
-            <img src="http://lorempixel.com/300/250/technics/" />
-        </div>
 
         <h4>Top 10 team members</h4>
         <table class="table table-condensed">

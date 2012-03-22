@@ -1,0 +1,10 @@
+services:
+    actualskill_user.registration.form.type:
+        class: ActualSkill\UserBundle\Form\Type\RegistrationFormType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: actualskill_user_registration }        
+    actualskill_user.my_user_manager:
+        class: ActualSkill\UserBundle\Model\ActualSkillUserManager
+        public: false
+        parent: fos_user.user_manager.default
