@@ -9,6 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use ActualSkill\CoreBundle\Entity\Player;
 use ActualSkill\SiteBundle\Form\PlayerType;
 use ActualSkill\CoreBundle\Entity\Comment;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Player controller.
@@ -38,9 +40,11 @@ class PlayerController extends Controller
      * @Template()
      */
     public function showAction($id)
-    {
+    {        
+        
         //$player = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:Player')->findOneBySlug($id);
-        $player = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:Player')->findOneBySlugJoinedToRatingSchema($id);
+        //$player = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:Player')->findOneBySlugJoinedToRatingSchema($id);
+        $player = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:Player')->findOneBySlugWithRatings($id);
         $randomplayer = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:Player')->findOneRandomJoinedToRatingSchema();
         $positions = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:PlayerPosition')->findAllOrderByASC();
         
@@ -48,41 +52,25 @@ class PlayerController extends Controller
             throw $this->createNotFoundException('Unable to find Player entity.');
         }
         
-        $user = $this->get('security.context')->getToken()->getUser();
-
+        $user = null;
+        $likes = null;
+        if ($this->get('security.context')->isGranted('ROLE_USER')) {
+            $user = $this->get('security.context')->getToken()->getUser();
+            $ratingService = $this->get('actual_skill_core.rating_service');
+            $likes = $ratingService->doesUserLikeEntity($player, $user);
+            $ratingService->addUserRatingsToBaseEntity($player, $user);            
+        }        
         
-        $ratingService = $this->get('actual_skill_core.rating_service');
-        $likes = $ratingService->doesUserLikeEntity($player, $user);
-        
-        $ratingService->addUserRatingsToBaseEntity($player, $user);
-        
-        // This sorts attributes be average rating (descending)
+        // We get a sorted set of attributes with ratings
         $categories = $player->getRatingschema()->getCategories();
-        $attributesSorted = array();
-        $topattributes = array();
-        $bottomattributes = array();
-        foreach ($categories as $category) {
-            $attributes = $category->getAttributes();
-            
-            foreach ($attributes as $attribute) {
-                $attributesSorted[] = $attribute;    
-            }
-        }
-        
-        $this->sortAttributesByAverage($attributesSorted, "DESC");
+        $attributesSorted = $this->getSortedAttributesWithRatings($player);
         $topattributes = array_slice($attributesSorted, 0, 5);
         $bottomattributes = array_slice($attributesSorted, count($attributesSorted)-5, 5);
         $this->sortAttributesByAverage($bottomattributes);        
         
+        // We get and sort the players team members
         $teammembers = $player->getClub()->getPlayers();
         $this->sortPlayersByAverage($teammembers, "DESC");
-        
-        $categories = $player->getRatingschema()->getCategories();
-        /*foreach ($categories as $category) {
-            foreach ($category->getAttributes() as $attribute) {
-                $attribute->setCategoryName($category->getName());
-            }
-        }*/
         
         return array(  
             'player'        => $player,
@@ -95,6 +83,30 @@ class PlayerController extends Controller
             'teammembers'   => $teammembers,
             //'categories'  => $categories,
         );
+    }
+    
+    private function getSortedAttributesWithRatings($player, $sortorder = "DESC"){
+        $latestStatsheet = $player->getLatestStatsheet();
+        $attributes = $player->getRatingSchema()->getAttributes();
+        
+        if($latestStatsheet != null){
+            $ratings = $latestStatsheet->getRatings();
+            
+            foreach($attributes as $attribute){                
+                foreach($ratings as $rating){
+                    if($attribute->getId() == $rating->getAttribute()->getId()){
+                        $this->container->get('logger')->info($attribute->getName()." ".$rating->getAverageWeighted());
+                        
+                        
+                        $attribute->setAverageRating($rating->getAverageWeighted());
+                        $attribute->setNumberOfRatings($rating->getNumberOfRatings());                        
+                    }
+                }
+            }            
+        }
+        
+        $this->sortAttributesByAverage($attributes, $sortorder);
+        return $attributes;
     }
     
     private function sortAttributesByAverage(&$array, $type = "ASC"){

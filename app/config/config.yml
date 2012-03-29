@@ -81,3 +81,11 @@ stof_doctrine_extensions:
         default: 
             sluggable: true
             timestampable: true
+            
+#fos_facebook:
+#      file:   %kernel.root_dir%/../vendor/facebook/src/base_facebook.php
+#      alias:  facebook
+#      app_id: 199966153372036
+#      secret: b3bb156ca48dcafe92f64e28951e0987
+#      cookie: true
+#      permissions: [email, user_birthday, user_location]            

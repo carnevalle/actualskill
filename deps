@@ -72,3 +72,12 @@
 [DoctrineExtensionsBundle]
     git=git://github.com/stof/StofDoctrineExtensionsBundle.git
     target=/bundles/Stof/DoctrineExtensionsBundle
+
+[FOSFacebookBundle]
+    git=git://github.com/FriendsOfSymfony/FOSFacebookBundle.git
+    target=/bundles/FOS/FacebookBundle
+    version=origin/master
+
+[FacebookSDK]
+    git=git://github.com/facebook/facebook-php-sdk.git
+    target=/facebook

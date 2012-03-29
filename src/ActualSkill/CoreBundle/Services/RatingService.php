@@ -134,6 +134,7 @@ class RatingService {
                 $statsheet->setAttributesTotal($num_attributes);
                 $statsheet->setAttributesRated($num_ratings);
                 
+                $entity->setLatestStatsheet($statsheet);
                 $entity->setRatingAverage($weighted/$num_attributes);
                 
                 $this->em->persist($entity);                
@@ -154,6 +155,10 @@ class RatingService {
     
     private function calculateBayesianRating($avg_num_votes, $avg_rating, $this_num_votes, $this_rating){
         return ( ($avg_num_votes * $avg_rating) + ($this_num_votes * $this_rating) ) / ($avg_num_votes + $this_num_votes);
+    }
+    
+    public function getLatestStatsheet(\ActualSkill\CoreBundle\Entity\BaseEntity $object){
+
     }
     
     /*

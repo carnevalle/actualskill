@@ -65,6 +65,12 @@ class BaseEntity
     protected $comments;
     
     /**
+     * @ORM\OneToOne(targetEntity="StatSheet")
+     * @ORM\JoinColumn(name="latest_statsheet_id", referencedColumnName="id")
+     */
+    protected $latestStatsheet;    
+    
+    /**
      *
      * @ORM\OneToMany(targetEntity="StatSheet", mappedBy="object")
      */    
@@ -219,6 +225,26 @@ class BaseEntity
         $this->comments[] = $comments;
     }
 
+    /**
+     * Add statsheet
+     *
+     * @param ActualSkill\CoreBundle\Entity\StatSheet $statsheets
+     */
+    public function setLatestStatsheet(\ActualSkill\CoreBundle\Entity\StatSheet $statsheet)
+    {
+        $this->latestStatsheet = $statsheet;
+    }
+
+    /**
+     * Get statsheets
+     *
+     * @return ActualSkill\CoreBundle\Entity\StatSheet
+     */
+    public function getLatestStatsheet()
+    {
+        return $this->latestStatsheet;
+    }    
+    
     /**
      * Add statsheets
      *

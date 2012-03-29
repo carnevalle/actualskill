@@ -52,4 +52,19 @@ class PlayerRepository extends EntityRepository
         }
     }    
    
+    public function findOneBySlugWithRatings($slug)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery('
+                SELECT p, r FROM ActualSkillCoreBundle:Player p
+                JOIN p.ratingschema r
+                WHERE p.slug = :slug'
+            )->setParameter('slug', $slug);
+
+        try {
+            return $query->getSingleResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
 }

@@ -31,7 +31,8 @@ security:
         # This config requires being logged for the whole site and having the admin role for the admin part.
         # Change these rules to adapt them to your needs
         - { path: ^/admin/, role: ROLE_ADMIN }
-        - { path: ^/.*, role: ROLE_USER }
+        #- { path: ^/.*, role: ROLE_USER }
+        - { path: ^/.*, role: IS_AUTHENTICATED_ANONYMOUSLY }
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER

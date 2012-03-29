@@ -219,7 +219,7 @@
     <div class="span8">
 
         <div class="factsheet">
-            <h1>{{ player.fullname }} <small><span id="likebutton"><a href="#">{% if likes == true %} Unlike {% else %} Like {% endif %}</a></span></small></h1>
+            <h1>{{ player.fullname }} {% if is_granted('ROLE_USER') %}<small><span id="likebutton"><a href="#">{% if likes == true %} Unlike {% else %} Like {% endif %}</a></span></small>{% endif %}</h1>
 
             <div class="contentbox">
                 <table>
@@ -250,66 +250,83 @@
                     </tr>
                 </table>
             </div>
+            
+            {#
+            {% if player.latestStatsheet != "" %}
+                {% for rating in player.latestStatsheet.ratings %}
+                    {{rating.attribute.name}} - {{rating.averageWeighted}}<br/>
+                {% endfor %}
+            {% endif %}
+            #}
         </div>
 
         <div class="row">
-            <div class="span2">
-                <h4>Rate player</h4>
-                <ul class="nav nav-pills nav-stacked">
-                    {% for category in categories %}
-                        <li><a href="#{{category.slug}}" data-toggle="pill">{{category.name}}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="span6">
-                <div class="pill-content">
-                    {% for category in categories %}
-
-                        <div class="pill-pane rating-pane" id="{{category.slug}}">
-                            {% for attribute in category.attributes %}
-
-                                {% if attribute.averageRating >= 7 %}
-                                {% set label = 'high' %}
-                                {% elseif attribute.averageRating < 4 %}
-                                {% set label = 'low' %}
-                                {% else %}
-                                {% set label = 'medium' %}
-                                {% endif %}
-
-                                <div rel="tooltip" class="rating-box">
-                                    <div class="top-container">
-                                        <div class="text-box">
-                                            <!--<span class="label {{label}} label-average"> {{attribute.averageRating}}</span>-->
-                                            <span class="attribute-name">{{ attribute.name }}</span>
-                                        </div>
-                                        <div class="rating-button-row">
-                                            {% for i in 1..10 %}
-                                                {% if i >= 7 %}
-                                                {% set label = 'high' %}
-                                                {% elseif i < 4 %}
-                                                {% set label = 'low' %}
-                                                {% else %}
-                                                {% set label = 'medium' %}
-                                                {% endif %}
-
-                                                <div class="rating-button-container condensed">
-
-                                                    {% if attribute.userRating == i %}
-                                                    <div id="{{attribute.slug}}_{{attribute.id}}" class="{{label}} active rateclick rating-button">{{i}}</div>
-                                                    {% else %}
-                                                    <div id="{{attribute.slug}}_{{attribute.id}}" class="{{label}} rateclick rating-button">{{i}}</div>
-                                                    {% endif %}
-                                                </div>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                    <span class="attribute-description">{{ attribute.description}}</span>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    {% endfor %}
+            {% if not is_granted('ROLE_USER') %}
+                <div class="span8" style="text-align: center">
+                    <h4 style="margin-bottom: 10px">You need be logged in to rate a player</h4>
+                    <a href="{{ path('fos_user_security_login') }}" class="btn btn-large btn-primary">Login</a>
+                    <a href="{{ path('fos_user_registration_register') }}" class="btn btn-large btn-success">Sign up</a>
                 </div>
-            </div>
+            {% else %}             
+            
+                <div class="span2">
+                    <h4>Rate player</h4>
+                    <ul class="nav nav-pills nav-stacked">
+                        {% for category in categories %}
+                            <li><a href="#{{category.slug}}" data-toggle="pill">{{category.name}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="span6">
+                    <div class="pill-content">
+                        {% for category in categories %}
+
+                            <div class="pill-pane rating-pane" id="{{category.slug}}">
+                                {% for attribute in category.attributes %}
+
+                                    {% if attribute.averageRating >= 7 %}
+                                    {% set label = 'high' %}
+                                    {% elseif attribute.averageRating < 4 %}
+                                    {% set label = 'low' %}
+                                    {% else %}
+                                    {% set label = 'medium' %}
+                                    {% endif %}
+
+                                    <div rel="tooltip" class="rating-box">
+                                        <div class="top-container">
+                                            <div class="text-box">
+                                                <!--<span class="label {{label}} label-average"> {{attribute.averageRating}}</span>-->
+                                                <span class="attribute-name">{{ attribute.name }}</span>
+                                            </div>
+                                            <div class="rating-button-row">
+                                                {% for i in 1..10 %}
+                                                    {% if i >= 7 %}
+                                                    {% set label = 'high' %}
+                                                    {% elseif i < 4 %}
+                                                    {% set label = 'low' %}
+                                                    {% else %}
+                                                    {% set label = 'medium' %}
+                                                    {% endif %}
+
+                                                    <div class="rating-button-container condensed">
+
+                                                        {% if attribute.userRating == i %}
+                                                        <div id="{{attribute.slug}}_{{attribute.id}}" class="{{label}} active rateclick rating-button">{{i}}</div>
+                                                        {% else %}
+                                                        <div id="{{attribute.slug}}_{{attribute.id}}" class="{{label}} rateclick rating-button">{{i}}</div>
+                                                        {% endif %}
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        <span class="attribute-description">{{ attribute.description}}</span>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}                
         </div>
 
         <div class="contentbox">
