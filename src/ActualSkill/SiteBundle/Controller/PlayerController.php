@@ -27,10 +27,14 @@ class PlayerController extends Controller
     public function indexAction(){
         $em = $this->getDoctrine()->getEntityManager();
 
-        $players = $em->getRepository('ActualSkillCoreBundle:Player')->findAll();
-        $clubs = $em->getRepository('ActualSkillCoreBundle:Club')->findAll();
+        //$players = $em->getRepository('ActualSkillCoreBundle:Player')->findAll();
+        $players = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:Player')->findAllWithRatings();
+        //$clubs = $em->getRepository('ActualSkillCoreBundle:Club')->findAll();
 
-        return array('players' => $players, 'clubs' => $clubs);
+        return array(
+            'players' => $players, 
+            //'clubs' => $clubs
+            );
     }
 
     /**
@@ -66,11 +70,11 @@ class PlayerController extends Controller
         $attributesSorted = $this->getSortedAttributesWithRatings($player);
         $topattributes = array_slice($attributesSorted, 0, 5);
         $bottomattributes = array_slice($attributesSorted, count($attributesSorted)-5, 5);
-        $this->sortAttributesByAverage($bottomattributes);
+        $this->sortByAverageRating($bottomattributes);
 
         // We get and sort the players team members
         $teammembers = $player->getClub()->getPlayers();
-        $this->sortPlayersByAverage($teammembers, "DESC");
+        $this->sortByAverageRating($teammembers, "DESC");
 
         return array(
             'player'        => $player,
@@ -105,11 +109,11 @@ class PlayerController extends Controller
             }
         }
 
-        $this->sortAttributesByAverage($attributes, $sortorder);
+        $this->sortByAverageRating($attributes, $sortorder);
         return $attributes;
     }
 
-    private function sortAttributesByAverage(&$array, $type = "ASC"){
+    private function sortByAverageRating(&$array, $type = "ASC"){
         $cur = 1;
         $stack[1]['l'] = 0;
         $stack[1]['r'] = count($array) - 1;
@@ -142,63 +146,6 @@ class PlayerController extends Controller
                             $i++;
 
                         while ($tmp->getAverageRating() > $array[$j]->getAverageRating())
-                            $j--;
-                    }
-
-                    // swap elements from the two sides
-                    if ($i <= $j) {
-                        $w = $array[$i];
-                        $array[$i] = $array[$j];
-                        $array[$j] = $w;
-
-                        $i++;
-                        $j--;
-                    }
-                } while ($i <= $j);
-
-                if ($i < $r) {
-                    $cur++;
-                    $stack[$cur]['l'] = $i;
-                    $stack[$cur]['r'] = $r;
-                }
-                $r = $j;
-            } while ($l < $r);
-        } while ($cur != 0);
-    }
-
-    private function sortPlayersByAverage(&$array, $type = "ASC"){
-        $cur = 1;
-        $stack[1]['l'] = 0;
-        $stack[1]['r'] = count($array) - 1;
-
-        do {
-            $l = $stack[$cur]['l'];
-            $r = $stack[$cur]['r'];
-            $cur--;
-
-            do {
-                $i = $l;
-                $j = $r;
-                $tmp = $array[(int) ( ($l + $r) / 2 )];
-
-                // partion the array in two parts.
-                // left from $tmp are with smaller values,
-                // right from $tmp are with bigger ones
-                do {
-
-                    if($type == "ASC"){
-
-                        while ($array[$i]->getRatingAverage() < $tmp->getRatingAverage())
-                            $i++;
-
-                        while ($tmp->getRatingAverage() < $array[$j]->getRatingAverage())
-                            $j--;
-                    }else{
-
-                        while ($array[$i]->getRatingAverage() > $tmp->getRatingAverage())
-                            $i++;
-
-                        while ($tmp->getRatingAverage() > $array[$j]->getRatingAverage())
                             $j--;
                     }
 

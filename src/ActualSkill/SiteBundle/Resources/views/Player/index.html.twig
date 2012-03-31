@@ -2,9 +2,70 @@
 
 {% block body %}
 
-<ul>
-{% for player in players %}
-    <li><span class="label label-success">{{player.ratingAverage}}</span> <a href="{{ path('player_show', { 'id': player.slug }) }}">{{ player.fullname }}</a></li>
-{% endfor %}
-</ul>
+<div class="well">
+    <h1>Find a player</h1>
+    <p>Search for your favourite player</p>
+    <input id="player_search" type="text" class="wide search" placeholder="Type the name of a player"/>
+</div>
+
+<div class="row">
+    <div class="span4">
+        <h4>Most popular players</h4>
+        <table class="table table-condensed">
+            {% for player in players %}
+
+            <tr>
+                <td style="width:30px" title="Average rating">
+                    <span class="label {{rating2color(player.averageRating)}} label-average"> {{player.averageRating}}</span> 
+                </td>   
+                <td style="width:25px" title="Number of fans">                    
+                    <i class="icon-user"></i> {{player.likes|length}}
+                </td>                                       
+                <td>
+                    <a href="{{ path('player_show', { 'id': player.slug }) }}">{{ player.fullname }}</a> 
+                </td>                                  
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="span4">
+        <h4>Most rated players</h4>
+        <table class="table table-condensed">
+            {% for player in players %}
+
+            <tr>
+                <td style="width:30px" title="Average rating">
+                    <span class="label {{rating2color(player.averageRating)}} label-average"> {{player.averageRating}}</span> 
+                </td>   
+                <td style="width:25px" title="Number of fans">                    
+                    <i class="icon-user"></i> {{player.likes|length}}
+                </td>                                       
+                <td>
+                    <a href="{{ path('player_show', { 'id': player.slug }) }}">{{ player.fullname }}</a> 
+                </td>                                  
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="span4">
+        <h4>Best players</h4>
+        <table class="table table-condensed">
+            {% for player in players %}
+            <tr>
+                <td style="width:30px" title="Average rating">
+                    <span class="label {{rating2color(player.averageRating)}} label-average"> {{player.averageRating}}</span> 
+                </td>   
+                <td style="width:25px" title="Number of fans">                    
+                    <i class="icon-user"></i> {{player.likes|length}}
+                </td>                                       
+                <td>
+                    <a href="{{ path('player_show', { 'id': player.slug }) }}">{{ player.fullname }}</a> 
+                </td>                                  
+            </tr>
+            {% endfor %}
+        </table>
+    </div>    
+</div>
 {% endblock %}

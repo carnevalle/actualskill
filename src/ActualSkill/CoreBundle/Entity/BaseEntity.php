@@ -283,14 +283,14 @@ class BaseEntity
     public function getRatingschema()
     {
         return $this->ratingschema;
-    }
-    
+    }     
+
     /**
      * Set ratingAverage
      *
      * @param string $ratingAverage
      */
-    public function setRatingAverage($ratingAverage)
+    public function setAverageRating($ratingAverage)
     {
         $this->ratingAverage = $ratingAverage;
     }
@@ -300,10 +300,10 @@ class BaseEntity
      *
      * @return string 
      */
-    public function getRatingAverage()
+    public function getAverageRating()
     {
         return $this->ratingAverage;
-    }      
+    }  
 
     /**
      * Add likes

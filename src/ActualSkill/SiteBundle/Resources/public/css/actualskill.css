@@ -46,6 +46,17 @@
   border-top: 1px solid #E5E5E5;
   border-bottom: 1px solid #E5E5E5;
 }
+input.search {
+  padding: 7px;
+  font-size: 20px;
+  height: auto;
+}
+.wide {
+  width: 100%;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
 .statbox {
   padding: 5px;
   margin: 0 1px 0 1px;

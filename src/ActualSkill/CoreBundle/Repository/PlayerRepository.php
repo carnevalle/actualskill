@@ -67,4 +67,19 @@ class PlayerRepository extends EntityRepository
             return null;
         }
     }
+
+    public function findAllWithRatings()
+    {
+        $query = $this->getEntityManager()
+            ->createQuery('
+                SELECT p, r FROM ActualSkillCoreBundle:Player p
+                JOIN p.ratingschema r'
+            );
+
+        try {
+            return $query->getResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }    
 }
