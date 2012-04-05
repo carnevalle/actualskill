@@ -1,0 +1,60 @@
+@border-color: #eee;
+@dropdown-font-color: #444;
+@row-odd-color: #efefef;
+@active-color: darken(@row-odd-color, 20%);
+
+.as_container{
+
+    input{
+        margin-bottom: 0px;
+    }
+
+    .as_results{
+        background-color: white;
+        .box-shadow(1px 1px 5px rgba(0,0,0,.25));
+
+        padding:0;
+        ul{
+            border: 1px solid #efefef;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            border-left: 1px solid @border-color;
+            border-right: 1px solid @border-color;
+            font-size: 16px;
+            color: @dropdown-font-color;
+
+            li{
+
+                em{
+                    font-style: normal;
+                    //background-color: @primaryColor;
+                    //color: white;
+                    color: @primaryColor;
+                }
+                cursor: pointer;
+                margin: 0;
+                padding: 7px;
+                //border-bottom: 1px solid @border-color;
+                &:nth-child(odd){
+                    
+                }
+
+                &:nth-child(even){
+                    background-color: @row-odd-color;
+                }   
+
+                &.active{
+                    //background-color: @active-color;
+                    background-color: @primaryColor;
+                    color: white;
+                    text-shadow: 0 1px 0 rgba(0,0,0,.5);
+
+                    em{
+                        color: white;
+                    }                      
+                }                           
+            }
+        }
+    }
+}

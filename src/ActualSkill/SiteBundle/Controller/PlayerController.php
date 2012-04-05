@@ -27,12 +27,15 @@ class PlayerController extends Controller
     public function indexAction(){
         $em = $this->getDoctrine()->getEntityManager();
 
-        //$players = $em->getRepository('ActualSkillCoreBundle:Player')->findAll();
-        $players = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:Player')->findAllWithRatings();
+        $all_players = $em->getRepository('ActualSkillCoreBundle:Player')->findAll();
+        $rated_players = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:Player')->findAllWithRatings();
+        $popular_players = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:Player')->findMostPopularPlayers();
         //$clubs = $em->getRepository('ActualSkillCoreBundle:Club')->findAll();
 
         return array(
-            'players' => $players, 
+            'all_players' => $all_players, 
+            'rated_players' => $rated_players, 
+            'popular_players' => $popular_players,
             //'clubs' => $clubs
             );
     }

@@ -1,28 +1,194 @@
 {% extends 'ActualSkillSiteBundle::base.html.twig' %}
 
-{% block body %}
-<table class="record_properties">
-    <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ club.id }}</td>
-        </tr>
-        <tr>
-            <th>Name</th>
-            <td>{{ club.name }}</td>
-        </tr>
-        <tr>
-            <th>Shortname</th>
-            <td>{{ club.shortname }}</td>
-        </tr>
-    </tbody>
-</table>
+{% block header %}
+<script language="javascript">
 
-<h2>Players</h2>
-<ul>
-{% for player in club.players %}
-    <li><a href="{{ path('player_show', { 'id': player.slug }) }}">{{ player.fullname }}</a></li>
-{% endfor %}
-</ul>
+    $(document).ready(function() {
+
+        $('.nav-pills a:first').tab('show')
+
+        $('#likebutton').click(function() {
+
+            $.post("/like/{{club.slug}}", function(data) {
+               // first success
+            })
+            .success(function(data) {
+                data = jQuery.parseJSON(data);
+
+                if(data.like){
+                    $('#likebutton a').html("unlike");
+                }else{
+                    $('#likebutton a').html("like");
+                }
+            })
+            .error(function() {})
+            .complete(function() {});
+
+            return false;
+        });
+
+        $('.rateclick').bind('click', function() {
+
+            var attribute = this.id.split("_")[0];
+            var id = this.id.split("_")[1];
+            var value = $(this).html();
+            var el = $(this);
+
+            var content = el.html();
+            el.html("&nbsp;");
+            el.spin("tiny");
+
+            $(this).parent().parent().find('.rateclick').removeClass('active');
+
+            $.post("/rate/{{club.slug}}/"+attribute+"/"+value, function(data) {
+               // first success
+                data = jQuery.parseJSON(data);
+            })
+            .success(function(data) {
+                data = jQuery.parseJSON(data);
+
+                el.spin(false);
+                el.html(content);
+
+                var feedbackText = ["Thank you!", "Very good!", "Good job!", "Awesome!"]
+
+                var offset = el.offset();
+                var feedback = $(document.createElement('span'));
+                feedback.css("display", "none");
+                feedback.html(feedbackText[Math.floor(Math.random()*feedbackText.length)]);
+                $('body').append(feedback);
+
+                feedback.css("top", offset.top-feedback.height());
+                feedback.css("left", (offset.left+el.width()/2)-(feedback.width())/2);
+                feedback.css("position", "absolute");
+
+                el.addClass('active');
+                feedback.show();
+                feedback.animate(
+                {
+                    top: '-=20',
+                    opacity:0
+                },
+                {
+                    duration: 1000, // how fast we are animating
+                    easing: 'easeOutQuad',
+                    complete: function() {
+                        $(this).remove();
+                    }
+                });
+            })
+            .error(function() {})
+            .complete(function() {
+
+            });
+
+            return false;
+        });
+    });
+</script>
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="span8">
+        <div class="factsheet">
+            <h1>{{ club.name }} {% if is_granted('ROLE_USER') %}<small><span id="likebutton"><a href="#">{% if likes == true %} Unlike {% else %} Like {% endif %}</a></span></small>{% endif %}</h1>
+
+            <div class="contentbox">
+                <table>
+                    <tr>
+                        <th>Country</th>
+                        <td><img src="{{ asset('bundles/actualskillsite/img/flags/') }}{{club.country.iso2|lower}}.png"/> {{club.country}}</td>
+                        <th>Fans</th>
+                        <td>{{club.likes|length}} {{ club.likes|length == 1 ? 'fan' : 'fans' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Stadium</th>
+                        <td>{{club.stadium}}</td>
+                        <th>Average rating</th>
+                        <td>{{ club.averageRating }}</td>
+                    </tr>
+                </table>
+            </div>            
+        </div>
+
+        <div class="row">
+            {% if not is_granted('ROLE_USER') %}
+                <div class="span8" style="text-align: center">
+                    <h4 style="margin-bottom: 10px">Do you want to rate {{club.name}}?</h4>
+                    <a href="{{ path('fos_user_security_login') }}" class="btn btn-large btn-primary">Login</a>
+                    <a href="{{ path('fos_user_registration_register') }}" class="btn btn-large btn-success">Sign up</a>
+                </div>
+            {% else %}             
+            
+                <div class="span2">
+                    <h4>Rate club</h4>
+                    <ul class="nav nav-pills nav-stacked">
+                        {% for category in categories %}
+                            <li><a href="#{{category.slug}}" data-toggle="pill">{{category.name}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="span6">
+                    <div class="pill-content">
+                        {% for category in categories %}
+
+                            <div class="pill-pane rating-pane" id="{{category.slug}}">
+                                {% for attribute in category.attributes %}
+
+                                    <div rel="tooltip" class="rating-box">
+                                        <div class="top-container">
+                                            <div class="text-box">
+                                                <span class="attribute-name">{{ attribute.name }}</span>
+                                            </div>
+                                            <div class="rating-button-row">
+                                                {% for i in 1..10 %}
+
+                                                    <div class="rating-button-container condensed">
+
+                                                        {% if attribute.userRating == i %}
+                                                        <div id="{{attribute.slug}}_{{attribute.id}}" class="{{rating2color(i)}} active rateclick rating-button">{{i}}</div>
+                                                        {% else %}
+                                                        <div id="{{attribute.slug}}_{{attribute.id}}" class="{{rating2color(i)}} rateclick rating-button">{{i}}</div>
+                                                        {% endif %}
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        <span class="attribute-description">{{ attribute.description}}</span>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}                
+        </div>
+
+
+    </div>
+
+    <div class="span4">
+
+        <h4>Top 10 team members</h4>
+        <table class="table table-condensed">
+            {% for player in club.players %}
+
+            <tr>
+                <td style="width:30px" title="Average rating">
+
+                    <span class="label {{rating2color(player.averageRating)}} label-average"> {{normalizeRating(player.averageRating)}}</span> 
+                </td>   
+                <td style="width:25px" title="Number of fans">                    
+                    <i class="icon-user"></i> {{player.likes|length}}
+                </td>                                       
+                <td>
+                    <a href="{{ path('player_show', { 'id': player.slug }) }}">{{ player.fullname }}</a> 
+                </td>                                  
+            </tr>
+            {% endfor %}
+        </table>
+    </div>    
+</div>
 
 {% endblock %}

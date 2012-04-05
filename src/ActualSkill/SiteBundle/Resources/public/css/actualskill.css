@@ -375,3 +375,43 @@ a:hover {
 #fbcomments iframe[style] {
   width: 100% !important;
 }
+.as_container input {
+  margin-bottom: 0px;
+}
+.as_container .as_results {
+  background-color: white;
+  -webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);
+  padding: 0;
+}
+.as_container .as_results ul {
+  border: 1px solid #efefef;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-left: 1px solid #eeeeee;
+  border-right: 1px solid #eeeeee;
+  font-size: 16px;
+  color: #444444;
+}
+.as_container .as_results ul li {
+  cursor: pointer;
+  margin: 0;
+  padding: 7px;
+}
+.as_container .as_results ul li em {
+  font-style: normal;
+  color: #75cc55;
+}
+.as_container .as_results ul li:nth-child(even) {
+  background-color: #efefef;
+}
+.as_container .as_results ul li.active {
+  background-color: #75cc55;
+  color: white;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+}
+.as_container .as_results ul li.active em {
+  color: white;
+}

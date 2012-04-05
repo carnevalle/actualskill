@@ -1,5 +1,40 @@
 {% extends 'ActualSkillSiteBundle::base.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+
+    {% javascripts
+        '@ActualSkillCoreBundle/Resources/public/js/jquery.autosuggester.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block jsbottom %}
+<script language="javascript">
+
+    var data = [
+        {% for player in all_players %}
+        { slug:"{{player.slug}}", name: "{{player.name}}", club: "{{player.club}}", country: "{{player.country.iso2|lower}}" },
+        {% endfor %}
+    ];
+
+    $("#player_search").AutoSuggester(data,{
+        placeholderText: "Type the name of a player or club",
+        searchObjProperties: ["name", "club"],
+        formatResult: function(data){
+            var path = "{{ asset('bundles/actualskillsite/img/flags/') }}";
+            return "<img src='"+path+data.country+".png'/> "+data.name+" ("+data.club+")"
+        },
+        onDataSelected: function(data){
+            console.log(data);
+            window.location = "/app_dev.php/player/"+data.slug;
+        }
+    });
+
+</script>
+{% endblock %}
+
 {% block body %}
 
 <div class="well">
@@ -12,11 +47,11 @@
     <div class="span4">
         <h4>Most popular players</h4>
         <table class="table table-condensed">
-            {% for player in players %}
+            {% for player in popular_players %}
 
             <tr>
                 <td style="width:30px" title="Average rating">
-                    <span class="label {{rating2color(player.averageRating)}} label-average"> {{player.averageRating}}</span> 
+                    <span class="label {{rating2color(player.averageRating)}} label-average"> {{normalizeRating(player.averageRating)}}</span> 
                 </td>   
                 <td style="width:25px" title="Number of fans">                    
                     <i class="icon-user"></i> {{player.likes|length}}
@@ -32,11 +67,11 @@
     <div class="span4">
         <h4>Most rated players</h4>
         <table class="table table-condensed">
-            {% for player in players %}
+            {% for player in rated_players %}
 
             <tr>
                 <td style="width:30px" title="Average rating">
-                    <span class="label {{rating2color(player.averageRating)}} label-average"> {{player.averageRating}}</span> 
+                    <span class="label {{rating2color(player.averageRating)}} label-average">{{normalizeRating(player.averageRating)}}</span> 
                 </td>   
                 <td style="width:25px" title="Number of fans">                    
                     <i class="icon-user"></i> {{player.likes|length}}
@@ -52,10 +87,10 @@
     <div class="span4">
         <h4>Best players</h4>
         <table class="table table-condensed">
-            {% for player in players %}
+            {% for player in rated_players %}
             <tr>
                 <td style="width:30px" title="Average rating">
-                    <span class="label {{rating2color(player.averageRating)}} label-average"> {{player.averageRating}}</span> 
+                    <span class="label {{rating2color(player.averageRating)}} label-average"> {{normalizeRating(player.averageRating)}}</span> 
                 </td>   
                 <td style="width:25px" title="Number of fans">                    
                     <i class="icon-user"></i> {{player.likes|length}}

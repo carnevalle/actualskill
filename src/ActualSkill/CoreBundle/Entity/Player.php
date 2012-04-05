@@ -9,7 +9,6 @@ use Doctrine\Common\Collections\ArrayCollection;
  * ActualSkill\CoreBundle\Entity\Player
  *
  * @ORM\HasLifecycleCallbacks()
- * @ORM\Table()
  * @ORM\Entity(repositoryClass="ActualSkill\CoreBundle\Repository\PlayerRepository")
  * @ORM\Table(name="Player")
  */

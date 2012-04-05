@@ -34,7 +34,7 @@ class PlayerRepository extends EntityRepository
         }
     }
     
-    public function findOneBySlugJoinedToRatingSchema($slug)
+    public function findOneBySlugJoinedToRatingSchema($playerslug, $ratingschemaslug = "player")
     {
         $query = $this->getEntityManager()
             ->createQuery('
@@ -42,8 +42,11 @@ class PlayerRepository extends EntityRepository
                 JOIN p.ratingschema r
                 JOIN r.categories c
                 JOIN c.attributes a
-                WHERE p.slug = :slug'
-            )->setParameter('slug', $slug);
+                WHERE p.slug = :playerslug
+                AND r.slug = :ratingschemaslug'
+            )
+            ->setParameter('playerslug', $playerslug)
+            ->setParameter('ratingschemaslug', $ratingschemaslug);
 
         try {
             return $query->getSingleResult();
@@ -74,6 +77,22 @@ class PlayerRepository extends EntityRepository
             ->createQuery('
                 SELECT p, r FROM ActualSkillCoreBundle:Player p
                 JOIN p.ratingschema r'
+            );
+
+        try {
+            return $query->getResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
+
+    public function findMostPopularPlayers()
+    {
+        $query = $this->getEntityManager()
+            ->createQuery('
+                SELECT p, r, l FROM ActualSkillCoreBundle:Player p
+                JOIN p.ratingschema r
+                JOIN p.likes l'
             );
 
         try {

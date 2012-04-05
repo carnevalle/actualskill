@@ -56,7 +56,7 @@ class BaseEntity
      *
      * @ORM\Column(name="rating_average", type="decimal", precision=4, scale=2, nullable=true)
      */       
-    protected $ratingAverage;
+    protected $ratingAverage = 0;
     
     /**
      *
@@ -92,7 +92,6 @@ class BaseEntity
         $this->ratings = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->likes = new ArrayCollection();
-        
     }
     
     /**

@@ -18,6 +18,7 @@ class ActualSkillTwigExtensions extends \Twig_Extension {
     {
         return array(
             'rating2color' => new \Twig_Function_Method($this, 'rating2color'),
+            'normalizeRating' => new \Twig_Function_Method($this, 'normalizeRating'),
         );
     } 
     
@@ -30,6 +31,14 @@ class ActualSkillTwigExtensions extends \Twig_Extension {
             return "medium";
         }
     }   
+
+    public function normalizeRating($rating){
+        if(is_numeric($rating)){
+            return $rating;
+        }
+
+        return "0.00";
+    }
 }
 
 ?>

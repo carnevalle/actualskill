@@ -330,16 +330,7 @@
                     <table class="table table-condensed">
                         {% for attribute in bottomattributes %}
                         <tr>
-                            {% if attribute.averageRating >= 7 %}
-                            {% set label = 'high' %}
-                            {% elseif attribute.averageRating < 4 %}
-                            {% set label = 'low' %}
-                            {% else %}
-                            {% set label = 'medium' %}
-                            {% endif %}
-
-                                <td><span class="label {{rating2color(attribute.averageRating)}} label-average"> {{attribute.averageRating}}</span> {{ attribute.name }} <span style="color: #ddd; font-size: 11px;">{{attribute.categoryName}}</span></td>
-                            <td></td>
+                            <td><span class="label {{rating2color(attribute.averageRating)}} label-average"> {{attribute.averageRating}}</span> {{ attribute.name }} <span style="color: #ddd; font-size: 11px;">{{attribute.categoryName}}</span></td>
                         </tr>
                         {% endfor %}
                     </table>
@@ -389,7 +380,8 @@
 
             <tr>
                 <td style="width:30px" title="Average rating">
-                    <span class="label {{rating2color(teammember.averageRating)}} label-average"> {{teammember.averageRating}}</span> 
+
+                    <span class="label {{rating2color(teammember.averageRating)}} label-average"> {{normalizeRating(teammember.averageRating)}}</span> 
                 </td>   
                 <td style="width:25px" title="Number of fans">                    
                     <i class="icon-user"></i> {{teammember.likes|length}}

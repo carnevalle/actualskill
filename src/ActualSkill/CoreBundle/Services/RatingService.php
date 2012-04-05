@@ -135,7 +135,7 @@ class RatingService {
                 $statsheet->setAttributesRated($num_ratings);
                 
                 $entity->setLatestStatsheet($statsheet);
-                $entity->setRatingAverage($weighted/$num_attributes);
+                $entity->setAverageRating($weighted/$num_attributes);
                 
                 $this->em->persist($entity);                
                 $this->em->persist($statsheet);                

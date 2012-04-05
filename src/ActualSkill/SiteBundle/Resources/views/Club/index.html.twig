@@ -1,10 +1,107 @@
 {% extends 'ActualSkillSiteBundle::base.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+
+    {% javascripts
+        '@ActualSkillCoreBundle/Resources/public/js/jquery.autosuggester.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block jsbottom %}
+<script language="javascript">
+
+    var data = [
+        {% for club in clubs %}
+        { id: {{club.id}}, slug:"{{club.slug}}", name: "{{club.name}}", shortname: "{{club.shortname}}", country: "{{club.country}}", country_iso2: "{{club.country.iso2}}" },
+        {% endfor %}
+    ];
+
+    $("#club_search").AutoSuggester(data,{
+        placeholderText: "Type the name of a club or country",
+        searchObjProperties: ["name", "shortname", "country"],
+        formatResult: function(data){
+            var path = "{{ asset('bundles/actualskillsite/img/flags/') }}";
+            return "<img src='"+path+data.country_iso2+".png'/> "+data.name+" ("+data.shortname+")";
+        },
+        onDataSelected: function(data){
+            window.location = "/app_dev.php/club/"+data.slug;
+        }
+    });
+
+</script>
+{% endblock %}
+
 {% block body %}
 
+<div class="well">
+    <h1>Find a club</h1>
+    <p>Search for your favourite club</p>
+    <input id="club_search" type="text" class="wide search"/>
+</div>
 
-{% for club in clubs %}
-    <a href="{{ path('site_club_show', { 'id': club.slug }) }}">{{ club.name }}</a>
-{% endfor %}
+{#
+<div class="row">
+    <div class="span4">
+        <h4>Most popular players</h4>
+        <table class="table table-condensed">
+            {% for player in popular_players %}
 
+            <tr>
+                <td style="width:30px" title="Average rating">
+                    <span class="label {{rating2color(player.averageRating)}} label-average"> {{normalizeRating(player.averageRating)}}</span> 
+                </td>   
+                <td style="width:25px" title="Number of fans">                    
+                    <i class="icon-user"></i> {{player.likes|length}}
+                </td>                                       
+                <td>
+                    <a href="{{ path('player_show', { 'id': player.slug }) }}">{{ player.fullname }}</a> 
+                </td>                                  
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="span4">
+        <h4>Most rated players</h4>
+        <table class="table table-condensed">
+            {% for player in rated_players %}
+
+            <tr>
+                <td style="width:30px" title="Average rating">
+                    <span class="label {{rating2color(player.averageRating)}} label-average">{{normalizeRating(player.averageRating)}}</span> 
+                </td>   
+                <td style="width:25px" title="Number of fans">                    
+                    <i class="icon-user"></i> {{player.likes|length}}
+                </td>                                       
+                <td>
+                    <a href="{{ path('player_show', { 'id': player.slug }) }}">{{ player.fullname }}</a> 
+                </td>                                  
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="span4">
+        <h4>Best players</h4>
+        <table class="table table-condensed">
+            {% for player in rated_players %}
+            <tr>
+                <td style="width:30px" title="Average rating">
+                    <span class="label {{rating2color(player.averageRating)}} label-average"> {{normalizeRating(player.averageRating)}}</span> 
+                </td>   
+                <td style="width:25px" title="Number of fans">                    
+                    <i class="icon-user"></i> {{player.likes|length}}
+                </td>                                       
+                <td>
+                    <a href="{{ path('player_show', { 'id': player.slug }) }}">{{ player.fullname }}</a> 
+                </td>                                  
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+#}
 {% endblock %}

@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\HasLifecycleCallbacks()
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="ActualSkill\CoreBundle\Repository\ClubRepository")
  */
 class Club extends BaseEntity
 {
