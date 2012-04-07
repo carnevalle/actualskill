@@ -330,16 +330,6 @@ a:hover {
 .nav-pills a {
   color: #000000;
 }
-.bannerad.comments.top {
-  margin-top: 15px;
-  margin-bottom: 15px;
-  text-align: center;
-}
-.bannerad.column.top {
-  margin-bottom: 15px;
-  padding-bottom: 5px;
-  border-bottom: 1px solid #eee;
-}
 .table td {
   vertical-align: middle;
 }
@@ -367,6 +357,15 @@ a:hover {
 }
 .factsheet .table th {
   width: 40%;
+}
+h4.listheader {
+  color: #444;
+  border-bottom: 1px solid #444;
+}
+@media (min-width: 768px) and (max-width: 980px) {
+  .frontpage h2 {
+    font-size: 20px;
+  }
 }
 #fbcomments,
 .fb_iframe_widget,

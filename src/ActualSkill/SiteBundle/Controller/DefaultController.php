@@ -13,6 +13,10 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        return array();
+        $csrfToken = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
+
+        return array(
+            'csrf_token' => $csrfToken,
+        );
     }
 }

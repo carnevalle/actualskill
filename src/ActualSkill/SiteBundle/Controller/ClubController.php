@@ -24,10 +24,21 @@ class ClubController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
+        $asservice = $this->get('core.actualskill_service');
 
         $clubs = $em->getRepository('ActualSkillCoreBundle:Club')->findAll();
+        $danish_clubs = $em->getRepository('ActualSkillCoreBundle:Club')->findAllFromCountry("dk");
+        $best_clubs = $em->getRepository('ActualSkillCoreBundle:Club')->findWithRatings(10);
+        $popular_clubs = $em->getRepository('ActualSkillCoreBundle:Club')->findMostPopular(10);
+        $most_rated_clubs = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:Club')->findMostRated(10);
 
-        return array('clubs' => $clubs);
+        return array(
+            'clubs' => $clubs,
+            'danish_clubs' => $danish_clubs,
+            'popular_clubs' => $popular_clubs,
+            'best_clubs' => $best_clubs,
+            'most_rated_clubs' => $most_rated_clubs,
+        );
     }    
     
     /**
@@ -45,19 +56,26 @@ class ClubController extends Controller
             throw $this->createNotFoundException('Unable to find Club entity.');
         }
 
+        $asservice = $this->get('core.actualskill_service');
+
         $user = null;
         $likes = null;
         if ($this->get('security.context')->isGranted('ROLE_USER')) {
             $user = $this->get('security.context')->getToken()->getUser();
-            $ratingService = $this->get('actual_skill_core.rating_service');
+            $ratingService = $this->get('core.rating_service');
             $likes = $ratingService->doesUserLikeEntity($club, $user);
             $ratingService->addUserRatingsToBaseEntity($club, $user);
         }
 
         $categories = $club->getRatingschema()->getCategories();
+        $players = $club->getPlayers();
+        if(count($players) >0){
+            $asservice->sortByAverageRating($players, "DESC");
+        }
 
         return array(
             'club'  => $club,
+            'players' => $players,
             'categories'  => $categories,
             'likes'  => $likes,
         );

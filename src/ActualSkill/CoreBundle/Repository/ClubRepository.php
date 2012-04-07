@@ -12,5 +12,97 @@ use Doctrine\ORM\EntityRepository;
  */
 class ClubRepository extends EntityRepository
 {
-    
+    public function findAllFromCountry($country)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery('
+                SELECT club, country FROM ActualSkillCoreBundle:Club club
+                JOIN club.country country
+                WHERE country.iso2 = :country'
+            )
+            ->setParameter('country', $country);
+
+        try {
+            return $query->getResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
+
+    public function findWithRatings($limit = false)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery('
+                SELECT c, r, ls FROM ActualSkillCoreBundle:Club c
+                JOIN c.ratingschema r
+                JOIN c.latestStatsheet ls
+                ORDER BY c.ratingAverage DESC'
+            );
+
+        if(is_numeric($limit)){
+            $query->setMaxResults($limit);
+        }
+
+        try {
+            return $query->getResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
+
+    public function findMostPopular($limit = false)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery('
+                SELECT c, r, l,
+                (SELECT COUNT(l2.id) FROM ActualSkillCoreBundle:BaseEntityLike l2 WHERE l2.object = c.id) as num_likes
+                FROM ActualSkillCoreBundle:Club c
+                JOIN c.ratingschema r
+                JOIN c.likes l
+                ORDER BY num_likes DESC'
+            );
+
+        if(is_numeric($limit)){
+            $query->setMaxResults($limit);
+        }
+
+        try {
+            $result = $query->getResult();
+            $list = array();
+
+            foreach ($result as $key => $value) {
+                $list[] = $value[0];
+            }
+            return $list;
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    } 
+
+    public function findMostRated($limit = false){
+        $query = $this->getEntityManager()
+            ->createQuery('
+                SELECT c, ls,
+                (SELECT COUNT(r2.id) FROM ActualSkillCoreBundle:Rating r2 WHERE r2.object = c.id GROUP BY r2.object) as num_ratings
+                FROM ActualSkillCoreBundle:Club c
+                JOIN c.latestStatsheet ls
+                ORDER BY num_ratings DESC'
+            );
+
+        if(is_numeric($limit)){
+            $query->setMaxResults($limit);
+        }
+
+        try {
+            $result = $query->getResult();
+            $list = array();
+
+            foreach ($result as $key => $value) {
+                $list[] = $value[0];
+            }
+            return $list;
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }        
+    }      
 }

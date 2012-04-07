@@ -71,13 +71,19 @@ class PlayerRepository extends EntityRepository
         }
     }
 
-    public function findAllWithRatings()
+    public function findWithRatings($limit = false)
     {
         $query = $this->getEntityManager()
             ->createQuery('
-                SELECT p, r FROM ActualSkillCoreBundle:Player p
-                JOIN p.ratingschema r'
+                SELECT p, r, ls FROM ActualSkillCoreBundle:Player p
+                JOIN p.ratingschema r
+                JOIN p.latestStatsheet ls
+                ORDER BY p.ratingAverage DESC'
             );
+
+        if(is_numeric($limit)){
+            $query->setMaxResults($limit);
+        }
 
         try {
             return $query->getResult();
@@ -86,19 +92,59 @@ class PlayerRepository extends EntityRepository
         }
     }
 
-    public function findMostPopularPlayers()
+    public function findMostPopular($limit = false)
     {
         $query = $this->getEntityManager()
             ->createQuery('
-                SELECT p, r, l FROM ActualSkillCoreBundle:Player p
+                SELECT p, r, l,
+                (SELECT COUNT(l2.id) FROM ActualSkillCoreBundle:BaseEntityLike l2 WHERE l2.object = p.id) as num_likes
+                FROM ActualSkillCoreBundle:Player p
                 JOIN p.ratingschema r
-                JOIN p.likes l'
+                JOIN p.likes l
+                ORDER BY num_likes DESC'
             );
 
+        if(is_numeric($limit)){
+            $query->setMaxResults($limit);
+        }
+
         try {
-            return $query->getResult();
+            $result = $query->getResult();
+            $list = array();
+
+            foreach ($result as $key => $value) {
+                $list[] = $value[0];
+            }
+            return $list;
         } catch (\Doctrine\ORM\NoResultException $e) {
             return null;
         }
-    }    
+    } 
+
+    public function findMostRated($limit = false){
+        $query = $this->getEntityManager()
+            ->createQuery('
+                SELECT p, ls,
+                (SELECT COUNT(r2.id) FROM ActualSkillCoreBundle:Rating r2 WHERE r2.object = p.id GROUP BY r2.object) as num_ratings
+                FROM ActualSkillCoreBundle:Player p
+                JOIN p.latestStatsheet ls
+                ORDER BY num_ratings DESC'
+            );
+
+        if(is_numeric($limit)){
+            $query->setMaxResults($limit);
+        }
+
+        try {
+            $result = $query->getResult();
+            $list = array();
+
+            foreach ($result as $key => $value) {
+                $list[] = $value[0];
+            }
+            return $list;
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }        
+    }   
 }

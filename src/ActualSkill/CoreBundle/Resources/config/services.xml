@@ -9,10 +9,14 @@
     </parameters>
 
     <services>
-        <service id="actual_skill_core.rating_service" class="ActualSkill\CoreBundle\Services\RatingService">
+        <service id="core.rating_service" class="ActualSkill\CoreBundle\Services\RatingService">
             <!--Inject entity manager-->
             <argument type="service" id="doctrine.orm.entity_manager" />            
         </service>
+        <service id="core.actualskill_service" class="ActualSkill\CoreBundle\Services\ActualSkillService">
+            <!--Inject entity manager-->
+            <argument type="service" id="doctrine.orm.entity_manager" />            
+        </service>        
         <!--
        <service id="actualskill.request_listener" class="%actualskill.request_listener.class%">
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />

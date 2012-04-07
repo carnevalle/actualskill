@@ -28,15 +28,15 @@ class PlayerController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
 
         $all_players = $em->getRepository('ActualSkillCoreBundle:Player')->findAll();
-        $rated_players = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:Player')->findAllWithRatings();
-        $popular_players = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:Player')->findMostPopularPlayers();
-        //$clubs = $em->getRepository('ActualSkillCoreBundle:Club')->findAll();
+        $best_players = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:Player')->findWithRatings(10);
+        $popular_players = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:Player')->findMostPopular(10);
+        $most_rated_players = $this->getDoctrine()->getRepository('ActualSkillCoreBundle:Player')->findMostRated(10);
 
         return array(
             'all_players' => $all_players, 
-            'rated_players' => $rated_players, 
+            'best_players' => $best_players, 
             'popular_players' => $popular_players,
-            //'clubs' => $clubs
+            'most_rated_players' => $most_rated_players,
             );
     }
 
@@ -63,21 +63,25 @@ class PlayerController extends Controller
         $likes = null;
         if ($this->get('security.context')->isGranted('ROLE_USER')) {
             $user = $this->get('security.context')->getToken()->getUser();
-            $ratingService = $this->get('actual_skill_core.rating_service');
+            $ratingService = $this->get('core.rating_service');
             $likes = $ratingService->doesUserLikeEntity($player, $user);
             $ratingService->addUserRatingsToBaseEntity($player, $user);
         }
+
+        $asservice = $this->get('core.actualskill_service');
 
         // We get a sorted set of attributes with ratings
         $categories = $player->getRatingschema()->getCategories();
         $attributesSorted = $this->getSortedAttributesWithRatings($player);
         $topattributes = array_slice($attributesSorted, 0, 5);
         $bottomattributes = array_slice($attributesSorted, count($attributesSorted)-5, 5);
-        $this->sortByAverageRating($bottomattributes);
+        $asservice->sortByAverageRating($bottomattributes);
 
         // We get and sort the players team members
         $teammembers = $player->getClub()->getPlayers();
-        $this->sortByAverageRating($teammembers, "DESC");
+
+        
+        $asservice->sortByAverageRating($teammembers, "DESC");        
 
         return array(
             'player'        => $player,
@@ -112,64 +116,9 @@ class PlayerController extends Controller
             }
         }
 
-        $this->sortByAverageRating($attributes, $sortorder);
+        $asservice = $this->get('core.actualskill_service');
+        $asservice->sortByAverageRating($attributes, $sortorder);
+
         return $attributes;
-    }
-
-    private function sortByAverageRating(&$array, $type = "ASC"){
-        $cur = 1;
-        $stack[1]['l'] = 0;
-        $stack[1]['r'] = count($array) - 1;
-
-        do {
-            $l = $stack[$cur]['l'];
-            $r = $stack[$cur]['r'];
-            $cur--;
-
-            do {
-                $i = $l;
-                $j = $r;
-                $tmp = $array[(int) ( ($l + $r) / 2 )];
-
-                // partion the array in two parts.
-                // left from $tmp are with smaller values,
-                // right from $tmp are with bigger ones
-                do {
-
-                    if($type == "ASC"){
-
-                        while ($array[$i]->getAverageRating() < $tmp->getAverageRating())
-                            $i++;
-
-                        while ($tmp->getAverageRating() < $array[$j]->getAverageRating())
-                            $j--;
-                    }else{
-
-                        while ($array[$i]->getAverageRating() > $tmp->getAverageRating())
-                            $i++;
-
-                        while ($tmp->getAverageRating() > $array[$j]->getAverageRating())
-                            $j--;
-                    }
-
-                    // swap elements from the two sides
-                    if ($i <= $j) {
-                        $w = $array[$i];
-                        $array[$i] = $array[$j];
-                        $array[$j] = $w;
-
-                        $i++;
-                        $j--;
-                    }
-                } while ($i <= $j);
-
-                if ($i < $r) {
-                    $cur++;
-                    $stack[$cur]['l'] = $i;
-                    $stack[$cur]['r'] = $r;
-                }
-                $r = $j;
-            } while ($l < $r);
-        } while ($cur != 0);
     }
 }

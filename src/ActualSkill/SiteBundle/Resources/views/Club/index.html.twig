@@ -15,7 +15,7 @@
 
     var data = [
         {% for club in clubs %}
-        { id: {{club.id}}, slug:"{{club.slug}}", name: "{{club.name}}", shortname: "{{club.shortname}}", country: "{{club.country}}", country_iso2: "{{club.country.iso2}}" },
+        { id: {{club.id}}, slug:"{{club.slug}}", name: "{{club.name}}", shortname: "{{club.shortname}}", country: "{{club.country}}", country_iso2: "{{club.country.iso2}}", rating: "{{club.averageRating}}" },
         {% endfor %}
     ];
 
@@ -24,7 +24,20 @@
         searchObjProperties: ["name", "shortname", "country"],
         formatResult: function(data){
             var path = "{{ asset('bundles/actualskillsite/img/flags/') }}";
-            return "<img src='"+path+data.country_iso2+".png'/> "+data.name+" ("+data.shortname+")";
+            var label = "medium";
+            if(data.rating > 7){
+                label = "high";
+            }else if(data.rating < 4){
+                label = "low";
+            }
+            
+            if(data.rating == ""){
+                data.rating = "0.00";
+            }
+
+            //var flagicon = "<img src='"+path+data.country_iso2+".png'/>";
+
+            return "<span class='label "+label+" label-average'>"+data.rating+"</span> "+data.name+" ("+data.shortname+")";
         },
         onDataSelected: function(data){
             window.location = "/app_dev.php/club/"+data.slug;
@@ -40,6 +53,105 @@
     <h1>Find a club</h1>
     <p>Search for your favourite club</p>
     <input id="club_search" type="text" class="wide search"/>
+</div>
+
+<div class="row">
+    <div class="span4">
+        <h4 class="listheader">Best rated clubs</h4>
+        
+        <table class="table table-condensed">
+            {% if(best_clubs|length > 0) %}
+                {% for club in best_clubs %}
+                
+                <tr>
+                    <td style="width:30px" title="Average rating">
+                        <span class="label {{rating2color(club.averageRating)}} label-average"> {{normalizeRating(club.averageRating)}}</span> 
+                    </td>   
+                    <td style="width:25px" title="Number of fans">                    
+                        <i class="icon-user"></i> {{club.likes|length}}
+                    </td>                                       
+                    <td>
+                        <a href="{{ path('site_club_show', { 'id': club.slug }) }}">{{ club.name }}</a> 
+                    </td>                                  
+                </tr>
+                {% endfor %}
+            {% else %}
+            <tr><td>No clubs yet</td></tr>
+            {% endif %}
+        </table>
+    </div>
+
+    <div class="span4">
+        <h4 class="listheader">Most rated clubs</h4>
+        
+        <table class="table table-condensed">
+            {% if(most_rated_clubs|length > 0) %}
+                {% for club in most_rated_clubs %}
+                
+                <tr>
+                    <td style="width:30px" title="Average rating">
+                        <span class="label {{rating2color(club.averageRating)}} label-average"> {{normalizeRating(club.averageRating)}}</span> 
+                    </td>   
+                    <td style="width:25px" title="Number of fans">                    
+                        <i class="icon-user"></i> {{club.likes|length}}
+                    </td>                                       
+                    <td>
+                        <a href="{{ path('site_club_show', { 'id': club.slug }) }}">{{ club.name }}</a> 
+                    </td>                                  
+                </tr>
+                {% endfor %}
+            {% else %}
+            <tr><td>No clubs yet</td></tr>
+            {% endif %}
+        </table>
+    </div>
+
+    <div class="span4">
+        <h4 class="listheader">Clubs with most fans</h4>
+        
+        <table class="table table-condensed">
+            {% if(popular_clubs|length > 0) %}
+                {% for club in popular_clubs %}
+                
+                <tr>
+                    <td style="width:30px" title="Average rating">
+                        <span class="label {{rating2color(club.averageRating)}} label-average"> {{normalizeRating(club.averageRating)}}</span> 
+                    </td>   
+                    <td style="width:25px" title="Number of fans">                    
+                        <i class="icon-user"></i> {{club.likes|length}}
+                    </td>                                       
+                    <td>
+                        <a href="{{ path('site_club_show', { 'id': club.slug }) }}">{{ club.name }}</a> 
+                    </td>                                  
+                </tr>
+                {% endfor %}
+            {% else %}
+            <tr><td>No clubs yet</td></tr>
+            {% endif %}
+        </table>
+    </div>
+</div>
+
+<div class="row">    
+    <div class="span4">
+        <h4 class="listheader"><img src="{{ asset('bundles/actualskillsite/img/flags/') }}dk.png"/> Danish clubs</h4>
+        <table class="table table-condensed">
+            {% for club in danish_clubs %}
+
+            <tr>
+                <td style="width:30px" title="Average rating">
+                    <span class="label {{rating2color(club.averageRating)}} label-average"> {{normalizeRating(club.averageRating)}}</span> 
+                </td>   
+                <td style="width:25px" title="Number of fans">                    
+                    <i class="icon-user"></i> {{club.likes|length}}
+                </td>                                       
+                <td>
+                    <a href="{{ path('site_club_show', { 'id': club.slug }) }}">{{ club.name }}</a> 
+                </td>                                  
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 </div>
 
 {#

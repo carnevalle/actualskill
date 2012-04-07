@@ -36,26 +36,6 @@ a{
     }
 }
 
-.bannerad{
-
-    &.comments{
-        &.top{
-            margin-top: 15px;
-            margin-bottom: 15px;
-
-            text-align: center;
-        }
-    }
-
-    &.column{
-        &.top{
-            margin-bottom: 15px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #eee;
-        }
-    }
-}
-
 .table td {
     vertical-align: middle;
 }
@@ -87,6 +67,22 @@ a{
 
     .table th{
         width: 40%;
+    }
+}
+
+h4{
+    &.listheader{
+        color: #444;
+        border-bottom:1px solid #444;
+    }
+}
+
+.frontpage{
+    // Portrait tablet to landscape and desktop
+    @media (min-width: 768px) and (max-width: 980px) {
+        h2{
+            font-size: 20px;
+        }        
     }
 }
 
