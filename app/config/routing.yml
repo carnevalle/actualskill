@@ -22,7 +22,7 @@ _admin:
     defaults: { _controller: ActualSkillAdminBundle:Default:index }
 
 fos_user_security:
-    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+    resource: "@ActualSkillUserBundle/Resources/config/routing/security.xml"
 
 fos_user_profile:
     resource: "@FOSUserBundle/Resources/config/routing/profile.xml"

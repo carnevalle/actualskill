@@ -13,6 +13,11 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
+
+        if ($this->get('security.context')->isGranted('ROLE_USER')) {
+            return $this->redirect($this->generateUrl('site_players'));
+        }
+
         $csrfToken = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
 
         return array(
