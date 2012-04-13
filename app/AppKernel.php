@@ -24,6 +24,7 @@ class AppKernel extends Kernel
             new ActualSkill\CoreBundle\ActualSkillCoreBundle(),
             new ActualSkill\AdminBundle\ActualSkillAdminBundle(),
             new ActualSkill\UserBundle\ActualSkillUserBundle(),
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

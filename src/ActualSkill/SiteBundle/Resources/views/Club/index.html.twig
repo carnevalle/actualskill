@@ -40,7 +40,7 @@
             return "<span class='label "+label+" label-average'>"+data.rating+"</span> "+data.name+" ("+data.shortname+")";
         },
         onDataSelected: function(data){
-            window.location = "/app_dev.php/club/"+data.slug;
+            window.location = Routing.generate('site_club_show', { id: data.slug });
         }
     });
 

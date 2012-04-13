@@ -81,6 +81,9 @@ stof_doctrine_extensions:
         default: 
             sluggable: true
             timestampable: true
+
+fos_js_routing:
+    routes_to_expose: [ "player_show", "club_show" ]
             
 #fos_facebook:
 #      file:   %kernel.root_dir%/../vendor/facebook/src/base_facebook.php

@@ -36,6 +36,9 @@
         {#<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>#}
         {#<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>#}
 
+        <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+
             {% javascripts
                 '@ActualSkillCoreBundle/Resources/public/js/jquery-1.7.1.min.js'
                 '@ActualSkillCoreBundle/Resources/public/bootstrap/js/bootstrap.min.js'

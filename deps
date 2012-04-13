@@ -81,4 +81,8 @@
 [FacebookSDK]
     git=git://github.com/facebook/facebook-php-sdk.git
     target=/facebook
+
+[FOSJsRoutingBundle]
+    git=git://github.com/FriendsOfSymfony/FOSJsRoutingBundle.git
+    target=/bundles/FOS/JsRoutingBundle
     

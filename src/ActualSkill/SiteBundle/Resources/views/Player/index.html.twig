@@ -38,8 +38,7 @@
             return "<span class='label "+label+" label-average'>"+data.rating+"</span> "+data.name+" ("+data.club+") <img src='"+path+data.country+".png'/>";
         },
         onDataSelected: function(data){
-            console.log(data);
-            window.location = "/app_dev.php/player/"+data.slug;
+            window.location = Routing.generate('player_show', { id: data.slug });
         }
     });
 
