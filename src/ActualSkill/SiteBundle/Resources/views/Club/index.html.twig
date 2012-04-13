@@ -19,7 +19,7 @@
         {% endfor %}
     ];
 
-    $("#club_search").AutoSuggester(data,{
+    var autosuggester = $.AutoSuggester($("#club_search"),data,{
         placeholderText: "Type the name of a club or country",
         searchObjProperties: ["name", "shortname", "country"],
         formatResult: function(data){
