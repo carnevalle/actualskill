@@ -6,7 +6,7 @@ set :user,        "root"
 set :use_sudo,    false
 ssh_options[:port] = 22
 
-set :repository,  "git://github.com/carnevalle/actualskill.git"
+set :repository,  "/Users/troels.johnsen/Web/actualskill.dev"
 set :scm,         :git
 set :branch,      "master"
 set :deploy_via,  :rsync_with_remote_cache
@@ -17,7 +17,7 @@ set :shared_children,     [app_path + "/logs", web_path + "/uploads", "vendor"]
 # share our database configuration
 set :shared_files,      ["app/config/parameters.ini"]
 
-set :update_vendors, true
+set :update_vendors, false
 
 role :app, 'nogetmedkode.dk'
 role :web, 'nogetmedkode.dk'

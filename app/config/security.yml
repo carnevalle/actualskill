@@ -19,8 +19,8 @@ security:
                 check_path:     /login_check
                 failure_path:   null
                 use_referer:    false
-            logout:       true
-            anonymous:    true
+            logout:         true
+            anonymous:      true
 
     access_control:
         # URL of FOSUserBundle which need to be available to anonymous users

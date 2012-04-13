@@ -27,39 +27,48 @@
 
         plugin.settings = {}
 
-        var $input = $(element),
-             input = element;
-
-        var results_container, results_ul, timeout, lastKeyPressCode, hasSelected = false, hasClicked = false, query = "";
+        var results_container, 
+        results_ul, 
+        timeout, 
+        lastKeyPressCode, 
+        hasSelected = false, 
+        hasClicked = false, 
+        query = "", 
+        inputOffset = null;
 
         plugin.init = function() {
             plugin.settings = $.extend({}, defaults, options);
             plugin.data = data;
+            plugin.input = element;
 
-            $input.attr("placeholder", plugin.settings.placeholderText);
-            $input.wrap("<div class='as_container'></div>");    
+            plugin.input.attr("placeholder", plugin.settings.placeholderText);
+            plugin.input.wrap("<div class='as_container'></div>");    
+
+            plugin.input = plugin.input;
+            plugin.container = plugin.input.parent();
 
             if(plugin.settings.focusOnLoad){
-                $input.focus();
+                plugin.input.focus();
             }
 
             results_container = $(window.document.createElement('div')).addClass("as_results").html("TEST");
-            $input.after(results_container);
-            results_container.width($input.outerWidth());
+            plugin.input.after(results_container);
+
+            resizeAndReposition();
 
             results_ul = $(window.document.createElement('ul')).addClass("as_list");
             results_container.html(results_ul).hide();
 
             $(window).resize(function() {
-                results_container.width($input.outerWidth());
+                resizeAndReposition();
             });     
             
             timeout = null;
             lastKeyPressCode = null;
             // Handle input field events
-            $input.focus(function(){
-                if(!hasSelected && $input.val() != ""){
-                    results_container.show();
+            plugin.input.focus(function(){
+                if(!hasSelected && plugin.input.val() != ""){
+                    plugin.showResults();
                 }
             }).blur(function(){
                 if(!hasClicked){
@@ -103,6 +112,25 @@
 
         }
 
+        plugin.showResults = function(){
+            results_container.show();
+
+            var newOffset = plugin.input.offset();
+            if(newOffset.left != inputOffset.left || newOffset.top != inputOffset.top){
+                resizeAndReposition();
+            }
+        }
+
+        plugin.hideResults = function(){
+            results_container.hide();
+        }
+
+        var resizeAndReposition = function(){
+            results_container.width(plugin.input.outerWidth());
+            inputOffset = plugin.input.offset();
+            results_container.offset({ top: inputOffset.top+plugin.input.outerHeight(), left: inputOffset.left });
+        }
+
         var onKeyChange = function() {
 
             hasSelected = false;
@@ -129,7 +157,7 @@
             results_container.hide();
             results_ul.html("");    
 
-            query = $input.val();
+            query = plugin.input.val();
             
             if(query.length < plugin.settings.minCharacters){
                 return;
@@ -188,7 +216,7 @@
                     $(this).addClass("active");
                 })
                 .click(function(){
-                    $input.val($(this).data("item")[plugin.settings.visibleObjProperty]);
+                    plugin.input.val($(this).data("item")[plugin.settings.visibleObjProperty]);
                     results_container.hide();
                     plugin.settings.onDataSelected.call(plugin, $(this).data("item"));
                     hasSelected = true;
@@ -207,7 +235,7 @@
                 results_ul.append(li);
             }
 
-            results_container.show();
+            plugin.showResults();
         }   
 
         var moveSelection = function(direction){

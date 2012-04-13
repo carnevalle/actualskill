@@ -81,3 +81,4 @@
 [FacebookSDK]
     git=git://github.com/facebook/facebook-php-sdk.git
     target=/facebook
+    
