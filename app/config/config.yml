@@ -22,7 +22,7 @@ twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
     globals:
-      facebook_comments_base_href: http://dev.actualskill.com
+      facebook_comments_base_href: http://www.actualskill.com
 
 # Assetic Configuration
 assetic:
