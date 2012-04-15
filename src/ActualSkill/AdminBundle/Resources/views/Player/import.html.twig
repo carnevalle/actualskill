@@ -14,13 +14,6 @@
         {% else %}
 
         <form action="{{ path('admin_players_import') }}" method="post">
-            
-            <select name="club">
-                {% for club in clubs %}
-                    <option value="{{club.id}}">{{club.name}}</option>
-                {% endfor %}
-            </select>
-            
             <table>
             {% for row in data %}
                 <tr>
@@ -32,6 +25,12 @@
             {% endfor %}
             </table>
                 
+            <select name="club">
+                {% for club in clubs %}
+                    <option value="{{club.id}}">{{club.name}}</option>
+                {% endfor %}
+            </select>
+
             <input type="submit" class="btn primary" value="Submit"/>   
         </form>
 

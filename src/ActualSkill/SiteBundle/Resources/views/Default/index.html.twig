@@ -1,56 +1,41 @@
 {% extends 'ActualSkillSiteBundle::base.html.twig' %}
 
+{% block header %}
+
+<div class="frontpage">    
+    <header class="jumbotron masthead">
+      <div class="inner">
+        <h1>Actual<em>Skill</em></h1>
+        <p>Don't be a player hater - be a player rater!</p>
+        
+        <p class="actions">
+          <a href="{{ path('fos_user_security_login') }}" class="btn btn-primary btn-large">Login to rate</a>
+          <a href="{{ path('fos_user_registration_register') }}" class="btn btn-large">Join actualskill.com</a>
+        </p>
+      </div>
+    </header>
+</div> 
+{% endblock %}
+
 {% block body %}
 
 <div class="frontpage">
     <div class="row">
-        <div class="span6">
-            <h1>ActualSkill.com</hi>
+        <div class="span4">
             <h2>Express your opinion</h2>
             <p>Football is emotions. It is success and failure. It is heroes and passion. But perhaps most of all, football is opinions.</p>
             <p><em>We have had enough of so-called experts. You're the expert! Your opinion matters.</em></p>
-
+        </div>
+        <div class="span4">
             <h2>Socialize and debate</h2>
             <p>Who is the better player. What was the best goal. Which team plays the best football. We all have different views on football.</p>
             <p><em>Connect with friends and foes and bring your best argument to the table.</em></p>            
         </div>
-        <div class="span6">            
-            <form action="{{ path("fos_user_security_check") }}" method="post">
-                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-
-                <label for="username">Username</label>
-                <input type="text" id="username" name="_username" value="" placeholder="username" style="width: 100%"/>
-
-                <label for="password">Password</label>
-                <input type="password" id="password" name="_password" placeholder="password" style="width: 100%"/>
-
-                <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-                <label for="remember_me">Remember me</label>
-
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Let me in!</button>
-                </div>  
-            </form>        
+        <div class="span4"> 
+            <h2>Login to actualskill.com</h2>           
+      
         </div>
     </div>
-
-    <div class="row">
-        <div class="span4">
-            <h2>Express your opinion</h2>
-            <p>Football is emotions. It is success and failure. It is heroes and passion. But perhaps most of all, football is opinions.</p>
-            <p><em>We have had enough of so-called experts. You're the expert! Your opinion matters.</em></p>
-        </div>
-        <div class="span4">
-            <h2>Socialize and debate</h2>
-            <p>Who is the better player. What was the best goal. Which team plays the best football. We all have different views on football.</p>
-            <p><em>Connect with friends and foes and bring your best argument to the table.</em></p>
-        </div>
-        <div class="span4">
-            <h2>Join the fun</h2>
-            <a href="{{ path('fos_user_security_login') }}" class="btn btn-primary">Login</a>
-            <a href="{{ path('fos_user_registration_register') }}" class="btn btn-success">Sign up</a>          
-        </div>
-    </div> 
 </div> 
 
 {% endblock %}

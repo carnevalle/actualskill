@@ -374,20 +374,20 @@
         -->
 
         <h4 class="listheader">Top 10 team members</h4>
-        <table class="table table-condensed">
-            {% for teammember in teammembers %}
+        <table class="table table-condensed table-list">
+            {% for player in teammembers %}
                 {% if loop.index0 < 10 %}
 
             <tr>
-                <td style="width:30px" title="Average rating">
+                <td class="rating" title="Average rating">
 
-                    <span class="label {{rating2color(teammember.averageRating)}} label-average"> {{normalizeRating(teammember.averageRating)}}</span> 
+                    <span class="label {{rating2color(player.averageRating)}} label-average"> {{normalizeRating(player.averageRating)}}</span> 
                 </td>   
-                <td style="width:25px" title="Number of fans">                    
-                    <i class="icon-user"></i> {{teammember.likes|length}}
-                </td>                                       
                 <td>
-                    <a href="{{ path('player_show', { 'id': teammember.slug }) }}">{{ teammember.fullname }}</a> 
+                    <a href="{{ path('player_show', { 'id': player.slug }) }}">{{ player.fullname }}</a> 
+                    <div class="fans" title="Number of fans">
+                        {{player.likes|length}} <i class="icon-user"></i>
+                    </div>                    
                 </td>                                  
             </tr>
                 {% endif %}

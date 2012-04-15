@@ -18,6 +18,10 @@ a{
     }
 }
 
+body{
+    font-family: 'Quantico', sans-serif;
+}
+
 .nav-pills{
     li a{
         #gradient .vertical-three-colors(lighten(#FBFBFB,30%), #FBFBFB, 10%, darken(#FBFBFB, 5%));
@@ -72,18 +76,102 @@ a{
 
 h4{
     &.listheader{
-        color: #444;
+        color: #333;
         border-bottom:1px solid #444;
     }
 }
 
-.frontpage{
-    // Portrait tablet to landscape and desktop
-    @media (min-width: 768px) and (max-width: 980px) {
-        h2{
-            font-size: 20px;
-        }        
+.table{
+
+    &.table-list{
+        border-bottom: 1px solid #999;
+        th, td{
+            line-height: 14px;
+            background-color: white;
+        }
+
+        .rating{
+            width: 28px;
+            text-shadow: 0 1px 0 rgba(0,0,0,.5);
+        }
+        
+        .fans{
+            display: inline-block;
+            min-width: 30px;
+            text-align: center;
+            margin-left: 5px;
+            float: right;
+
+        }
+
+        [class^="icon-"] {
+            vertical-align: -18%;
+        }
     }
+}
+
+.frontpage{
+    .masthead{
+        margin-top: -18px;
+        padding-top: 30px;
+        margin-bottom: 20px; 
+        border-bottom: 2px solid @primaryDark;
+        background-color: @primaryColor;
+        
+        color: white;     
+
+        h1 {
+            font-family: 'Quantico', sans-serif;
+            margin-bottom: 18px;
+            color: white;
+            text-shadow: 1px 2px 0px rgba(0,0,0,.5);
+            em{
+                font-style: normal;
+                font-weight: 300;
+            }
+        }   
+
+        p{
+            font-family: 'Quantico', sans-serif;
+            color: #333;
+            margin-left: 5%;
+            margin-right: 5%;
+            font-size: 30px;
+            line-height: 36px;            
+        }
+
+        h1, p{
+            text-align: center;
+        }     
+    }
+    .jumbotron {
+        h1{
+            margin-bottom: 9px;
+            font-size: 81px;
+            font-weight: bold;
+            letter-spacing: -1px;
+            line-height: 1;
+        }
+
+        p {
+            margin-bottom: 30px;
+            font-weight: 300;
+        }  
+        
+        .btn-large {
+            font-size: 18px;
+            font-weight: normal;
+            padding: 10px 20px;
+            margin-right: 10px;
+            -webkit-border-radius: 6px;
+            -moz-border-radius: 6px;
+            border-radius: 6px;
+        }
+
+        .actions{
+
+        }
+    }    
 }
 
 // This makes Facebook comments adapt to full width (Responsive Hooray!)

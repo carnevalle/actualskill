@@ -136,7 +136,8 @@ class PlayerController extends Controller
                     $lastname = $namesplit[1];
                 }
                 
-                $country = $em->getRepository('ActualSkillCoreBundle:Country')->findOneByIso3($nationalities[$row]);            
+                $country = $em->getRepository('ActualSkillCoreBundle:Country')->findOneByIso3($nationalities[$row]); 
+                $ratingschema = $em->getRepository('ActualSkillCoreBundle:RatingSchema')->findOneBySlug("player");
                 
                 if($country == null){
                     return new \Symfony\Component\HttpFoundation\Response("country is null: ".$nationalities[$row]);
@@ -147,8 +148,10 @@ class PlayerController extends Controller
                 $player->setFirstname($firstname);
                 $player->setLastname($lastname);
                 $player->setBirthday(new \DateTime($birthdays[$row]));
+                $player->setHeight($heights[$row]);
                 $player->setClub($club);
                 $player->setCountry($country);
+                $player->setRatingschema($ratingschema);
                 $em->persist($player);
                 
                 $output .= $firstname." ".$lastname." ".$birthdays[$row]." ".$country." ".$heights[$row]."\n";
@@ -164,7 +167,7 @@ class PlayerController extends Controller
             $em = $this->getDoctrine()->getEntityManager();
             $clubs = $em->getRepository('ActualSkillCoreBundle:Club')->findAll();                   
             
-            $data = $this->parse_csv($request->get("comment"));
+            $data = $this->parse_csv($request->get("comment"), ",");
             
             return array(
                 'data' => $data,

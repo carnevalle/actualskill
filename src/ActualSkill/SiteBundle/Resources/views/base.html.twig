@@ -12,10 +12,13 @@
         <!-- Mobile viewport optimized: j.mp/bplateviewport -->
         <meta name="viewport" content="width=device-width,initial-scale=1">
 
+        <link href='http://fonts.googleapis.com/css?family=Quantico:400,700' rel='stylesheet' type='text/css'>
+        
         {% block stylesheets %}
             {% stylesheets 
                 'bundles/actualskillcore/bootstrap/css/bootstrap.min.css'
                 'bundles/actualskillcore/bootstrap/css/bootstrap.min.responsive.css'
+                'bundles/actualskillsite/css/graphics.css'
                 '@ActualSkillSiteBundle/Resources/public/css/actualskill.css'
                 filter='cssrewrite'
                 output='css/site.css'
@@ -105,14 +108,16 @@
             </div>
         </div>        
                 
-        <div class="container">
+        
 
         {% block header %}{% endblock %}
-        {% block body %}{% endblock %}
-        {% block footer %}{% endblock %}
 
+        <div class="container">
+        {% block body %}{% endblock %}
         </div>
-          
+
+        {% block footer %}{% endblock %}
+  
         {% block jsbottom %}{% endblock %}          
 
         <script type="text/javascript">

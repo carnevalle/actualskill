@@ -24,7 +24,7 @@ class BaseEntityLike
     /**
      *
      * @ORM\ManyToOne(targetEntity="BaseEntity", inversedBy="likes")
-     * @ORM\JoinColumn(name="object_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="object_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $object;
     

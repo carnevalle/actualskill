@@ -2,11 +2,11 @@
 // ----------------
 
 .label-average{
-    font-size: @baseFontSize;
-    min-width: 20px;
+    font-size: @baseFontSize*0.9;
+    width: 35px;
     display: inline-block;
     text-align: center;
-
+    padding: 3px;
 
     &.low{
         #gradient .vertical-three-colors(lighten(@ratingLow,30%), @ratingLow, 10%, darken(@ratingLow, 5%));

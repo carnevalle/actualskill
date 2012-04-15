@@ -47,6 +47,12 @@
 
 {% block body %}
 
+{% for key, message in app.session.getFlashes() %}
+<div class="{{ key }} alert alert-success">
+    {{ message|trans({'%firstname%': app.user.firstname, '%lastname%': app.user.lastname }, 'FOSUserBundle')|raw }}
+</div>
+{% endfor %} 
+
 <div class="well">
     <h1>Find a player</h1>
     <p>Search for your favourite player</p>
@@ -56,56 +62,68 @@
 <div class="row">
     <div class="span4">
         <h4 class="listheader">Best rated players</h4>
-        <table class="table table-condensed">
-            {% for player in best_players %}
-            <tr>
-                <td style="width:30px" title="Average rating">
-                    <span class="label {{rating2color(player.averageRating)}} label-average"> {{normalizeRating(player.averageRating)}}</span> 
-                </td>   
-                <td style="width:25px" title="Number of fans">                    
-                    <i class="icon-user"></i> {{player.likes|length}}
-                </td>                                       
-                <td>
-                    <a href="{{ path('player_show', { 'id': player.slug }) }}">{{ player.fullname }}</a> 
-                </td>                                  
-            </tr>
-            {% endfor %}
+        <table class="table table-condensed table-list">
+            {% if(best_players|length > 0) %}
+                {% for player in best_players %}
+                <tr>
+                    <td class="rating" title="Average rating">
+                        <span class="label {{rating2color(player.averageRating)}} label-average"> {{normalizeRating(player.averageRating)}}</span> 
+                    </td>                                         
+                    <td>
+                        <a href="{{ path('player_show', { 'id': player.slug }) }}">{{ player.fullname }}</a> 
+                        <div class="fans" title="Number of fans">
+                            {{player.likes|length}} <i class="icon-user"></i>
+                        </div>                    
+                    </td>                                  
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr><td>No players yet</td></tr>
+            {% endif %}            
         </table>
     </div>     
     <div class="span4">
         <h4 class="listheader">Most rated players</h4>
-        <table class="table table-condensed">
-            {% for player in most_rated_players %}
-            <tr>
-                <td style="width:30px" title="Average rating">
-                    <span class="label {{rating2color(player.averageRating)}} label-average"> {{normalizeRating(player.averageRating)}}</span> 
-                </td>   
-                <td style="width:25px" title="Number of fans">                    
-                    <i class="icon-user"></i> {{player.likes|length}}
-                </td>                                       
-                <td>
-                    <a href="{{ path('player_show', { 'id': player.slug }) }}">{{ player.fullname }}</a> 
-                </td>                                  
-            </tr>
-            {% endfor %}
+        <table class="table table-condensed table-list">
+            {% if(most_rated_players|length > 0) %}
+                {% for player in most_rated_players %}
+                <tr>
+                    <td class="rating" title="Average rating">
+                        <span class="label {{rating2color(player.averageRating)}} label-average"> {{normalizeRating(player.averageRating)}}</span> 
+                    </td>                                         
+                    <td>               
+                        <a href="{{ path('player_show', { 'id': player.slug }) }}">{{ player.fullname }}</a> 
+                        <div class="fans" title="Number of fans">
+                            {{player.likes|length}} <i class="icon-user"></i>
+                        </div>
+                    </td>                                  
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr><td>No players yet</td></tr>
+            {% endif %}             
         </table>
     </div>  
     <div class="span4">
         <h4 class="listheader">Players with most fans</h4>
-        <table class="table table-condensed">
-            {% for player in popular_players %}
-            <tr>
-                <td style="width:30px" title="Average rating">
-                    <span class="label {{rating2color(player.averageRating)}} label-average"> {{normalizeRating(player.averageRating)}}</span> 
-                </td>   
-                <td style="width:25px" title="Number of fans">                    
-                    <i class="icon-user"></i> {{player.likes|length}}
-                </td>                                       
-                <td>
-                    <a href="{{ path('player_show', { 'id': player.slug }) }}">{{ player.fullname }}</a> 
-                </td>                                  
-            </tr>
-            {% endfor %}
+        <table class="table table-condensed table-list">
+            {% if(popular_players|length > 0) %}
+                {% for player in popular_players %}
+                <tr>
+                    <td class="rating" title="Average rating">
+                        <span class="label {{rating2color(player.averageRating)}} label-average"> {{normalizeRating(player.averageRating)}}</span> 
+                    </td>                                        
+                    <td>
+                        <a href="{{ path('player_show', { 'id': player.slug }) }}">{{ player.fullname }}</a> 
+                        <div class="fans" title="Number of fans">
+                            {{player.likes|length}} <i class="icon-user"></i>
+                        </div>                    
+                    </td>                                  
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr><td>No players yet</td></tr>
+            {% endif %}             
         </table>
     </div>     
 </div>

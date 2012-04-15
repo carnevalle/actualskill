@@ -47,7 +47,7 @@ class Comment
     /**
      *
      * @ORM\ManyToOne(targetEntity="BaseEntity", inversedBy="comments")
-     * @ORM\JoinColumn(name="object_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="object_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $object;
 

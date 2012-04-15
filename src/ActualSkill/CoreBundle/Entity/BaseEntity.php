@@ -47,7 +47,7 @@ class BaseEntity
     
     /**
      *
-     * @ORM\OneToMany(targetEntity="Rating", mappedBy="object")
+     * @ORM\OneToMany(targetEntity="Rating", mappedBy="object", cascade={"persist"})
      */    
     protected $ratings;
     
@@ -60,7 +60,7 @@ class BaseEntity
     
     /**
      *
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="object")
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="object", cascade={"persist"})
      */        
     protected $comments;
     
@@ -72,7 +72,7 @@ class BaseEntity
     
     /**
      *
-     * @ORM\OneToMany(targetEntity="StatSheet", mappedBy="object")
+     * @ORM\OneToMany(targetEntity="StatSheet", mappedBy="object", cascade={"persist"})
      */    
     protected $statsheets;
     
@@ -84,7 +84,7 @@ class BaseEntity
     
     /**
      *
-     * @ORM\OneToMany(targetEntity="BaseEntityLike", mappedBy="object")
+     * @ORM\OneToMany(targetEntity="BaseEntityLike", mappedBy="object", cascade={"persist"})
      */   
     protected $likes;
     

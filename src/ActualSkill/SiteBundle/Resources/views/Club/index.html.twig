@@ -19,7 +19,7 @@
         {% endfor %}
     ];
 
-    var autosuggester = $.AutoSuggester($("#club_search"),data,{
+    var autosuggester = new $.AutoSuggester($("#club_search"),data,{
         placeholderText: "Type the name of a club or country",
         searchObjProperties: ["name", "shortname", "country"],
         formatResult: function(data){
@@ -59,44 +59,42 @@
     <div class="span4">
         <h4 class="listheader">Best rated clubs</h4>
         
-        <table class="table table-condensed">
+        <table class="table table-condensed table-list">
             {% if(best_clubs|length > 0) %}
                 {% for club in best_clubs %}
-                
                 <tr>
-                    <td style="width:30px" title="Average rating">
+                    <td class="rating" title="Average rating">
                         <span class="label {{rating2color(club.averageRating)}} label-average"> {{normalizeRating(club.averageRating)}}</span> 
-                    </td>   
-                    <td style="width:25px" title="Number of fans">                    
-                        <i class="icon-user"></i> {{club.likes|length}}
-                    </td>                                       
+                    </td>                                         
                     <td>
                         <a href="{{ path('site_club_show', { 'id': club.slug }) }}">{{ club.name }}</a> 
+                        <div class="fans" title="Number of fans">
+                            {{club.likes|length}} <i class="icon-user"></i>
+                        </div>                    
                     </td>                                  
                 </tr>
                 {% endfor %}
             {% else %}
             <tr><td>No clubs yet</td></tr>
             {% endif %}
-        </table>
+        </table>      
     </div>
 
     <div class="span4">
         <h4 class="listheader">Most rated clubs</h4>
         
-        <table class="table table-condensed">
+        <table class="table table-condensed table-list">
             {% if(most_rated_clubs|length > 0) %}
                 {% for club in most_rated_clubs %}
-                
                 <tr>
-                    <td style="width:30px" title="Average rating">
+                    <td class="rating" title="Average rating">
                         <span class="label {{rating2color(club.averageRating)}} label-average"> {{normalizeRating(club.averageRating)}}</span> 
-                    </td>   
-                    <td style="width:25px" title="Number of fans">                    
-                        <i class="icon-user"></i> {{club.likes|length}}
-                    </td>                                       
+                    </td>                                         
                     <td>
                         <a href="{{ path('site_club_show', { 'id': club.slug }) }}">{{ club.name }}</a> 
+                        <div class="fans" title="Number of fans">
+                            {{club.likes|length}} <i class="icon-user"></i>
+                        </div>                    
                     </td>                                  
                 </tr>
                 {% endfor %}
@@ -109,19 +107,18 @@
     <div class="span4">
         <h4 class="listheader">Clubs with most fans</h4>
         
-        <table class="table table-condensed">
+        <table class="table table-condensed table-list">
             {% if(popular_clubs|length > 0) %}
                 {% for club in popular_clubs %}
-                
                 <tr>
-                    <td style="width:30px" title="Average rating">
+                    <td class="rating" title="Average rating">
                         <span class="label {{rating2color(club.averageRating)}} label-average"> {{normalizeRating(club.averageRating)}}</span> 
-                    </td>   
-                    <td style="width:25px" title="Number of fans">                    
-                        <i class="icon-user"></i> {{club.likes|length}}
-                    </td>                                       
+                    </td>                                         
                     <td>
                         <a href="{{ path('site_club_show', { 'id': club.slug }) }}">{{ club.name }}</a> 
+                        <div class="fans" title="Number of fans">
+                            {{club.likes|length}} <i class="icon-user"></i>
+                        </div>                    
                     </td>                                  
                 </tr>
                 {% endfor %}
@@ -135,85 +132,21 @@
 <div class="row">    
     <div class="span4">
         <h4 class="listheader"><img src="{{ asset('bundles/actualskillsite/img/flags/') }}dk.png"/> Danish clubs</h4>
-        <table class="table table-condensed">
+        <table class="table table-condensed table-list">
             {% for club in danish_clubs %}
-
-            <tr>
-                <td style="width:30px" title="Average rating">
-                    <span class="label {{rating2color(club.averageRating)}} label-average"> {{normalizeRating(club.averageRating)}}</span> 
-                </td>   
-                <td style="width:25px" title="Number of fans">                    
-                    <i class="icon-user"></i> {{club.likes|length}}
-                </td>                                       
-                <td>
-                    <a href="{{ path('site_club_show', { 'id': club.slug }) }}">{{ club.name }}</a> 
-                </td>                                  
-            </tr>
+                <tr>
+                    <td class="rating" title="Average rating">
+                        <span class="label {{rating2color(club.averageRating)}} label-average"> {{normalizeRating(club.averageRating)}}</span> 
+                    </td>                                         
+                    <td>
+                        <a href="{{ path('site_club_show', { 'id': club.slug }) }}">{{ club.name }}</a> 
+                        <div class="fans" title="Number of fans">
+                            {{club.likes|length}} <i class="icon-user"></i>
+                        </div>                    
+                    </td>                                  
+                </tr>
             {% endfor %}
         </table>
     </div>
 </div>
-
-{#
-<div class="row">
-    <div class="span4">
-        <h4>Most popular players</h4>
-        <table class="table table-condensed">
-            {% for player in popular_players %}
-
-            <tr>
-                <td style="width:30px" title="Average rating">
-                    <span class="label {{rating2color(player.averageRating)}} label-average"> {{normalizeRating(player.averageRating)}}</span> 
-                </td>   
-                <td style="width:25px" title="Number of fans">                    
-                    <i class="icon-user"></i> {{player.likes|length}}
-                </td>                                       
-                <td>
-                    <a href="{{ path('player_show', { 'id': player.slug }) }}">{{ player.fullname }}</a> 
-                </td>                                  
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-
-    <div class="span4">
-        <h4>Most rated players</h4>
-        <table class="table table-condensed">
-            {% for player in rated_players %}
-
-            <tr>
-                <td style="width:30px" title="Average rating">
-                    <span class="label {{rating2color(player.averageRating)}} label-average">{{normalizeRating(player.averageRating)}}</span> 
-                </td>   
-                <td style="width:25px" title="Number of fans">                    
-                    <i class="icon-user"></i> {{player.likes|length}}
-                </td>                                       
-                <td>
-                    <a href="{{ path('player_show', { 'id': player.slug }) }}">{{ player.fullname }}</a> 
-                </td>                                  
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-
-    <div class="span4">
-        <h4>Best players</h4>
-        <table class="table table-condensed">
-            {% for player in rated_players %}
-            <tr>
-                <td style="width:30px" title="Average rating">
-                    <span class="label {{rating2color(player.averageRating)}} label-average"> {{normalizeRating(player.averageRating)}}</span> 
-                </td>   
-                <td style="width:25px" title="Number of fans">                    
-                    <i class="icon-user"></i> {{player.likes|length}}
-                </td>                                       
-                <td>
-                    <a href="{{ path('player_show', { 'id': player.slug }) }}">{{ player.fullname }}</a> 
-                </td>                                  
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-</div>
-#}
 {% endblock %}

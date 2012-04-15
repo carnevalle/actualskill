@@ -2,23 +2,29 @@
 
 {% block fos_user_content %}
 {% if error %}
-    <div>{{ error }}</div>
+    <div class="alert alert-error">
+        {{ error|trans({}, 'FOSUserBundle') }}
+    </div>
 {% endif %}
 
-{{target_path}}
 
+<h2>Login to actualskill.com</h2>
+<hr/>
 <form action="{{ path("fos_user_security_check") }}" method="post">
     <label for="username">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
-    <input type="text" id="username" name="_username" value="{{ last_username }}" />
+    <input type="text" id="username" name="_username" value="{{ last_username }}" class="span4"/>
 
     <label for="password">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>
-    <input type="password" id="password" name="_password" />
+    <input type="password" id="password" name="_password" class="span4"/>
 
     <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
     <label for="remember_me">{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}</label>
 
     <input type="hidden" name="_target_path" value="{{target_path}}" />
 
-    <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}" />
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">{{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}</button>
+    </div>
 </form>
+
 {% endblock fos_user_content %}

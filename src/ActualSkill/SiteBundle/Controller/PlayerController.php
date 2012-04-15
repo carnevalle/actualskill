@@ -80,7 +80,6 @@ class PlayerController extends Controller
         // We get and sort the players team members
         $teammembers = $player->getClub()->getPlayers();
 
-        
         $asservice->sortByAverageRating($teammembers, "DESC");        
 
         return array(

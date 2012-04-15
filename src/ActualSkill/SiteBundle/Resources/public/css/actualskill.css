@@ -1,8 +1,9 @@
 .label-average {
-  font-size: 13px;
-  min-width: 20px;
+  font-size: 11.700000000000001px;
+  width: 35px;
   display: inline-block;
   text-align: center;
+  padding: 3px;
 }
 .label-average.low {
   background-color: #b54846;
@@ -298,6 +299,9 @@ a {
 a:hover {
   color: #2c4c20;
 }
+body {
+  font-family: 'Quantico', sans-serif;
+}
 .nav-pills li a {
   background-color: #f8f8f8;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), color-stop(10%, #fbfbfb), to(#eeeeee));
@@ -359,13 +363,80 @@ a:hover {
   width: 40%;
 }
 h4.listheader {
-  color: #444;
+  color: #333;
   border-bottom: 1px solid #444;
 }
-@media (min-width: 768px) and (max-width: 980px) {
-  .frontpage h2 {
-    font-size: 20px;
-  }
+.table.table-list {
+  border-bottom: 1px solid #999;
+}
+.table.table-list th,
+.table.table-list td {
+  line-height: 14px;
+  background-color: white;
+}
+.table.table-list .rating {
+  width: 28px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+}
+.table.table-list .fans {
+  display: inline-block;
+  min-width: 30px;
+  text-align: center;
+  margin-left: 5px;
+  float: right;
+}
+.table.table-list [class^="icon-"] {
+  vertical-align: -18%;
+}
+.frontpage .masthead {
+  margin-top: -18px;
+  padding-top: 30px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #518c3b;
+  background-color: #75cc55;
+  color: white;
+}
+.frontpage .masthead h1 {
+  font-family: 'Quantico', sans-serif;
+  margin-bottom: 18px;
+  color: white;
+  text-shadow: 1px 2px 0px rgba(0, 0, 0, 0.5);
+}
+.frontpage .masthead h1 em {
+  font-style: normal;
+  font-weight: 300;
+}
+.frontpage .masthead p {
+  font-family: 'Quantico', sans-serif;
+  color: #333;
+  margin-left: 5%;
+  margin-right: 5%;
+  font-size: 30px;
+  line-height: 36px;
+}
+.frontpage .masthead h1,
+.frontpage .masthead p {
+  text-align: center;
+}
+.frontpage .jumbotron h1 {
+  margin-bottom: 9px;
+  font-size: 81px;
+  font-weight: bold;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+.frontpage .jumbotron p {
+  margin-bottom: 30px;
+  font-weight: 300;
+}
+.frontpage .jumbotron .btn-large {
+  font-size: 18px;
+  font-weight: normal;
+  padding: 10px 20px;
+  margin-right: 10px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
 }
 #fbcomments,
 .fb_iframe_widget,

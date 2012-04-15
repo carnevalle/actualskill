@@ -90,6 +90,12 @@ class User extends BaseUser
         $this->performanceRatings = new ArrayCollection();
     }
     
+    public function setEmail($email)
+    {
+        parent::setEmail($email);
+        $this->setUsername($email);
+    }
+    
     /**
      * Set nationality
      *

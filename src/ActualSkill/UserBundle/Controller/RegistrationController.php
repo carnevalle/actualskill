@@ -39,7 +39,7 @@ class RegistrationController extends BaseController
             $this->setFlash('fos_user_success', 'registration.flash.user_created');
             //$url = $this->container->get('router')->generate($route);
 
-            $url = $this->container->get('router')->generate('_welcome');
+            $url = $this->container->get('router')->generate('site_players');
             
             return new RedirectResponse($url);
         }

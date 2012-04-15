@@ -62,7 +62,7 @@ class StatSheet
     /**
      *
      * @ORM\ManyToOne(targetEntity="BaseEntity", inversedBy="statsheets")
-     * @ORM\JoinColumn(name="object_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="object_id", referencedColumnName="id", onDelete="CASCADE")
      */    
     private $object;
     

@@ -9,13 +9,16 @@ class RegistrationFormType extends BaseType
 {
     public function buildForm(FormBuilder $builder, array $options)
     {
-        parent::buildForm($builder, $options);
+        //parent::buildForm($builder, $options);
 
         // add your custom field
-        $builder->add('firstname');
-        $builder->add('lastname');
-        $builder->add('nationality');
-        $builder->add('club');
+        $builder
+            ->add('email', 'email')
+            ->add('plainPassword', 'repeated', array('type' => 'password'))      
+            ->add('firstname')
+            ->add('lastname')
+            ->add('nationality')
+            ->add('club');
     }
 
     public function getName()
