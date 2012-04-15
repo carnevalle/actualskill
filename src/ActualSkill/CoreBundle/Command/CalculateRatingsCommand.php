@@ -22,7 +22,7 @@ class CalculateRatingsCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         
-        $ratingService = $this->getContainer()->get('actual_skill_core.rating_service');
+        $ratingService = $this->getContainer()->get('core.rating_service');
         
         $output->writeln($ratingService->calculateRatings());
     }
