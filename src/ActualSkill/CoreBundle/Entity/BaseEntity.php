@@ -66,7 +66,7 @@ class BaseEntity
     
     /**
      * @ORM\OneToOne(targetEntity="StatSheet")
-     * @ORM\JoinColumn(name="latest_statsheet_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="latest_statsheet_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $latestStatsheet;    
     
