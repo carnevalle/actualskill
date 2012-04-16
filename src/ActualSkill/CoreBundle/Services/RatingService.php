@@ -59,6 +59,11 @@ class RatingService {
                 ->getSingleResult();
         
         $string = "";
+        $string .= "-------------------------- Constants --------------------------\n";
+        $string .= "Global average: ".$constants['average']."\n";
+        $string .= "Global average votes: ".($constants['total']/$constants['attributes'])."\n";
+        $string .= "---------------------------------------------------------------\n";
+
         foreach($entities as $entity){
            
             // Shouldn't this only get ratings from attributes in the associated Rating Schema?
