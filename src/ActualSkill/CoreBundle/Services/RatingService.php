@@ -61,6 +61,8 @@ class RatingService {
         $string = "";
         $string .= "-------------------------- Constants --------------------------\n";
         $string .= "Global average: ".$constants['average']."\n";
+        $string .= "Global total: ".$constants['total']."\n";
+        $string .= "Global attributes: ".$constants['attributes']."\n";
         $string .= "Global average votes: ".($constants['total']/$constants['attributes'])."\n";
         $string .= "---------------------------------------------------------------\n";
 
@@ -113,7 +115,8 @@ class RatingService {
                 $statsheet = new \ActualSkill\CoreBundle\Entity\StatSheet();
                 $statsheet->setObject($entity);                
                 
-                $avg_num_votes = $constants['total']/$constants['attributes'];
+                //$avg_num_votes = $constants['total']/$constants['attributes'];
+                $avg_num_votes = 10;
                 $avg_rating = $constants['average'];
                 
                 $clean = 0;
