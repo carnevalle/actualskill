@@ -388,6 +388,11 @@ h4.listheader {
 .table.table-list [class^="icon-"] {
   vertical-align: -18%;
 }
+.frontpage .feature-icon {
+  float: left;
+  margin: 7px 10px 0 0;
+  opacity: .8;
+}
 .frontpage .masthead {
   margin-top: -18px;
   padding-top: 30px;

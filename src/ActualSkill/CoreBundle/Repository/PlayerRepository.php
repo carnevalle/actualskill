@@ -96,11 +96,9 @@ class PlayerRepository extends EntityRepository
     {
         $query = $this->getEntityManager()
             ->createQuery('
-                SELECT p, r, l,
+                SELECT p,
                 (SELECT COUNT(l2.id) FROM ActualSkillCoreBundle:BaseEntityLike l2 WHERE l2.object = p.id) as num_likes
                 FROM ActualSkillCoreBundle:Player p
-                JOIN p.ratingschema r
-                JOIN p.likes l
                 ORDER BY num_likes DESC'
             );
 
