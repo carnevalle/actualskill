@@ -458,7 +458,9 @@ h4.listheader {
   -webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);
+  position: absolute;
   padding: 0;
+  z-index: 9999;
 }
 .as_container .as_results ul {
   border: 1px solid #efefef;

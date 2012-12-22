@@ -216,7 +216,7 @@
 <div class="row">
     <div class="span8">
         <div class="factsheet">
-            <h1>{{ player.fullname }} {% if is_granted('ROLE_USER') %}<small><span id="likebutton"><a href="#">{% if likes == true %} Unlike {% else %} Like {% endif %}</a></span></small>{% endif %}</h1>
+            <h1>{{ player.fullname }} {% if is_granted('ROLE_USER') %}<small><span id="likebutton"><a href="#" rel="nofollow">{% if likes == true %} Unlike {% else %} Like {% endif %}</a></span></small>{% endif %}</h1>
 
             <div class="contentbox">
                 <table>
@@ -247,15 +247,37 @@
                     </tr>
                 </table>
             </div>
-            
-            {#
-            {% if player.latestStatsheet != "" %}
-                {% for rating in player.latestStatsheet.ratings %}
-                    {{rating.attribute.name}} - {{rating.averageWeighted}}<br/>
-                {% endfor %}
-            {% endif %}
-            #}
         </div>
+
+        <div class="row">
+            <div class="span4">
+                <h5>Strengths</h5>
+                <table class="table table-condensed">
+                    {% for attribute in topattributes %}
+                    <tr>
+                        <td><span class="label {{rating2color(attribute.averageRating)}} label-average"> {{attribute.averageRating}}</span> {{ attribute.name }} <span style="color: #ddd; font-size: 11px">{{attribute.categoryName}}</span></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="span4">
+                <h5>Weaknesses</h5>
+                <table class="table table-condensed">
+                    {% for attribute in bottomattributes %}
+                    <tr>
+                        <td><span class="label {{rating2color(attribute.averageRating)}} label-average"> {{attribute.averageRating}}</span> {{ attribute.name }} <span style="color: #ddd; font-size: 11px;">{{attribute.categoryName}}</span></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+        <h3>Comments</h3>
+        <div class="fb-comments" data-href="{{facebook_comments_base_href}}{{ path('player_show', { 'id': player.slug }) }}" data-num-posts="2" data-width="470"></div>
+
+        <hr/>
+
+        <div id="chart" style="height: 200px; width: 100%; margin-bottom: 15px;"></div>
 
         <div class="row">
             {% if not is_granted('ROLE_USER') %}
@@ -311,67 +333,18 @@
             {% endif %}                
         </div>
 
-        <div class="contentbox">
-            <div id="chart" style="height: 200px; width: 100%; margin-bottom: 15px;"></div>
-
-            <div class="row">
-                <div class="span4">
-                    <h5>Strengths</h5>
-                    <table class="table table-condensed">
-                        {% for attribute in topattributes %}
-                        <tr>
-                            <td><span class="label {{rating2color(attribute.averageRating)}} label-average"> {{attribute.averageRating}}</span> {{ attribute.name }} <span style="color: #ddd; font-size: 11px">{{attribute.categoryName}}</span></td>
-                        </tr>
-                        {% endfor %}
-                    </table>
-                </div>
-                <div class="span4">
-                    <h5>Weaknesses</h5>
-                    <table class="table table-condensed">
-                        {% for attribute in bottomattributes %}
-                        <tr>
-                            <td><span class="label {{rating2color(attribute.averageRating)}} label-average"> {{attribute.averageRating}}</span> {{ attribute.name }} <span style="color: #ddd; font-size: 11px;">{{attribute.categoryName}}</span></td>
-                        </tr>
-                        {% endfor %}
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <h3>Comments</h3>
-        <div class="fb-comments" data-href="{{facebook_comments_base_href}}{{ path('player_show', { 'id': player.slug }) }}" data-num-posts="2" data-width="470"></div>
-
     </div>
 
 
     <div class="span4">
 
-        <!--
-        <div class="five columns statcontainer">
-            <div class="stats">
-                <span class="statbox">
-                    ActualSkill
-                    <span class="number">{{ player.averageRating }}</span>
-                </span>
-                <span class="statbox">
-                    Skills
-                    <span class="number">{{ player.averageRating }}</span>
-                </span>
-                <span class="statbox">
-                    Form
-                    <span class="number">0</span>
-                </span>
-            </div>
-        </div>
-        -->
-
-        <!--
+        {#
         <ul class="stats-tabs">
             <li>{{ player.averageRating }} <span>ActualSkill</span></li>
             <li>{{player.likes|length}} <span>{{ player.likes|length == 1 ? 'fan' : 'fans' }}</span></li>
             <li>{{player.ratings|length}} <span>{{ player.ratings|length == 1 ? 'rating' : 'ratings' }}</span></li>
         </ul>
-        -->
+        #}
 
         <h4 class="listheader">Top 10 team members</h4>
         <table class="table table-condensed table-list">

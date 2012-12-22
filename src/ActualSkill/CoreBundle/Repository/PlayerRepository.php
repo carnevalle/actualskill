@@ -126,7 +126,7 @@ class PlayerRepository extends EntityRepository
                 (SELECT COUNT(r2.id) FROM ActualSkillCoreBundle:Rating r2 WHERE r2.object = p.id GROUP BY r2.object) as num_ratings
                 FROM ActualSkillCoreBundle:Player p
                 JOIN p.latestStatsheet ls
-                ORDER BY num_ratings DESC'
+                ORDER BY num_ratings DESC '
             );
 
         if(is_numeric($limit)){
